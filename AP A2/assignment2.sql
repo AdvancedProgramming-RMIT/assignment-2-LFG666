@@ -1,0 +1,1 @@
+SELECT * FROM assignment2.users;
