@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../graphics/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShowUsersController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="left-pane">
+         <children>
+            <VBox layoutX="75.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="75.0">
+               <children>
+                  <Button fx:id="admin" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#adhome" prefHeight="30.0" prefWidth="250.0" text="Admin Home Page" />
+                  <Button fx:id="adduser" alignment="CENTER" layoutX="152.0" layoutY="87.0" mnemonicParsing="false" onMousePressed="#rusers" prefHeight="30.0" prefWidth="250.0" text="Add User" />
+                  <Button fx:id="logout" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#logout" prefHeight="30.0" prefWidth="250.0" text="Return to Login Page" />                  
+                  <Button fx:id="wardadmin" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#wardv" prefHeight="30.0" prefWidth="250.0" text="Ward Admin" />
+               </children>
+            </VBox>
+            <Label fx:id="lblUser" alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="250.0" text="Please Select An Action" textFill="WHITE" AnchorPane.leftAnchor="75.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="right-pane">
+      <children>
+      <Group layoutX="80" layoutY="50.0" AnchorPane.leftAnchor="20.0">
+               <children>
+				   <TableView fx:id="tableView" layoutX="139.0" layoutY="101.0" prefHeight="300.0" prefWidth="600.0">
+        <columns>
+          <TableColumn id="idColumn" fx:id="idColumn" editable="false" prefWidth="63.0" text="ID" />
+          <TableColumn id="FNameColumn" fx:id="FNameColumn" prefWidth="102.0" text="First Name" />
+            <TableColumn minWidth="0.0" prefWidth="0.0" text="Last Name" />
+            <TableColumn id="LNameColumn" fx:id="LNameColumn" prefWidth="107.0" text="Last Name" />
+            <TableColumn id="GenderColumn" fx:id="GenderColumn" prefWidth="88.0" text="Gender" />
+            <TableColumn id="typeColumn" fx:id="typeColumn" minWidth="0.0" prefWidth="100.0" text="Type" />
+                    </columns>
+      </TableView>
+      <Button layoutX="139.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#loadData" prefHeight="38.0" prefWidth="110.0" text="Refresh">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+      <Button layoutX="139.0" layoutY="410.0" mnemonicParsing="false" onMouseClicked="#rmData" prefHeight="38.0" prefWidth="158.0" text="Remove Selected">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+            </children>
+            </Group>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>
+

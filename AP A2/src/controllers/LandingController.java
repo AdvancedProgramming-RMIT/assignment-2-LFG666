@@ -149,10 +149,11 @@ public class LandingController {
                 Resident.Lname=resultSet.getString("LName");
                 Resident.type=resultSet.getString("type");
                 Resident.gender=resultSet.getString("gender");
-                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/homeAdmin.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.setTitle("Admin Control");
 
             }
             else{
@@ -248,6 +249,7 @@ public class LandingController {
         Stage stage = (Stage) node.getScene().getWindow();
 
         stage.setScene(new Scene(root));
+        stage.setTitle("Register Resident");
 
     }
 

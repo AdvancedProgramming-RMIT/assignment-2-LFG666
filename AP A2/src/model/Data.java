@@ -1,20 +1,4 @@
 package model;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import Application.Constants;
-import databaseSQL.SQLite;
 public class Data {
 	 Integer id;
 	    String user;
@@ -99,23 +83,5 @@ public class Data {
 	        this.gender = gender;
 	    }
 
-	    @FXML
-	    void lc_login(MouseEvent event) throws SQLException, IOException {
-
-	        Connection connection= SQLite.dbConnector();
-	        Statement statement = connection.createStatement();
-
-	        ResultSet resultSet = statement.executeQuery("select * from users where username" +
-	                " = '" + user + "'");
-
-	        if (resultSet.next()) {
-	            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/homeResident.fxml"));
-	            Node node = (Node) event.getSource();
-	            Stage stage = (Stage) node.getScene().getWindow();
-	            stage.setScene(new Scene(root));
-
-	        }
-
-
-	    }
+	   
 }

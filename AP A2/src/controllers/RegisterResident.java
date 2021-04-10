@@ -40,7 +40,7 @@ public class RegisterResident {
 	    @FXML
 		private Label lblUser;
 	    @FXML
-	    private ChoiceBox r_gender;
+	    private ChoiceBox<String> r_gender;
 
 	    ObservableList<String> genderlist= FXCollections.observableArrayList("MALE","FEMALE");
 	    @FXML
