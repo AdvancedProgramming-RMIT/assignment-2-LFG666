@@ -26,7 +26,6 @@
                   <Label>PASSWORD:</Label>
                   <PasswordField fx:id="lc_pass" layoutX="161.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" />                  
                   <Button id="lc_login" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onKeyPressed="#lc_login" onMouseReleased="#lc_login" prefHeight="30.0" prefWidth="250.0" text="LOGIN!" />
-                  <Button layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#signup" prefHeight="49.0" prefWidth="115.0" text="REGISTER" />
                   <ChoiceBox fx:id="type" layoutX="633.0" layoutY="140.0" prefHeight="32.0" prefWidth="200.0" />
                   <Button fx:id="Exit" alignment="CENTER" layoutX="132.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnEnd_button" prefHeight="30.0" prefWidth="250.0" text="Exit Aged Care plus" />
                </children>

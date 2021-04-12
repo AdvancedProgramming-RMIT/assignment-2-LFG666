@@ -46,7 +46,8 @@ public class Condition {
 			System.out.println("RESIDENT:");
 			Iterator<Resident> it = residents.iterator();
 			while (it.hasNext()){
-				System.out.println(it.next().getname());
+				it.next();
+				System.out.println(Resident.getname());
 			}
 		}
 

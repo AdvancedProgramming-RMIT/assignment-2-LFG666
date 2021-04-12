@@ -84,7 +84,7 @@ public class LandingController {
 	
 
 
-	ObservableList<String> masterlist= FXCollections.observableArrayList("RESIDENT","DOCTOR","NURSE","ADMIN");
+	ObservableList<String> masterlist= FXCollections.observableArrayList("DOCTOR","NURSE","ADMIN");
     @FXML
     private TextField lc_user;
 
@@ -94,7 +94,7 @@ public class LandingController {
     private ChoiceBox<String> type;
     @FXML
     private void initialize(){
-        type.setValue("RESIDENT");
+        type.setValue("DOCTOR");
         type.setItems(masterlist);
     }
     @FXML
@@ -108,36 +108,7 @@ public class LandingController {
         Statement statement = connection.createStatement();
 
 
-        if(type.getValue()=="RESIDENT"){
-            ResultSet resultSet = statement.executeQuery("select * from users where username" +
-                    " = '" + u1.getUser() + "' and password = '" + u1.getPass() + "' and type = 'RESIDENT'");
-            if (resultSet.next()) {
-
-                new Resident();
-                Resident.username=u1.getUser();
-                Resident.id=resultSet.getString("id");
-                Resident.Fname=resultSet.getString("FName");
-                Resident.Lname=resultSet.getString("LName");
-                Resident.type=resultSet.getString("type");
-                Resident.gender=resultSet.getString("gender");
-
-
-                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/homeResident.fxml"));
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                stage.setScene(new Scene(root));
-
-
-            }
-            else{
-                Alert alert =new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("User Login");
-                alert.setHeaderText(null);
-                alert.setContentText("No Resident With this name!");
-                alert.showAndWait();
-            }
-        }
-        else if (type.getValue()=="ADMIN") {
+        if (type.getValue()=="ADMIN") {
             ResultSet resultSet = statement.executeQuery("select * from users where username" +
                     " = '" + u1.getUser() + "' and password = '" + u1.getPass() + "' and type = 'ADMIN'");
             if(resultSet.next()) {
@@ -176,7 +147,7 @@ public class LandingController {
                 Resident.Lname=resultSet.getString("LName");
                 Resident.type=resultSet.getString("type");
                 Resident.gender=resultSet.getString("gender");
-                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/homeDoctor.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.setScene(new Scene(root));
@@ -204,7 +175,7 @@ public class LandingController {
                 Resident.type=resultSet.getString("type");
                 Resident.gender=resultSet.getString("gender");
 
-                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/homeNurse.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Nurse.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.setScene(new Scene(root));

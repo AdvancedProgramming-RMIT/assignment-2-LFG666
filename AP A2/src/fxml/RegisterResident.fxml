@@ -21,10 +21,6 @@
          <children>
             <VBox layoutX="75.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="75.0">
                <children>
-				   <Label>USERNAME:</Label>
-                  <TextField fx:id="r_user" alignment="CENTER" layoutX="152.0" layoutY="87.0" prefHeight="30.0" prefWidth="250.0" />
-                  <Label>PASSWORD:</Label>
-                  <PasswordField fx:id="r_pass" layoutX="161.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" />
                   <Label>First_Name</Label> 
                   <TextField fx:id="r_fname" layoutX="380.0" layoutY="140.0" prefHeight="30.0" prefWidth="250.0" />     
                   <Label>Last_Name</Label>
@@ -32,7 +28,7 @@
                   <Label>Gender</Label> 
                   <ChoiceBox fx:id="r_gender" layoutX="380.0" layoutY="140.0" prefHeight="30.0" prefWidth="250.0" />            
                   <Button layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#register" prefHeight="49.0" prefWidth="115.0" text="REGISTER" />
-                  <Button id="login" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onKeyPressed="#login" onMouseReleased="#login" prefHeight="30.0" prefWidth="250.0" text="HOME PAGE" />
+                  <Button id="login" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onKeyPressed="#login" onMouseReleased="#login" prefHeight="30.0" prefWidth="250.0" text="Return to Nurse Control" />
                </children>
             </VBox>
             <Label fx:id="lblUser" alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="250.0" text="Please enter details to register" textFill="WHITE" AnchorPane.leftAnchor="75.0">

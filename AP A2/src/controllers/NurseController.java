@@ -13,25 +13,24 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class WardViewController {
+public class NurseController {
+	
 	 @FXML
-	    private Button showuser;
+	    private Button roster;
 	    @FXML
-	    private Button adduser;
+	    private Button resident;
 	    @FXML
-	    private Button logout;
-	    @FXML
-	    private Button wardadmin;
+	    private Button beds;
 	    @FXML
 		private Label lblUser;
 	    @FXML
-	    private Button admin;
+	    private Button logout;
 
 	    
 		
 		 @FXML
-		    void suser(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
+		    void roster(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/NRoster.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
@@ -39,8 +38,8 @@ public class WardViewController {
 		    }
 
 		    @FXML
-		    void adhome(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
+		    void resident(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Resident.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
@@ -55,30 +54,25 @@ public class WardViewController {
 
 		    }
 		    @FXML
-		    void wardv(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/WardView.fxml"));
+		    void beds(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Beds.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
-
+		        stage.setTitle("Bed Control");
 		    }
 
 		    @FXML
-		    void rusers(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/RUsers.fxml"));
+		    void signup(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/RegisterResident.fxml"));
+
 		        Node node = (Node) event.getSource();
+
 		        Stage stage = (Stage) node.getScene().getWindow();
+
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Register Resident");
 
 		    }
-		    @FXML
-		    void bedmenu(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
-		        Node node = (Node) event.getSource();
-		        Stage stage = (Stage) node.getScene().getWindow();
-		        stage.setScene(new Scene(root));
 
-		    }
-	}
-
-
+}

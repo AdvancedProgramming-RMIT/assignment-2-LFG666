@@ -13,12 +13,12 @@ public class Resident implements Person{
 		conditions=new ArrayList<Condition>();
 	}
 	Resident(String ids,String firstN, String lastN, String userName, String types, String genders) {
-		this.id=ids;
-		this.Fname=firstN;
-		this.Lname=lastN;
-		this.username=userName;
-		this.type=types;
-		this.gender=genders;
+		Resident.id=ids;
+		Resident.Fname=firstN;
+		Resident.Lname=lastN;
+		Resident.username=userName;
+		Resident.type=types;
+		Resident.gender=genders;
 		
 	}
 	public void displayMedicines() {

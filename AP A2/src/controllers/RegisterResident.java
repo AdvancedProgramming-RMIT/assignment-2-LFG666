@@ -52,8 +52,8 @@ public class RegisterResident {
 	    @FXML
 	    void register(MouseEvent event) throws SQLException, IOException {
 	        String username, password, fname, lname, type, gender;
-	        password = r_pass.getText();
-	        username = r_user.getText();
+	        password = "N/A";
+	        username = "N/A";
 	        fname = r_fname.getText();
 	        lname = r_lname.getText();
 	        type = "RESIDENT";
@@ -66,7 +66,7 @@ public class RegisterResident {
 	        int status = statement.executeUpdate("INSERT INTO users (FName,LName,username,password,type,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ username +"','"+ password +"','" + type +"','"+ gender +"')");
 
 	        if (status==1) {
-	            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Landing.fxml"));
+	            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Nurse.fxml"));
 	            Node node = (Node) event.getSource();
 	            Stage stage = (Stage) node.getScene().getWindow();
 	            stage.setScene(new Scene(root));
@@ -91,7 +91,7 @@ public class RegisterResident {
 
 	    @FXML
 	    void login(MouseEvent event) throws IOException {
-	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Landing.fxml"));
+	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Nurse.fxml"));
 
 	        Node node = (Node) event.getSource();
 
