@@ -55,7 +55,7 @@ public class Condition {
 			return residents;
 		}
 
-		public void setStudents(ArrayList<Resident> residents) {
+		public void setResident(ArrayList<Resident> residents) {
 			this.residents = residents;
 		}
 

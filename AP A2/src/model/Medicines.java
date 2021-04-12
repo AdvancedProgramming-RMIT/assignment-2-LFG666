@@ -55,7 +55,7 @@ public class Medicines {
 			System.out.println(it.next().getName());
 		}
 	}
-	public void getTeacher(){
+	public void getNurse(){
 
 		System.out.println("NURSES:");
 		Iterator<Nurse> it = nurses.iterator();
