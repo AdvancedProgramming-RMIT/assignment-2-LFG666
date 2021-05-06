@@ -3,7 +3,7 @@ package controllers;
 import model.Data;
 import model.Resident;
 import java.io.IOException;
-import Application.Constants;
+
 import databaseSQL.SQLite;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +27,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import Application.Constants;
 
 public class LandingController {
 	@FXML
@@ -113,13 +115,13 @@ public class LandingController {
                     " = '" + u1.getUser() + "' and password = '" + u1.getPass() + "' and type = 'ADMIN'");
             if(resultSet.next()) {
 
-                new Resident();
-                Resident.username=u1.getUser();
-                Resident.id=resultSet.getString("id");
-                Resident.Fname=resultSet.getString("FName");
-                Resident.Lname=resultSet.getString("LName");
-                Resident.type=resultSet.getString("type");
-                Resident.gender=resultSet.getString("gender");
+                Resident resident = new Resident();
+                resident.setUsername(u1.getUser());
+                resident.setId(resultSet.getInt("id"));
+                resident.setFname(resultSet.getString("fName"));
+                resident.setLname(resultSet.getString("LName"));
+                resident.setType(resultSet.getString("type"));
+                resident.setGender(resultSet.getString("gender"));
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
@@ -140,17 +142,18 @@ public class LandingController {
                     " = '" + u1.getUser() + "' and password = '" + u1.getPass() + "' and type = 'DOCTOR'");
             if(resultSet.next()) {
 
-                new Resident();
-                Resident.username=u1.getUser();
-                Resident.id=resultSet.getString("id");
-                Resident.Fname=resultSet.getString("FName");
-                Resident.Lname=resultSet.getString("LName");
-                Resident.type=resultSet.getString("type");
-                Resident.gender=resultSet.getString("gender");
+            	Resident resident = new Resident();
+                resident.setUsername(u1.getUser());
+                resident.setId(resultSet.getInt("id"));
+                resident.setFname(resultSet.getString("fName"));
+                resident.setLname(resultSet.getString("LName"));
+                resident.setType(resultSet.getString("type"));
+                resident.setGender(resultSet.getString("gender"));
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.setTitle("Doctor Home Page");
 
             }
             else{
@@ -167,18 +170,19 @@ public class LandingController {
                     " = '" + u1.getUser() + "' and password = '" + u1.getPass() + "' and type = 'Nurse'");
             if(resultSet.next()) {
 
-                new Resident();
-                Resident.username=u1.getUser();
-                Resident.id=resultSet.getString("id");
-                Resident.Fname=resultSet.getString("FName");
-                Resident.Lname=resultSet.getString("LName");
-                Resident.type=resultSet.getString("type");
-                Resident.gender=resultSet.getString("gender");
+            	Resident resident = new Resident();
+                resident.setUsername(u1.getUser());
+                resident.setId(resultSet.getInt("id"));
+                resident.setFname(resultSet.getString("fName"));
+                resident.setLname(resultSet.getString("LName"));
+                resident.setType(resultSet.getString("type"));
+                resident.setGender(resultSet.getString("gender"));
 
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Nurse.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.setTitle("Nurse Home Page");
             }
             else{
                 Alert alert =new Alert(Alert.AlertType.INFORMATION);

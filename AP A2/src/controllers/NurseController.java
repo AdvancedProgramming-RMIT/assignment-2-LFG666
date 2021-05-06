@@ -34,6 +34,7 @@ public class NurseController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Nurse Roster");
 
 		    }
 
@@ -43,6 +44,7 @@ public class NurseController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Resident View");
 
 		    }
 		    @FXML

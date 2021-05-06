@@ -75,6 +75,7 @@ public class RegisterResident {
 	            alert.setHeaderText(null);
 	            alert.setContentText("Resident has been Registered Succesfuly!");
 	            alert.showAndWait();
+	            stage.setTitle("Nurse Home Page");
 
 	        }
 	        }

@@ -35,6 +35,7 @@ public class AdminController {
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
+	        stage.setTitle("Show Users");
 
 	    }
 
@@ -60,6 +61,7 @@ public class AdminController {
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
+	        stage.setTitle("Ward View");
 
 	    }
 
@@ -69,6 +71,7 @@ public class AdminController {
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
+	        stage.setTitle("Register Users");
 
 	    }
 

@@ -24,6 +24,7 @@ public class Beds {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.setTitle("Resident Control");
 
     }
 	 @FXML
@@ -32,6 +33,7 @@ public class Beds {
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
+	        stage.setTitle("Nurse Homepage");
 
 	    }
 

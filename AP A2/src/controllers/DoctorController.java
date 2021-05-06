@@ -28,6 +28,8 @@ public class DoctorController {
 		private Button conditions;
 	    @FXML
 	    private Button doctor;
+	    @FXML
+	    private Button disconditions;
 
 	    
 		
@@ -37,6 +39,7 @@ public class DoctorController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Medicine Control");
 
 		    }
 
@@ -46,6 +49,7 @@ public class DoctorController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Doctor Shifts");
 
 		    }
 		    @FXML
@@ -54,6 +58,7 @@ public class DoctorController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Resident Control");
 
 		    }
 		    @FXML
@@ -62,6 +67,7 @@ public class DoctorController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Condition Control");
 
 		    }
 
@@ -73,5 +79,15 @@ public class DoctorController {
 		        stage.setScene(new Scene(root));
 
 		    }
+		    @FXML
+		    void disconditions(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/DisConditions.fxml"));
+		        Node node = (Node) event.getSource();
+		        Stage stage = (Stage) node.getScene().getWindow();
+		        stage.setScene(new Scene(root));
+		        stage.setTitle("Residents with Conditions");
+
+		    }
+
 
 }

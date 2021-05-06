@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import Application.Constants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -128,6 +129,7 @@ public class ShowUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Admin Home Page");
 
 		    }
 		    @FXML
@@ -144,6 +146,7 @@ public class ShowUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Ward Control");
 
 		    }
 
@@ -153,6 +156,7 @@ public class ShowUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Register User");
 
 		    }
 

@@ -29,12 +29,13 @@ public class WardViewController {
 
 	    
 		
-		 @FXML
+	    	@FXML
 		    void suser(MouseEvent event) throws IOException {
 		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("View Users");
 
 		    }
 
@@ -44,6 +45,7 @@ public class WardViewController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Admin Home Page");
 
 		    }
 		    @FXML
@@ -60,6 +62,7 @@ public class WardViewController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Ward Control");
 
 		    }
 
@@ -69,6 +72,7 @@ public class WardViewController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Register User");
 
 		    }
 		    @FXML

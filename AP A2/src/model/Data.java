@@ -1,37 +1,57 @@
 package model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Data {
-	 Integer id;
+
 	    String user;
 		String pass;
-		String fname;
-		String lname;
-		String type;
-		String gender;
+		private StringProperty fname = new SimpleStringProperty();
+		private StringProperty type = new SimpleStringProperty();
+		private StringProperty gender = new SimpleStringProperty();
+		private StringProperty lname = new SimpleStringProperty();
+		private IntegerProperty id = new SimpleIntegerProperty();
 
-
+		@Override
+		public String toString() {  //this is needed for ComboBox
+			return id.get() + ","
+				+	fname.get() +","
+				+	type.get() + ","
+				+	lname.get() + ","
+				+	gender.get();		
+		}
 	    public Data(){
+	    	id.set(0);
+	    	fname.set("");
+	    	lname.set("");
+	    	type.set("");
+	    	gender.set("");
 	        user=" ";
 	        pass=" ";
-	        fname=" ";
-	        lname=" ";
-	        type=" ";
+
 
 
 	    }
 	    public Data(Integer id,String Fname,String Lname,String type,String gender){
-	        this.id=id;
-	        this.fname=Fname;
-	        this.lname=Lname;
-	        this.gender=gender;
-	        this.type=type;
+	        this.id.set(id);
+	        this.fname.set(Fname);
+	        this.lname.set(Lname);
+	        this.gender.set(gender);
+	        this.type.set(type);
 	    }
 
-	    public Integer getId() {
-	        return id;
+	    public IntegerProperty getIdProperty() {
+	        return this.id;
+	    }
+	    public Integer getId(){
+	        return this.id.get();
 	    }
 
 	    public void setId(Integer id) {
-	        this.id = id;
+	        this.id.set(id);
 	    }
 
 	    public String getUser() {
@@ -50,37 +70,54 @@ public class Data {
 	        this.pass = pass;
 	    }
 
+	    public StringProperty getFnameProperty() {
+	        return this.fname;
+	    }
+	    
 	    public String getFname() {
-	        return fname;
+	    return this.fname.get();	
 	    }
 
 	    public void setFname(String fname) {
-	        this.fname = fname;
+	        this.fname.set(fname);
 	    }
 
-	    public String getLname() {
-	        return lname;
+	    public StringProperty getLnameProperty() {
+	        return this.lname;
 	    }
+	    
+	    public String getLname() {
+		    return this.lname.get();	
+		    }
 
 	    public void setLname(String lname) {
-	        this.lname = lname;
+	        this.lname.set(lname);
 	    }
 
 
+	    public StringProperty getTypeProperty() {
+	        return this.type;
+	    }
+	    
 	    public String getType() {
-	        return type;
-	    }
+		    return this.type.get();	
+		    }
+
 
 	    public void setType(String type) {
-	        this.type = type;
+	        this.type.set(type);
 	    }
 
-	    public String getGender() {
-	        return gender;
+	    public StringProperty getGenderProperty() {
+	        return this.gender;
 	    }
+	    
+	    public String getGender() {
+		    return this.gender.get();	
+		    }
 
 	    public void setGender(String gender) {
-	        this.gender = gender;
+	        this.gender.set(gender);
 	    }
 
 	   

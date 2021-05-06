@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import Application.Constants;
 import databaseSQL.SQLite;
 import javafx.collections.FXCollections;
@@ -95,6 +96,7 @@ public class RegUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("View Users");
 
 		    }
 
@@ -104,6 +106,7 @@ public class RegUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Admin Home Page");
 
 		    }
 		    @FXML
@@ -120,6 +123,7 @@ public class RegUsersController {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Ward Control");
 
 		    }
 

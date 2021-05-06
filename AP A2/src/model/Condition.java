@@ -1,7 +1,10 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 public class Condition {
 	
 
@@ -9,18 +12,29 @@ public class Condition {
 		ArrayList<Resident> residents;
 		ArrayList<Condition> conditions;
 
-		public Integer id;
-		public String CName,type;
+		private StringProperty type = new SimpleStringProperty();
+		private StringProperty CName = new SimpleStringProperty();
+		private IntegerProperty id = new SimpleIntegerProperty();
+		
+		@Override
+		public String toString() {  //this is needed for ComboBox
+			return id.get() + ","
+				+	CName.get() +","
+				+	type.get();		
+		}
 
 		public Condition(){
 			residents=new ArrayList<Resident>();
 			conditions=new ArrayList<Condition>();
+			id.set(0);
+	    	CName.set("");
+	    	type.set("");
 		}
 		public Condition( Integer id, String CName,String type) {
 
-			this.id = id;
-			this.CName = CName;
-			this.type = type;
+			this.id.set(id);
+			this.CName.set(CName);
+			this.type.set(type);
 		}
 
 		public ArrayList<Condition> myConditions() {
@@ -30,9 +44,7 @@ public class Condition {
 		public void setConditions(ArrayList<Condition> conditions) {
 			this.conditions = conditions;
 		}
-		public void setCName(String CName) {
-			this.CName = CName;
-		}
+		
 
 
 		public void addResident(Resident resident){
@@ -41,15 +53,6 @@ public class Condition {
 		}
 		
 
-		public void displayResidents(){
-
-			System.out.println("RESIDENT:");
-			Iterator<Resident> it = residents.iterator();
-			while (it.hasNext()){
-				it.next();
-				System.out.println(Resident.getname());
-			}
-		}
 
 		public ArrayList<Resident> getResidents() {
 			return residents;
@@ -60,18 +63,30 @@ public class Condition {
 		}
 
 		
-		public Integer getId() {
-			return id;
-		}
+		public IntegerProperty getIdProperty() {
+	        return this.id;
+	    }
+	    public Integer getId(){
+	        return this.id.get();
+	    }
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	    public void setId(Integer id) {
+	        this.id.set(id);
+	    }
+
 
 		
-		public String getCName() {
-			return CName;
-		}
+		public StringProperty getCnameProperty() {
+	        return this.CName;
+	    }
+	    
+	    public String getCname() {
+	    return this.CName.get();	
+	    }
+
+	    public void setCname(String CName) {
+	        this.CName.set(CName);
+	    }
 
 		
 		public void dispayConditions(){
@@ -85,13 +100,18 @@ public class Condition {
 		}
 
 
-		public String getType() {
-			return type;
-		}
+		 public StringProperty getTypeProperty() {
+		        return this.type;
+		    }
+		    
+		    public String getType() {
+			    return this.type.get();	
+			    }
 
-		public void setType(String type) {
-			this.type = type;
-		}
+
+		    public void setType(String type) {
+		        this.type.set(type);
+		    }
 	}
 
 

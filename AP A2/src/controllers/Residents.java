@@ -67,7 +67,7 @@ public class Residents {
 	        try {
 	            Connection connection = SQLite.dbConnector();
 	            Statement statement = connection.createStatement();
-	            ResultSet resultSet = statement.executeQuery("select * from users");
+	            ResultSet resultSet = statement.executeQuery("select * from users where type = 'RESIDENT'");
 	            while (resultSet.next()) {
 	            	Data.add(new Data(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"),  resultSet.getString("type"), resultSet.getString("gender")));
 	            }
@@ -87,6 +87,7 @@ public class Residents {
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
+	        stage.setTitle("Doctor Home Page");
 
 	    }
 	    @FXML

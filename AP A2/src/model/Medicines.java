@@ -3,34 +3,41 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 
 public class Medicines {
 	ArrayList<Resident> residents;
-	ArrayList<Nurse> nurses;
-	ArrayList<Doctor> doctors;
 
-	public Integer id,dosage,times;
-	public String MName,ADoctor,ANurse,type;
+
+	private IntegerProperty id = new SimpleIntegerProperty();
+	private StringProperty mName = new SimpleStringProperty();
+	private IntegerProperty stock = new SimpleIntegerProperty();
+
+	@Override
+	public String toString() {
+		return  id.get() + ","
+			+	mName.get() + ","
+			+	stock.get();
+	}
 
 	public Medicines(){
 		residents=new ArrayList<Resident>();
-		nurses=new ArrayList<Nurse>();
-		doctors=new ArrayList<Doctor>();
+		id.set(0);
+		mName.set("");
+		stock.set(0);
+
 	}
-	public Medicines( Integer id, String MName, String ADoctor, String ANurse, Integer dosage, String type, Integer times) {
-
-		this.id = id;
-		this.MName = MName;
-		this.ADoctor = ADoctor;
-		this.ANurse = ANurse;
-		this.type = type;
-		this.dosage = dosage;
-		this.times=times;
-	}
+	public Medicines(int ids, String MName, int stocK) {
 
 
-	public void setMName(String MName) {
-		this.MName = MName;
+        this.mName.set(MName);
+        this.id.set(ids);
+    	this.stock.set(stocK);
+
 	}
 
 
@@ -38,31 +45,7 @@ public class Medicines {
 
 		residents.add(resident);
 	}
-	public void assignDoctor(Doctor doctor){
-
-		doctors.add(doctor);
-	}
-	public void assignNurse(Nurse nurse){
-
-		nurses.add(nurse);
-	}
 	
-	public void getDoctor(){
-
-		System.out.println("DOCTORS:");
-		Iterator<Doctor> it = doctors.iterator();
-		while (it.hasNext()){
-			System.out.println(it.next().getName());
-		}
-	}
-	public void getNurse(){
-
-		System.out.println("NURSES:");
-		Iterator<Nurse> it = nurses.iterator();
-		while (it.hasNext()){
-			System.out.println(it.next().getName());
-		}
-	}
 	
 	public void displayResidents(){
 
@@ -81,69 +64,72 @@ public class Medicines {
 		this.residents = residents;
 	}
 
-	public ArrayList<Doctor> getDoctors() {
-		return doctors;
+	
+	public StringProperty MNameProperty() {
+		return this.mName;
 	}
-	public ArrayList<Nurse> getNurses() {
-		return nurses;
-	}
-
-	public void setDoctors(ArrayList<Doctor> doctors) {
-		this.doctors = doctors;
-	}
-	public void setNurses(ArrayList<Nurse> nurses) {
-		this.nurses = nurses;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getDosage() {
-		return dosage;
-	}
-
-	public void setDosage(Integer dosage) {
-		this.dosage = dosage;
-	}
-
-
-	public Integer getTimes() {
-		return times;
-	}
-
-	public void setTimes(Integer times) {
-		this.times = times;
-	}
+	
 
 	public String getMName() {
-		return MName;
+		return this.mName.get();
 	}
+	
 
-	public String getADoctor() {
-		return ADoctor;
+	public void setMName(String MName) {
+		this.mName.set(MName);
 	}
+	
+	public IntegerProperty idProperty() {
+		return this.id;
+	}
+	
 
-	public void setADoctor(String aDoctor) {
-		this.ADoctor = aDoctor;
+	public int getId() {
+		return this.id.get();
 	}
-	public String getANurse() {
-		return ANurse;
-	}
+	
 
-	public void setANurse(String aNurse) {
-		this.ANurse = aNurse;
+	public void setId( int ids) {
+		this.id.set(ids);
 	}
+	
+	
+	
+	public IntegerProperty stockProperty() {
+		return this.stock;
+	}
+	
 
-	public String getType() {
-		return type;
+	public int getStock() {
+		return this.stock.get();
 	}
+	
 
-	public void setType(String type) {
-		this.type = type;
+	public void setStock(int stocK) {
+		this.stock.set(stocK);
 	}
+	
+	 public double supply(int available) 
+		{
+			//Checking whether the qty received as argument is less than or equal to stock level
+			if(available <= this.stock.get())
+			{
+				//Decreasing the qty from stock level
+				this.setStock(this.getStock() - (available));
+				
+				//Return the supply amount
+				return available;
+			}
+			else {
+				return 0;
+			}
+		
+		}
+	 public void add(int ids, String MName, int dosagE, int timeS, int stocK) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+	
 }

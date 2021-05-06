@@ -73,17 +73,14 @@ public class Resident {
 	        try {
 	            Connection connection = SQLite.dbConnector();
 	            Statement statement = connection.createStatement();
-	            ResultSet resultSet = statement.executeQuery("select * from users");
+	            ResultSet resultSet = statement.executeQuery("select * from users where type = 'RESIDENT'");
 	            while (resultSet.next()) {
 	            	Data.add(new Data(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"),  resultSet.getString("type"), resultSet.getString("gender")));
 	            }
-
-
+	  
 	        } catch (SQLException e) {
 	            System.err.println("Cannot Connect to Database");
 	        }
-
-
 
 	        return Data;
 	    }
@@ -127,6 +124,7 @@ public class Resident {
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
+		        stage.setTitle("Nurse Home Page");
 
 		    }
 		    @FXML
