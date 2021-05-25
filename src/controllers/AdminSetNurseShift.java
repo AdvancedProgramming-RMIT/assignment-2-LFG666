@@ -38,7 +38,7 @@ public class AdminSetNurseShift implements Initializable{
         	String St = "INSERT INTO nurroster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
         	PreparedStatement ps = connection.prepareStatement(St);
         	ps.setString(1, Fname);
-        	ps.setString(2, Lname);
+        	ps.setString(2, Lname); 
         	ps.setInt(3, ro.getShift());
         	ps.setString(4,  ro.getDay());
         	ps.executeUpdate();
@@ -469,7 +469,7 @@ public class AdminSetNurseShift implements Initializable{
 
 	    //Edit Tab   --->   Morning shift
 	    @FXML
-	    void onClickMonday1(MouseEvent event) {
+	    void onClickMonday1(MouseEvent event) { 
 	        Monday1.setStyle(clicked);
 	        for (Pane p : MondayList1)
 	            if (!p.equals(Monday1))

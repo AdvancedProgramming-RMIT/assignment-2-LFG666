@@ -100,7 +100,7 @@ public class ShowUsersController {
 
 
 	        Connection connection= SQLite.dbConnector();
-	        Statement statement = connection.createStatement();
+	        Statement statement = connection.createStatement(); 
 
 	        int status = statement.executeUpdate("DELETE FROM users WHERE id= '"+selectedItem.getId()+"'");
 

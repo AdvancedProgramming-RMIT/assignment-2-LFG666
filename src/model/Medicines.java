@@ -14,7 +14,7 @@ public class Medicines {
 
 
 	private IntegerProperty id = new SimpleIntegerProperty();
-	private StringProperty mName = new SimpleStringProperty();
+	private StringProperty mName = new SimpleStringProperty(); 
 	private IntegerProperty stock = new SimpleIntegerProperty();
 
 	@Override

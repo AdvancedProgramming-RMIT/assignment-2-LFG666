@@ -2,6 +2,8 @@ package controllers;
 
 
 import model.Doctor;
+import model.Nurse;
+import model.Resident;
 import model.Roster;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import Application.Constants;
 import databaseSQL.SQLite;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -27,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -44,13 +50,15 @@ private ChoiceBox<String> ChoiceAdd;
 @FXML
 private Button ButtonDeleteSpDoctor;
 @FXML
+private Button Remove;
+@FXML
 private Button ButtonDeleteSpDay;
 @FXML
 private Button ButtonDeleteAll;
 @FXML
 private Button ButtonDeleteSpShift;
 @FXML
-private ChoiceBox<String> ChoiceDeleteSpDay;
+private ChoiceBox<String> ChoiceDay;
 @FXML
 private Button BtnDoc;
 @FXML
@@ -79,6 +87,8 @@ private Button wardadmin;
 private Button admin;
 @FXML
 private Label lblUser;
+@FXML
+private Button save;
 
 
 
@@ -133,11 +143,11 @@ public void loadData() throws SQLException {
 public void JavafxChoiceFill() throws SQLException {
     DoctorList = selectAll();
     ChoiceAdd.getItems().clear();
-    ChoiceDeleteSpDay.getItems().clear();
+    ChoiceDay.getItems().clear();
     for (Doctor t : DoctorList) {
         ChoiceAdd.getItems().add(t.getFname());
     }
-    ChoiceDeleteSpDay.getItems().addAll("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    ChoiceDay.getItems().addAll("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
     for (Doctor t : DoctorList) {
         rosterArrayList = null;
         rosterArrayList = SelectAllByFname(t.getFname());}
@@ -160,10 +170,11 @@ public void JavafxChoiceFill() throws SQLException {
 	}
 	
 	public int insertSpecificRoster(String Fname, String Lname, Roster roster) throws SQLException{
-        Connection connection = SQLite.dbConnector();
+        
+		Connection connection = SQLite.dbConnector();
         	String St = "INSERT INTO roster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
         	PreparedStatement ps = connection.prepareStatement(St);
-        	ps.setString(1, Fname);
+        	ps.setString(1, Fname); 
         	ps.setString(2, Lname);
         	ps.setInt(3, roster.getShift());
         	ps.setString(4,  roster.getDay());
@@ -175,9 +186,9 @@ public void JavafxChoiceFill() throws SQLException {
 	}
         
 	 public ObservableList<Roster> SelectAll() throws SQLException {
-	        ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
-	        Connection connection = SQLite.dbConnector();
-	        String sql =  "select * from users, roster where users.type = 'Doctor'";
+	        ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList(); 
+	        Connection connection = SQLite.dbConnector(); 
+	        String sql =  "select * from users, roster where users.type = 'Doctor' and users.FName = roster.FName"; 
 	        PreparedStatement ps = connection.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();
 
@@ -215,20 +226,14 @@ public void JavafxChoiceFill() throws SQLException {
 	        return rosterArrayList;
 	    }
 	 
-	    public void removeRosterByDoctor(Doctor s) throws SQLException {
-	        String sql1 = "DELETE FROM roster WHERE FName=? ";
-	        Connection connection = SQLite.dbConnector();
-	        PreparedStatement ps = connection.prepareStatement(sql1);
-	        ps.setString(1, s.getFname());
-	        ps.executeUpdate();
-	        ps.close();
-	    }
 
-	    public void removeRosterByDay(String day) throws SQLException {
-	        String sql1 = "DELETE FROM roster WHERE day=? ";
+	    public void removeRoster() throws SQLException {
+	    	Roster selectedItem = tableView.getSelectionModel().getSelectedItem();
+	    	tableView.getItems().remove(selectedItem);
+	        
+	    	String sql1 = "DELETE FROM roster WHERE day= '"+selectedItem.getDay()+"'";
 	        Connection connection = SQLite.dbConnector();
-	        PreparedStatement ps = connection.prepareStatement(sql1);
-	        ps.setString(1, day);
+	        PreparedStatement ps = connection.prepareStatement(sql1); 
 	        ps.executeUpdate();
 	        ps.close();
 	    }
@@ -257,10 +262,81 @@ public void JavafxChoiceFill() throws SQLException {
 
 
 	    @FXML
-	    void save(ActionEvent event) throws IOException {
+	    void save(MouseEvent event) throws SQLException, NumberFormatException, IOException {
+	    	 rosterArrayList = null;
+	    	 personalRosters.clear();
+	    	 Integer shift = 0;
+	    	 
+	    	 try {
+	
+	    	 shift = Integer.parseInt(Shift.getText());
+	    	 }catch (NumberFormatException e){
+	                Alert alert = new Alert(Alert.AlertType.ERROR);
+	                alert.setTitle("Correct the numeric data");
+	                alert.setHeaderText("Correct the numeric data");
+	                alert.setContentText("Correct the numeric data");
+	                alert.showAndWait();
+	    }
+	    	 
+	    	 
+	    	 
+	    	 if(shift < 800 || shift > 2100){
+	    	 
+	    	 
+	    		 Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Please Choose a time between 0800 & 2100");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					Shift.clear();
+	    	 }
+
+	    	 else {		 
+	    	 String cd = ChoiceDay.getSelectionModel().getSelectedItem();
+	    	
+	    	 if(cd=="Monday") {
+	    		 personalRosters.add(new Roster(shift, "Monday"));	 
+	    	 }
+	    	 if(cd=="Tuesday") {
+	    		 personalRosters.add(new Roster(shift, "Tuesday"));	 
+	    	 }
+	    	 if(cd=="Wednesday") {
+	    		 personalRosters.add(new Roster(shift, "Wednesday"));	 
+	    	 }
+	    	 if(cd=="Thursday") {
+	    		 personalRosters.add(new Roster(shift, "Thursday"));	 
+	    	 }
+	    	 if(cd=="Friday") {
+	    		 personalRosters.add(new Roster(shift, "Friday"));	 
+	    	 }
+	    	 if(cd=="Saturday") {
+	    		 personalRosters.add(new Roster(shift, "Saturday"));	 
+	    	 }
+	    	 if(cd=="Sunday") {
+	    		 personalRosters.add(new Roster(shift, "Sunday"));	 
+	    	 }
+	    	 
+
+		        for (Doctor t : DoctorList) {
+		            if (ChoiceAdd.getValue().equals(t.getFname())) {
+		                rosterArrayList = SelectAllByFname(t.getFname());
+		                for (Roster ws : personalRosters)
+		                    insertSpecificRoster(t.getFname(), t.getLname(), ws);
+		            }
+		        }
+
+		        loadData();
+		    
+	    }}
+
+	    @FXML
+	    void remove(MouseEvent event) throws SQLException, NumberFormatException, IOException {
+	    removeRoster();
+	    	
+	    	
 	    	
 	    }
-
+	    
 	    @FXML
 	    void Leave(ActionEvent event) throws IOException, SQLException {
 	    	Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
@@ -306,10 +382,6 @@ public void JavafxChoiceFill() throws SQLException {
 
 		    }
 
-		    @FXML
-		    void rmData(MouseEvent event) throws IOException {
-
-
-		    }
+		    
 	
 }

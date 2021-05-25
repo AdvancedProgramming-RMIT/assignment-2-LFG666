@@ -27,7 +27,15 @@
                   <Button fx:id="adduser" alignment="CENTER" layoutX="152.0" layoutY="87.0" mnemonicParsing="false" onMousePressed="#rusers" prefHeight="30.0" prefWidth="250.0" text="Add User" />
                   <Button fx:id="logout" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#logout" prefHeight="30.0" prefWidth="250.0" text="Return to Login Page" />                  
                   <Button fx:id="admin" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#adhome" prefHeight="30.0" prefWidth="250.0" text="Admin Home Page" />
-                  
+                   <TableView fx:id="tableView" layoutX="139.0" layoutY="101.0" prefHeight="300.0" prefWidth="600.0">
+        <columns>
+          <TableColumn id="FNameColumn" fx:id="FNameColumn" prefWidth="102.0" text="First Name" />
+            <TableColumn minWidth="0.0" prefWidth="0.0" text="Last Name" />
+            <TableColumn id="LNameColumn" fx:id="LNameColumn" prefWidth="107.0" text="Last Name" />
+            <TableColumn id="BedColumn" fx:id="BedColumn" prefWidth="107.0" text="Bed ID" />
+        </columns>
+      </TableView>
+        <Button fx:id="removeres" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#removeResident" prefHeight="30.0" prefWidth="250.0" text="Release from Bed" />
                   </children>
             </VBox>
       <HBox prefHeight="400.0" prefWidth="298.0">
@@ -45,17 +53,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Rectangle fx:id="w1r1b1" accessibleRole="TEXT" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Rectangle fx:id="w1r2b2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <Button fx:id="w1r1b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="w1r2b2"  mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r2b1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  </Button>
+                  <Button fx:id="w1r2b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
+                  </Button>
                   <Rectangle fx:id="w1r3b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="15.0" top="35.0" />

@@ -58,13 +58,13 @@ public class MedicinesController {
 	public  ObservableList<Resident> getResidentData() {
         return residentArray;
 	}
-	public  ObservableList<Medicines> medicineList = FXCollections.observableArrayList();
+	public  ObservableList<Medicines> medicineList = FXCollections.observableArrayList(); 
 	public  ObservableList<Medicines> getMedicineData() {
         return medicineList;
 	}
 	public Connection con;
 	@FXML
-	ComboBox<Medicines> medicineComboBox = new ComboBox<Medicines>();  
+	ComboBox<Medicines> medicineComboBox = new ComboBox<Medicines>();   
 	@FXML
 	ComboBox<Doctor> doctorComboBox = new ComboBox<Doctor>();
 	@FXML
@@ -287,7 +287,7 @@ public class MedicinesController {
 					    	   connection.setAutoCommit(false); 
 					  
 					        	
-					        	pst.setInt(2, dosage);
+					        	pst.setInt(2, dosage); 
 					        	pst.setString(1, mName.getMName());
 					        	pst.setInt(3, times);
 

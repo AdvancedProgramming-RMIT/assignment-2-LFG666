@@ -1,58 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../graphics/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NurseRoster">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="795.0" prefWidth="1267.0" stylesheets="@../graphics/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NurseRoster">
    <children>
-      <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="left-pane">
+      <Pane fx:id="parent" layoutY="-6.0" prefHeight="808.0" prefWidth="1254.0" styleClass="ParentPane" stylesheets="@../graphics/login.css">
          <children>
-            <VBox layoutX="75.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="75.0">
-               <children>
-                  <Button fx:id="nurhome" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#nurhome" prefHeight="30.0" prefWidth="250.0" text="Nurse Home Page" />
-                  <Button fx:id="logout" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#logout" prefHeight="30.0" prefWidth="250.0" text="Return to Login Page" />                  
-               </children>
-            </VBox>
-            <Label fx:id="lblUser" alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="250.0" text="Please Select An Action" textFill="WHITE" AnchorPane.leftAnchor="75.0">
+            <Button fx:id="BtnBack" layoutX="1011.0" layoutY="600.0" mnemonicParsing="false" onAction="#onClickBtnBack" prefHeight="41.0" prefWidth="133.0" style="-fx-background-color: black;" styleClass="Button" text="Back">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="right-pane">
-      <children>
-      <Group layoutX="80" layoutY="50.0" AnchorPane.leftAnchor="20.0">
+            </Button>
+            <Pane layoutX="5.0" layoutY="47.0" prefHeight="62.0" prefWidth="1254.0" styleClass="TopPane">
                <children>
-				   <TableView fx:id="tableView" layoutX="139.0" layoutY="101.0" prefHeight="300.0" prefWidth="600.0">
-        <columns>
-          <TableColumn id="idColumn" fx:id="idColumn" editable="false" prefWidth="63.0" text="ID" />
-          <TableColumn id="FNameColumn" fx:id="FNameColumn" prefWidth="102.0" text="First Name" />
-            <TableColumn minWidth="0.0" prefWidth="0.0" text="Last Name" />
-            <TableColumn id="LNameColumn" fx:id="LNameColumn" prefWidth="107.0" text="Last Name" />
-            <TableColumn id="ShiftColumn" fx:id="ShiftColumn" prefWidth="88.0" text="Shift" />
-            <TableColumn id="dayColumn" fx:id="dayColumn" minWidth="0.0" prefWidth="100.0" text="Day" />
-                    </columns>
-      </TableView>
-      <Button layoutX="139.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#loadData" prefHeight="38.0" prefWidth="110.0" text="Refresh">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
-            </children>
-            </Group>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="10.0" prefHeight="37.0" prefWidth="431.0" text="Nurse Working Schedule" textAlignment="CENTER" textFill="BLACK">
+                     <font>
+                        <Font name="Arial Bold Italic" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TabPane layoutX="5.0" layoutY="106.0" prefHeight="574.0" prefWidth="843.0" tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab text="Sunday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewSunday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewSunday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Sunday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Monday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewMonday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewMonday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Monday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Tuesday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewTuesday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewTuesday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Tuesday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Wednesday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewWednesday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewWednesday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Thursday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Thursday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewThursday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewThursday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Sunday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Friday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewFriday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewFriday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Friday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+							  <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Saturday">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="ListViewSaturday1" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <ListView fx:id="ListViewSaturday2" layoutX="280.0" layoutY="92.0" prefHeight="433.0" prefWidth="270.0" />
+                              <Label layoutX="372.0" layoutY="7.0" text="Saturday">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="96.0" layoutY="60.0" text="08:00-16:00" />
+                              <Label layoutX="387.0" layoutY="60.0" text="14:00-22:00" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+            <TabPane layoutX="848.0" layoutY="106.0" prefHeight="477.0" prefWidth="403.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="View">
+                     <content>
+                        <Pane prefHeight="458.0" prefWidth="395.0">
+                           <children>
+                              <ChoiceBox fx:id="ChoiceAdd" layoutX="154.0" layoutY="73.0" prefWidth="150.0" styleClass="Choice" />
+                              <Label layoutX="26.0" layoutY="77.0" text="Choose Nurse">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Pane layoutX="11.0" layoutY="95.0" prefHeight="360.0" prefWidth="383.0">
+                                 <children>
+                                    <Label layoutX="17.0" layoutY="50.0" prefHeight="17.0" prefWidth="46.0" text="Sunday" />
+                                    <Label layoutX="17.0" layoutY="86.0" prefHeight="17.0" prefWidth="46.0" text="Monday" />
+                                    <Label layoutX="17.0" layoutY="121.0" prefHeight="17.0" prefWidth="46.0" text="Tuesday" />
+                                    <Label layoutX="17.0" layoutY="156.0" prefHeight="17.0" prefWidth="62.0" text="Wednesday" />
+                                    <Label layoutX="17.0" layoutY="195.0" prefHeight="17.0" prefWidth="62.0" text="Thursday" />
+                                    <Label layoutX="17.0" layoutY="234.0" prefHeight="17.0" prefWidth="46.0" text="Friday" />
+                                    <Label layoutX="17.0" layoutY="276.0" prefHeight="17.0" prefWidth="53.0" text="Saturday" />
+                                    <Button fx:id="beds" layoutX="131.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#nurhome" prefHeight="27.0" prefWidth="72.0" styleClass="Button" text="Nurse" />
+                                    <Button fx:id="exit"  layoutX="212.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="27.0" prefWidth="79.0" styleClass="Button" text="Exit" />
+                                    <Pane fx:id="Sunday11" layoutX="85.0" layoutY="47.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Sunday21" layoutX="177.0" layoutY="47.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Monday11" layoutX="85.0" layoutY="83.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Monday21" layoutX="177.0" layoutY="83.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+  			                         <Pane fx:id="Tuesday11" layoutX="85.0" layoutY="118.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Tuesday21" layoutX="177.0" layoutY="118.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Wednesday11" layoutX="85.0" layoutY="153.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Wednesday21" layoutX="177.0" layoutY="153.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Thursday11" layoutX="85.0" layoutY="192.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Thursday21" layoutX="177.0" layoutY="192.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Friday11" layoutX="85.0" layoutY="231.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Friday21" layoutX="177.0" layoutY="231.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Saturday11" layoutX="85.0" layoutY="273.0"  prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="10.0" layoutY="2.0" text="08:00-16:00" />
+                                       </children>
+                                    </Pane>
+                                    <Pane fx:id="Saturday21" layoutX="177.0" layoutY="273.0" prefHeight="25.0" prefWidth="92.0" style="-fx-border-color: red;">
+                                       <children>
+                                          <Label layoutX="18.0" layoutY="4.0" text="14:00-22:00" />
+                                       </children>
+                                    </Pane>
+                                    </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
          </children>
-      </AnchorPane>
+      </Pane>
    </children>
-</HBox>
+</AnchorPane>
+
+
 
