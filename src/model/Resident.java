@@ -16,7 +16,7 @@ public class Resident implements Person{
 	private StringProperty gender = new SimpleStringProperty();
 	private StringProperty Lname = new SimpleStringProperty();
 	private IntegerProperty id = new SimpleIntegerProperty();
-	private StringProperty username = new SimpleStringProperty();
+
 	
 	@Override
 	public String toString() {  //this is needed for ComboBox
@@ -32,15 +32,23 @@ public class Resident implements Person{
     	Lname.set("");
     	type.set("");
     	gender.set("");
-    	username.set("");
+
 	}
-	public Resident(Integer id,String fname, String lname, String userName, String type, String gender) {
+	public Resident(Integer id,String fname, String lname, String type, String gender) {
 		this.id.set(id);
         this.Fname.set(fname);
         this.Lname.set(lname);
         this.gender.set(gender);
         this.type.set(type);
-        this.username.set(userName);
+
+		
+	}
+	
+	public Resident(String fname, String lname, String gender) {
+        this.Fname.set(fname);
+        this.Lname.set(lname);
+        this.gender.set(gender);
+
 		
 	}
 	public void displayMedicines() {
@@ -60,8 +68,7 @@ public class Resident implements Person{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.Fname.get();	
 	}
 
 	
@@ -78,11 +85,11 @@ public class Resident implements Person{
         return this.Fname;
     }
     
-    public final String getFname() {
+    public String getFname() {
     return this.Fname.get();	
     }
 
-    public final void setFname(String Fname) {
+    public void setFname(String Fname) {
         this.Fname.set(Fname);
     }
 	
@@ -110,18 +117,6 @@ public class Resident implements Person{
 	        this.id.set(id);
 	    }
 
-	 public StringProperty getusernameProperty() {
-	        return this.username;
-	    }
-	    
-	    public String getUsername() {
-		    return this.username.get();	
-		    }
-
-
-	    public void setUsername(String username) {
-	        this.username.set(username);
-	    }
 	  public StringProperty gettypeProperty() {
 	        return this.type;
 	    }

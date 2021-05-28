@@ -21,6 +21,8 @@ public class AdminController {
     @FXML
     private Button logout;
     @FXML
+    private Button addres;
+    @FXML
     private Button wardadmin;
     @FXML
 	private Label lblUser;
@@ -79,6 +81,15 @@ public class AdminController {
 	    @FXML
 	    void rusers(MouseEvent event) throws IOException {
 	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/RUsers.fxml"));
+	        Node node = (Node) event.getSource();
+	        Stage stage = (Stage) node.getScene().getWindow();
+	        stage.setScene(new Scene(root));
+	        stage.setTitle("Register Users");
+
+	    }
+	    @FXML
+	    void addres(MouseEvent event) throws IOException {
+	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/AddRes.fxml"));
 	        Node node = (Node) event.getSource();
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));

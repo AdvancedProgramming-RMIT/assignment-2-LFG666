@@ -36,7 +36,8 @@ public class RegUsersController {
 		private Label lblUser;
 	    @FXML
 	    private Button admin;
-
+	    @FXML
+	    private Button addres;
 	    @FXML
 	    private TextField u_fname;
 	    @FXML
@@ -52,7 +53,7 @@ public class RegUsersController {
 	    @FXML
 	    private ChoiceBox<String> u_type;
 
-	    ObservableList<String> typelist= FXCollections.observableArrayList("RESIDENT","DOCTOR","NURSE");
+	    ObservableList<String> typelist= FXCollections.observableArrayList("ADMIN","DOCTOR","NURSE");
 	    ObservableList<String> genderlist= FXCollections.observableArrayList("MALE","FEMALE"); 
 
 	    @FXML
@@ -128,8 +129,8 @@ public class RegUsersController {
 		    }
 
 		    @FXML
-		    void rusers(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/RUsers.fxml"));
+		    void addres(MouseEvent event) throws IOException {
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/AddRes.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
@@ -137,7 +138,7 @@ public class RegUsersController {
 		    }
 		    @FXML
 		    public void initialize() {
-		        u_type.setValue("RESIDENT");
+		        u_type.setValue("NURSE");
 		        u_type.setItems(typelist);
 		        u_gender.setValue("MALE");
 		        u_gender.setItems(genderlist);

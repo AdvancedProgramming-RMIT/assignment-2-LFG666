@@ -79,7 +79,7 @@ public class NurseRoster implements Initializable{
 
 	        ps.close();
 	        rs.close();
-	        return rosterArrayList;
+	        return rosterArrayList; 
 	    }
 
 

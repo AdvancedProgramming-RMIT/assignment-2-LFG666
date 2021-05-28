@@ -161,7 +161,7 @@ public class MedicinesController {
 		Resident residentArray = null;
 		if (residentComboBox.getSelectionModel().getSelectedIndex() >= 0)
 			residentArray = residentComboBox.getSelectionModel().selectedItemProperty().get();
-		else residentArray = new Resident(0,"","","","","");
+		else residentArray = new Resident(0,"","","","");
 		return residentArray;
 
 		}
@@ -249,12 +249,12 @@ public class MedicinesController {
 						selectedItem.setStock(selectedItem.getStock() - (int) quantitySlider.getValue());
 						int available2 = selectedItem.getStock();
 						int totalavailable = available1 - available2;
-						 Connection connection= SQLite.dbConnector();
+						 Connection connection= SQLite.dbConnector(); 
 
 					       
-					        String insertString = "UPDATE medicine SET stock = ? where MName = ?"; 
+					        String insertString = "UPDATE medicine SET stock = ? where MName = ?";  
 					 
-					       try (PreparedStatement pst = connection.prepareStatement(insertString))
+					       try (PreparedStatement pst = connection.prepareStatement(insertString)) 
 					    		   
 					    		   {
 					    	   connection.setAutoCommit(false); 
@@ -396,33 +396,7 @@ public class MedicinesController {
 			
 					  
 			});
-//			
-//			medicineComboBox.valueProperty().addListener((obs, oldValue, newValue) -> {
-//	            if (! medicineComboBox.getItems().contains(newValue)) {
-//	                ObservableList<Medicines> newItems = FXCollections.observableArrayList();
-//	                newItems.add(newValue);
-//	                newItems.addAll(medicineComboBox.getItems());
-//	                medicineComboBox.getItems().setAll(newItems);
-//	            }
-//			
-//					  
-//			});
-//			
-//			residentComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Resident>() {
-//				@Override public void changed(ObservableValue<? extends Resident> observableValue, Resident oldChoice, Resident newChoice) {
-//				if (newChoice != null) {
-//					int index = 0;
-//					for (Resident residentArray : residentArray) {
-//						if (residentArray.getFname().equals(newChoice.getFname())) {
-//							residentComboBox.getSelectionModel().select(index);
-//							break;
-//						}
-//						index++;
-//					}}
-//				}
-//			
-//					  
-//			});
+
 			
 			removeButton.setOnAction(event -> {
 				int index = medicinesTableView.getSelectionModel().getFocusedIndex();
@@ -518,7 +492,7 @@ public class MedicinesController {
 	            ObservableList<Resident> Data= FXCollections.observableArrayList();
 	            while (resultSet.next()) {
 
-	            	 Resident resident = (new Resident(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"), resultSet.getString("username"), resultSet.getString("type"), resultSet.getString("gender")));
+	            	 Resident resident = (new Resident(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"), resultSet.getString("type"), resultSet.getString("gender")));
 	            	 Data.add(resident);
    
 	        }

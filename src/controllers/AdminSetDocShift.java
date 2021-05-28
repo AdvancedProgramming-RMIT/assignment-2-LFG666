@@ -40,7 +40,7 @@ import javafx.util.Callback;
 
 public class AdminSetDocShift {
 
-public  ObservableList<Doctor> DoctorList = FXCollections.observableArrayList();
+public  ObservableList<Doctor> DoctorList = FXCollections.observableArrayList(); 
 
 ObservableList<Roster> personalRosters = FXCollections.observableArrayList();
 ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
@@ -98,7 +98,7 @@ public void initialize() throws SQLException {
 	        JavafxChoiceFill();
 	        loadData();
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        e.printStackTrace(); 
 	    }
 	
 	 idColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, Number>, 
@@ -189,7 +189,7 @@ public void JavafxChoiceFill() throws SQLException {
 	        ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList(); 
 	        Connection connection = SQLite.dbConnector(); 
 	        String sql =  "select * from users, roster where users.type = 'Doctor' and users.FName = roster.FName"; 
-	        PreparedStatement ps = connection.prepareStatement(sql);
+	        PreparedStatement ps = connection.prepareStatement(sql); 
 	        ResultSet rs = ps.executeQuery();
 
 

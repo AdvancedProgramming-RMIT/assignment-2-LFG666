@@ -47,10 +47,11 @@
                   			<Font size="24.0" />
                					</font>
             						</Label>
-            					<TableView fx:id="CustomersTableView" layoutX="47.0" layoutY="203.0" prefHeight="347.0" prefWidth="381.0">
+            					<TableView fx:id="tableView" layoutX="47.0" layoutY="250.0" prefHeight="300.0" prefWidth="381.0">
              				 <columns>
-                		<TableColumn fx:id="CustomerIDColumn" prefWidth="130.0" text="Resident ID" />
-                	<TableColumn fx:id="CustomerNameColumn" minWidth="0.0" prefWidth="230.0" text="Resident Name" />
+                		<TableColumn fx:id="FNameColumn" prefWidth="130.0" text="First Name" />
+                	<TableColumn fx:id="LNameColumn" minWidth="0.0" prefWidth="130.0" text="Last Name" />
+                	<TableColumn fx:id="RoomColumn" minWidth="0.0" prefWidth="130.0" text="Room Number" />                	
               </columns>
             </TableView>
             <TextField fx:id="searchCustomerTextBox" layoutX="220.0" layoutY="139.0" prefHeight="31.0" prefWidth="149.0" />

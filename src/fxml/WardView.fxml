@@ -42,7 +42,7 @@
          <children>
          <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="left-pane">
       	   <children>
-            <GridPane prefHeight="457.0" prefWidth="333.0">
+            <GridPane prefHeight="468.0" prefWidth="343.0" gridLinesVisible="true">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -53,128 +53,128 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="w1r1b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Button fx:id="w1r2b2"  mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <Button fx:id="w1r1b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" onMouseClicked="#onClickW1R1B1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="w1r2b2"  mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" onMouseClicked="#onClickW1R2B2" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="w1r2b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <Button fx:id="w1r2b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" onMouseClicked="#onClickW1R2B1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Rectangle fx:id="w1r3b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  <Button fx:id="w1r3b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R3B1"  GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r3b2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r3b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R3B2"  GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r3b3" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r3b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R3B3"  GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" left="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r3b4" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r3b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R3B4"  GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" right="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r4b1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r4b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R4B1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r4b2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r4b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R4B2"  GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r4b3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r4b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R4B3"  GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" left="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r4b4" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r4b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R4B4" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" right="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r5b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r5b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R5B1"  GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r5b3" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r5b3"  mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R5B3"  GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" left="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r5b2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r5b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R5B2"  GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r5b4" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r5b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R5B4"  GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" right="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r6b1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r6b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R6B1"  GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r6b2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  </Button>
+                  <Button fx:id="w1r6b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R6B2"  GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="15.0" top="35.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r6b3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r6b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R6B3"  GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" left="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Rectangle fx:id="w1r6b4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  </Button>
+                  <Button fx:id="w1r6b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW1R6B4"  GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="35.0" right="15.0" />
                      </GridPane.margin>
-                  </Rectangle>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="84.0" text="WARD 1" textAlignment="JUSTIFY" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  </Button>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="84.0" text="WARD 1" textAlignment="JUSTIFY" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label text="Room 1" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                  <Label text="Room 1" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Room 2" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                  <Label text="Room 2" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Room 3"  textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  <Label text="Room 3"  textFill="WHITE" style="-fx-font-weight: bold;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Room 4" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  <Label text="Room 4" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Room 5" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  <Label text="Room 5" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Room 6" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  <Label text="Room 6" textFill="WHITE" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -278,7 +278,7 @@
       </HBox>
        <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="right-pane">
       <children>
-      <GridPane prefHeight="468.0" prefWidth="343.0">
+      <GridPane prefHeight="468.0" prefWidth="343.0" gridLinesVisible="true">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -298,130 +298,130 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" stroke="BLACK" strokeType="INSIDE" width="44.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" stroke="BLACK" strokeType="INSIDE" width="44.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" stroke="BLACK" strokeType="INSIDE" width="44.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Rectangle fx:id="w2r1b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="44.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Rectangle fx:id="w2r2b1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="44.0" GridPane.columnIndex="1">
+            <Button fx:id="w2r1b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R1B1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="w2r2b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R2B1" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r3b3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r3b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R3B3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" left="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r4b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r4b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R4B1" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r5b1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r5b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R5B1" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r6b1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r6b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R6B1" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r2b2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="173.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            </Button>
+            <Button fx:id="w2r2b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R2B2" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r3b1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="10.0" layoutY="229.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r3b1" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R3B1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r3b2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r3b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R3B2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r3b4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r3b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R3B4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" right="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r4b3" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r4b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R4B3" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" left="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r5b3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r5b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R5B3" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" left="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r6b3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r6b3" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R6B3" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" left="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r4b2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r4b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R4B2" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r5b2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r5b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R5B2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r6b2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            </Button>
+            <Button fx:id="w2r6b2" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R6B2" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="15.0" top="35.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r4b4" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r4b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R4B4" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" right="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r5b4" arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r5b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R5B4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" right="15.0" />
                </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="w2r6b4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="24.0" layoutX="70.0" layoutY="75.0" onMouseClicked="#bedmenu" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            </Button>
+            <Button fx:id="w2r6b4" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" layoutX="60.0" layoutY="75.0" onMouseClicked="#onClickW2R6B4" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="35.0" right="15.0" />
                </GridPane.margin>
-            </Rectangle>
+            </Button>
             <Label alignment="CENTER" text="WARD 2" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="16.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 4" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
             <Label text="Room 6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="14.0" style="-fx-font-weight: bold;" />
                </font>
             </Label>
                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bed 1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />

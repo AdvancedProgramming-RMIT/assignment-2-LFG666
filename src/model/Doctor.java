@@ -31,7 +31,7 @@ public class Doctor extends Staff implements Person{
 
 public void displayMedicines() {
 		
-		Iterator<Medicines> it = medicines.iterator();
+		Iterator<Medicines> it = medicines.iterator(); 
 		while (it.hasNext()) {
 			System.out.println(it.next().getMName());
 		}

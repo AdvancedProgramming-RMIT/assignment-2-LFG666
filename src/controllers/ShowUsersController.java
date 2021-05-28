@@ -28,7 +28,7 @@ import databaseSQL.SQLite;
 
 public class ShowUsersController {
 	 @FXML
-	    private Button showuser;
+	    private Button suser;
 	    @FXML
 	    private Button adduser;
 	    @FXML
@@ -116,7 +116,7 @@ public class ShowUsersController {
 		
 		 @FXML
 		    void suser(MouseEvent event) throws IOException {
-		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
+		        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/AddRes.fxml"));
 		        Node node = (Node) event.getSource();
 		        Stage stage = (Stage) node.getScene().getWindow();
 		        stage.setScene(new Scene(root));
