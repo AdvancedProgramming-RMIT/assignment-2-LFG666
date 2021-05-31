@@ -49,6 +49,7 @@ public class WardViewController extends HBox {
 	private Label lblUser;
 	@FXML
 	private Button admin;
+
 	@FXML
 	private TableView<Resident> tableView;
 	@FXML
@@ -264,6 +265,28 @@ public class WardViewController extends HBox {
 
 	} 
 	
+	public void insertSpecificBedOver(String Fname, String Lname, Bed b) throws SQLException{
+
+		Connection connection = SQLite.dbConnector();
+		String St = "UPDATE overall SET idbed = ?  WHERE FName = ? AND LName = ?";
+		
+		try(PreparedStatement ps = connection.prepareStatement(St))
+		{
+			 connection.setAutoCommit(false); 
+
+		ps.setString(1, b.getIdBed());
+		ps.setString(2, Fname); 
+		ps.setString(3, Lname);
+		ps.executeUpdate();
+		connection.commit();
+		ps.close();}
+		catch (SQLException e) {
+	        System.err.println("Cannot Connect to Database");
+	    }
+
+
+	} 
+	
 	public int releaseSpecificBed(Bed b) throws SQLException{
 
 		Connection connection = SQLite.dbConnector();
@@ -277,6 +300,20 @@ public class WardViewController extends HBox {
 
 	} 
 
+	public int releaseOverallBed(String Fname, String Lname) throws SQLException{
+
+		Connection connection = SQLite.dbConnector();
+		String St = "UPDATE overall SET idbed= null WHERE FName = ? AND LName = ?";
+		PreparedStatement ps = connection.prepareStatement(St);
+		ps.setString(1, Fname);
+		ps.setString(2, Lname);
+		
+		int layout = ps.executeUpdate(); 
+		ps.close();
+		return layout;
+
+
+	} 
 
 
 	public ObservableList<Bed> SelectAll() throws SQLException {
@@ -305,6 +342,11 @@ public class WardViewController extends HBox {
 			 	    	for(Bed b : ResInBed) {
 			 	    	if(sI.getFname().equalsIgnoreCase(b.getResident().getFname()))	{
 			 	    		b.setIsBedAvail(true);
+			 	    		try {
+			 	    			releaseOverallBed(b.getResident().getFname(), b.getResident().getLname());
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
 			 	    		b.setResident(null);
 			 	    		try {
 								releaseSpecificBed(b);
@@ -318,9 +360,8 @@ public class WardViewController extends HBox {
 								e.printStackTrace();
 							}
 			 	    	}
-			 	    	}
-
-	}
+			 	    	}}
+			 	    	
 
 	
 	@FXML
@@ -350,7 +391,6 @@ public class WardViewController extends HBox {
 			public ObservableValue<String> call(CellDataFeatures<Resident, String> param) {
 					
 						for(Bed c : ResInBed) {
-							System.out.println(c.getResident());
 						if(c.getResident().getFname().equals(param.getValue().getName())){
 							return c.idBedProperty();
 						}
@@ -494,12 +534,11 @@ public class WardViewController extends HBox {
 					w1r3b4.getStyleClass().removeAll(style2);
 					w1r3b4.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r3b4.setStyle(style2);
-				}
 				b = BedList.get(6);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("8")) {
 					w1r4b1.setStyle(style2);
 					b.getResident().getGender();
@@ -510,12 +549,11 @@ public class WardViewController extends HBox {
 					w1r4b1.getStyleClass().removeAll(style2);
 					w1r4b1.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r4b1.setStyle(style2);
-				}
 				b = BedList.get(7);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("9")) {
 					w1r4b2.setStyle(style2);
 					b.getResident().getGender();
@@ -526,12 +564,11 @@ public class WardViewController extends HBox {
 					w1r4b2.getStyleClass().removeAll(style2);
 					w1r4b2.setStyle(style3); 	 	        		 	 	
 				}
-				else {
-					w1r4b2.setStyle(style2);
-				}
+				if(b.getResident().getGender().isEmpty()) {
+					w1r4b2.setStyle(style2);				
 				b = BedList.get(8);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("10")) {
 					w1r4b3.setStyle(style2);
 					b.getResident().getGender();
@@ -542,12 +579,11 @@ public class WardViewController extends HBox {
 					w1r4b3.getStyleClass().removeAll(style2);
 					w1r4b3.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r4b3.setStyle(style2);
-				}
 				b = BedList.get(9);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("11")) {
 					w1r4b4.setStyle(style2);
 					b.getResident().getGender();
@@ -558,12 +594,11 @@ public class WardViewController extends HBox {
 					w1r4b4.getStyleClass().removeAll(style2);
 					w1r4b4.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r4b4.setStyle(style2);
-				}
 				b = BedList.get(10);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("12")) {
 					w1r5b1.setStyle(style2);
 					b.getResident().getGender();
@@ -574,12 +609,11 @@ public class WardViewController extends HBox {
 					w1r5b1.getStyleClass().removeAll(style2);
 					w1r5b1.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r5b1.setStyle(style2);
-				}
 				b = BedList.get(11);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("13")) {
 					w1r5b2.setStyle(style2);
 					b.getResident().getGender();
@@ -590,12 +624,11 @@ public class WardViewController extends HBox {
 					w1r5b2.getStyleClass().removeAll(style2);
 					w1r5b2.setStyle(style3); 	 	        		 	 	
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r5b2.setStyle(style2);
-				}
 				b = BedList.get(12);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("14")) {
 					w1r5b3.setStyle(style2);
 					b.getResident().getGender();
@@ -606,12 +639,11 @@ public class WardViewController extends HBox {
 					w1r5b3.getStyleClass().removeAll(style2);
 					w1r5b3.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r5b3.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(13);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("15")) {
 					w1r5b4.setStyle(style2);
 					b.getResident().getGender();
@@ -622,12 +654,11 @@ public class WardViewController extends HBox {
 					w1r5b4.getStyleClass().removeAll(style2);
 					w1r5b4.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w1r5b4.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(14);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("16")) {
 					w1r6b1.setStyle(style2);
 				b.getResident().getGender();
@@ -638,12 +669,11 @@ public class WardViewController extends HBox {
 				w1r6b1.getStyleClass().removeAll(style2);
 				w1r6b1.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w1r6b1.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(15);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("17")) {
 					w1r6b2.setStyle(style2);
 				b.getResident().getGender();
@@ -654,12 +684,11 @@ public class WardViewController extends HBox {
 				w1r6b2.getStyleClass().removeAll(style2);
 				w1r6b2.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w1r6b2.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(16);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("18")) {
 					w1r6b3.setStyle(style2);
 				b.getResident().getGender();
@@ -670,12 +699,11 @@ public class WardViewController extends HBox {
 				w1r6b3.getStyleClass().removeAll(style2);
 				w1r6b3.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w1r6b3.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(17);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("19")) {
 					w1r6b4.setStyle(style2);
 				b.getResident().getGender();
@@ -686,12 +714,11 @@ public class WardViewController extends HBox {
 				w1r6b4.getStyleClass().removeAll(style2);
 				w1r6b4.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w1r6b4.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(18);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("20")) {
 					w2r1b1.setStyle(style2);
 				b.getResident().getGender();
@@ -702,12 +729,11 @@ public class WardViewController extends HBox {
 				w2r1b1.getStyleClass().removeAll(style2);
 				w2r1b1.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r1b1.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(19);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("21")) {
 					w2r2b1.setStyle(style2);
 				b.getResident().getGender();
@@ -718,12 +744,11 @@ public class WardViewController extends HBox {
 				w2r2b1.getStyleClass().removeAll(style2);
 				w2r2b1.setStyle(style3);
 			}
-			else {
-				w2r2b1.setStyle(style2);	 	        		 	 	
-			}
+			if(b.getResident().getGender().isEmpty()) {
+				w2r2b1.setStyle(style2);	 	        		
 			b = BedList.get(20);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("22")) {
 					w2r2b2.setStyle(style2);
 				b.getResident().getGender();
@@ -734,12 +759,11 @@ public class WardViewController extends HBox {
 				w2r2b2.getStyleClass().removeAll(style2);
 				w2r2b2.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r2b2.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(21);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("23")) {
 				w2r3b1.setStyle(style2);
 				b.getResident().getGender();
@@ -750,12 +774,11 @@ public class WardViewController extends HBox {
 				w2r3b1.getStyleClass().removeAll(style2);
 				w2r3b1.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r3b1.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(22);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("24")) {
 				w2r3b2.setStyle(style2);
 				b.getResident().getGender();
@@ -766,12 +789,11 @@ public class WardViewController extends HBox {
 				w2r3b2.getStyleClass().removeAll(style2);
 				w2r3b2.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r3b2.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(23);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("25")) {
 				w2r3b3.setStyle(style2);
 				b.getResident().getGender();
@@ -782,12 +804,11 @@ public class WardViewController extends HBox {
 				w2r3b3.getStyleClass().removeAll(style2);
 				w2r3b3.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r3b3.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(24);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("26")) {
 				w2r3b4.setStyle(style2);
 				b.getResident().getGender();
@@ -798,12 +819,11 @@ public class WardViewController extends HBox {
 				w2r3b4.getStyleClass().removeAll(style2);
 				w2r3b4.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r3b4.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(25);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("27")) {
 				w2r4b1.setStyle(style2);
 				b.getResident().getGender();
@@ -814,12 +834,11 @@ public class WardViewController extends HBox {
 				w2r4b1.getStyleClass().removeAll(style2);
 				w2r4b1.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r4b1.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(26);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("28")) {
 					w2r4b2.setStyle(style2);
 					b.getResident().getGender();
@@ -830,12 +849,11 @@ public class WardViewController extends HBox {
 					w2r4b2.getStyleClass().removeAll(style2);
 					w2r4b2.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r4b2.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(27);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("29")) {
 					w2r4b3.setStyle(style2);
 					b.getResident().getGender();
@@ -846,12 +864,11 @@ public class WardViewController extends HBox {
 					w2r4b3.getStyleClass().removeAll(style2);
 					w2r4b3.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r4b3.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(28);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("30")) {
 					w2r4b4.setStyle(style2);
 					b.getResident().getGender();
@@ -862,12 +879,11 @@ public class WardViewController extends HBox {
 					w2r4b4.getStyleClass().removeAll(style2);
 					w2r4b4.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r4b4.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(29);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("31")) {
 					w2r5b1.setStyle(style2);
 					b.getResident().getGender();
@@ -878,12 +894,11 @@ public class WardViewController extends HBox {
 					w2r5b1.getStyleClass().removeAll(style2);
 					w2r5b1.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r5b1.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(30);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("32")) {
 					w2r5b2.setStyle(style2);
 					b.getResident().getGender();
@@ -894,12 +909,11 @@ public class WardViewController extends HBox {
 					w2r5b2.getStyleClass().removeAll(style2);
 					w2r5b2.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r5b2.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(31);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("33")) {
 					w2r5b3.setStyle(style2);
 					b.getResident().getGender();
@@ -910,12 +924,11 @@ public class WardViewController extends HBox {
 					w2r5b3.getStyleClass().removeAll(style2);
 					w2r5b3.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r5b3.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(32);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("34")) {
 					w2r5b4.setStyle(style2);
 					b.getResident().getGender();
@@ -926,12 +939,11 @@ public class WardViewController extends HBox {
 					w2r5b4.getStyleClass().removeAll(style2);
 					w2r5b4.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r5b4.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(33);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("35")) {
 					w2r6b1.setStyle(style2);
 					b.getResident().getGender();
@@ -942,12 +954,11 @@ public class WardViewController extends HBox {
 					w2r6b1.getStyleClass().removeAll(style2);
 					w2r6b1.setStyle(style3);
 				}
-				else {
+				if(b.getResident().getGender().isEmpty()) {
 					w2r6b1.setStyle(style2);	 	        		 	 	
-				}
 				b = BedList.get(34);
 				b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("36")) {
 				w2r6b2.setStyle(style2);
 				b.getResident().getGender();
@@ -958,12 +969,11 @@ public class WardViewController extends HBox {
 				w2r6b2.getStyleClass().removeAll(style2);
 				w2r6b2.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r6b2.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(35);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("37")) {
 				w2r6b3.setStyle(style2);
 				b.getResident().getGender();
@@ -974,12 +984,11 @@ public class WardViewController extends HBox {
 				w2r6b3.getStyleClass().removeAll(style2);
 				w2r6b3.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r6b3.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(36);
 			b.setIsBedAvail(false);
-				}
+				}}
 				if (b.getIdBed().equals("38")) {
 					w2r6b4.setStyle(style2);
 				b.getResident().getGender();
@@ -990,12 +999,11 @@ public class WardViewController extends HBox {
 				w2r6b4.getStyleClass().removeAll(style2);
 				w2r6b4.setStyle(style3);
 			}
-			else {
+			if(b.getResident().getGender().isEmpty()) {
 				w2r6b4.setStyle(style2);	 	        		 	 	
-			}
 			b = BedList.get(37);
 			b.setIsBedAvail(false);
-				}}}
+				}}}}
 
 			}
 
@@ -1030,6 +1038,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1084,6 +1093,7 @@ public class WardViewController extends HBox {
 					b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1133,6 +1143,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1186,6 +1197,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1239,6 +1251,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1289,6 +1302,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1340,6 +1354,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1389,6 +1404,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1438,6 +1454,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1487,6 +1504,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1537,6 +1555,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1587,6 +1606,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1637,6 +1657,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1686,6 +1707,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1735,6 +1757,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1783,6 +1806,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1831,6 +1855,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1878,6 +1903,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1926,6 +1952,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1974,6 +2001,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2024,6 +2052,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2072,6 +2101,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2119,6 +2149,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2169,6 +2200,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2217,6 +2249,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2264,6 +2297,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2311,6 +2345,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2358,6 +2393,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2405,6 +2441,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2453,6 +2490,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2500,6 +2538,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2548,6 +2587,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2595,6 +2635,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2642,6 +2683,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2689,6 +2731,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2697,7 +2740,7 @@ public class WardViewController extends HBox {
 						w2r6b1.getStyleClass().removeAll(style2);
 						w2r6b1.setStyle(style);}
 					else {
-						w2r6b1.getStyleClass().removeAll(style2);
+						w2r6b1.getStyleClass().removeAll(style2); 
 						w2r6b1.setStyle(style3); 	 	        		 	 	
 					}
 	 	    		tableView.getItems().clear();
@@ -2736,6 +2779,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2782,6 +2826,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2829,6 +2874,7 @@ public class WardViewController extends HBox {
 						b.setIsBedAvail(false);
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}

@@ -72,8 +72,7 @@ public class RegUsersController {
 
 	    int status = statement.executeUpdate("INSERT INTO users (FName,LName,username,password,type,gender" +
 	            ") VALUES ( '" + fname + "','" + lname + "','" + username + "','" + password + "','" + u_type.getValue() + "','" + u_gender.getValue() + "')");
-	    int status2 = statement.executeUpdate("INSERT INTO overall (FName,LName,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ gender +"')");
-        if (status==1 & status2==1) {
+	         if (status==1 ) {
 	        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	        alert.setTitle("User Registration");
 	        alert.setHeaderText(null);

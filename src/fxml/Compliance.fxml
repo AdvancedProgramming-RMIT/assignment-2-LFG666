@@ -65,6 +65,8 @@
 							<columns>
 								<TableColumn id="day2" fx:id="day2"
 									editable="false" prefWidth="63.0" text="Day" />
+									<TableColumn id="shift2" fx:id="shift2"
+									editable="false" prefWidth="63.0" text="Shift" />
 							</columns>
 						</TableView>
                   <Pane prefHeight="200.0" prefWidth="200.0">

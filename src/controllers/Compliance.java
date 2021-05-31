@@ -66,7 +66,8 @@ public class Compliance implements Initializable {
 	    private TableView<Roster> drView;
 	    @FXML
 	    private TableColumn<Roster,String> day2;
-
+	    @FXML
+	    private TableColumn<Roster,Integer> shift2;
 	    
 
 	    @FXML
@@ -191,6 +192,7 @@ public class Compliance implements Initializable {
 	    public void loadData3() {
 
 	        day2.setCellValueFactory(new PropertyValueFactory<Roster,String>("day"));
+	        shift2.setCellValueFactory(new PropertyValueFactory<Roster,Integer>("Shift"));
 	        
 
 	        try {
@@ -270,7 +272,7 @@ public class Compliance implements Initializable {
 
 		        while (rs.next()) {
 		            if (Fname.equals(rs.getString("FName"))) {
-		                Roster r = new Roster(rs.getInt("shift"), rs.getString("day"));
+		                Roster r = new Roster(rs.getInt("shift"), rs.getString("day")); 
 		                r.setShift(rs.getInt("shift"));
 			            r.setDay(rs.getString("day"));
 		                rosterArrayList.add(r);

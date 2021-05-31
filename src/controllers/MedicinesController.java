@@ -58,7 +58,7 @@ public class MedicinesController {
 	public  ObservableList<Resident> getResidentData() {
         return residentArray;
 	}
-	public  ObservableList<Medicines> medicineList = FXCollections.observableArrayList(); 
+	public  ObservableList<Medicines> medicineList = FXCollections.observableArrayList();  
 	public  ObservableList<Medicines> getMedicineData() {
         return medicineList;
 	}

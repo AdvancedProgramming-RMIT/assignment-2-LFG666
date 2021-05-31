@@ -108,8 +108,9 @@ public class ShowUsersController {
 	        Statement statement = connection.createStatement(); 
 
 	        int status = statement.executeUpdate("DELETE FROM users WHERE id= '"+selectedItem.getId()+"'");
+	        int status2 = statement.executeUpdate("DELETE FROM overall WHERE id= '"+selectedItem.getId()+"'");
 
-	        if (status==1) {
+	        if (status==1 && status2==1) {
 	            Alert alert =new Alert(Alert.AlertType.INFORMATION);
 	            alert.setTitle("Remove User");
 	            alert.setHeaderText(null);

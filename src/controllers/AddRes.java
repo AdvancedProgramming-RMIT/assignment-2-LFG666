@@ -72,7 +72,7 @@ public class AddRes {
         Statement statement = connection.createStatement();
 
         int status = statement.executeUpdate("INSERT INTO users (FName,LName,username,password,type,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ username +"','"+ password +"','" + type +"','"+ gender +"')");
-        int status2 = statement.executeUpdate("INSERT INTO overall (FName,LName,type,gender) VALUES ( '"+ fname +"','"+ lname +"','" + type +"','"+ gender +"')");
+        int status2 = statement.executeUpdate("INSERT INTO overall (FName,LName,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ gender +"')");
         if (status==1 & status2==1) {
             Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Admin.fxml"));
             Node node = (Node) event.getSource();

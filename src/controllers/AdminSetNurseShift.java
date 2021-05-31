@@ -65,7 +65,7 @@ public class AdminSetNurseShift implements Initializable{
 	 public ArrayList<Roster> SelectAll() throws SQLException {
 	        ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
 	        Connection connection = SQLite.dbConnector();
-	        String sql = "select * from users where users.FName = Nurse.FName";
+	        String sql = "select * from users where users.FName = Nurse.FName"; 
 	        PreparedStatement ps = connection.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();
 
