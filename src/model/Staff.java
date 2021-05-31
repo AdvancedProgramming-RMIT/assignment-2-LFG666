@@ -24,7 +24,10 @@ public abstract class Staff {
 		private StringProperty username = new SimpleStringProperty();
 		protected static ArrayList<Roster> roster;
 
-		
+		private String data1;
+
+		public Staff(String data1) { this.data1 = data1; }
+		public String getData1() { return data1; }
 		
 		public Staff() {
 			id.set(0);
@@ -52,7 +55,10 @@ public abstract class Staff {
 			return id.get() + ","
 				+	Fname.get() + ","
 				+	roster;
+
 		}
+
+		
 		 public static ArrayList<Roster> getRoster() {
 		        return roster;
 		    }
@@ -117,7 +123,16 @@ public abstract class Staff {
 			    return this.type.get();	
 			    }
 
+		    @Override
+		    public boolean equals(Object other){
+		        Staff otherC = (Staff) other;
+		        return this.getData1().equals(otherC.getData1());
+		    }
 
+		    @Override
+		    public int hashCode() {
+		        return data1.hashCode();
+		    }
 		    public void setType(String type) {
 		        this.type.set(type);
 		    }

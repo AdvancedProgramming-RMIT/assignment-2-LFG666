@@ -223,7 +223,7 @@ public void JavafxChoiceFill() throws SQLException {
 
 	        ps.close();
 	        rs.close();
-	        return rosterArrayList;
+	        return rosterArrayList; 
 	    }
 	 
 

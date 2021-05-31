@@ -21,6 +21,8 @@ public class AdminController {
     @FXML
     private Button logout;
     @FXML
+    private Button comp;
+    @FXML
     private Button addres;
     @FXML
     private Button wardadmin;
@@ -94,6 +96,15 @@ public class AdminController {
 	        Stage stage = (Stage) node.getScene().getWindow();
 	        stage.setScene(new Scene(root));
 	        stage.setTitle("Register Users");
+
+	    }
+	    @FXML
+	    void comp(MouseEvent event) throws IOException {
+	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Compliance.fxml"));
+	        Node node = (Node) event.getSource();
+	        Stage stage = (Stage) node.getScene().getWindow();
+	        stage.setScene(new Scene(root));
+	        stage.setTitle("Compliance");
 
 	    }
 

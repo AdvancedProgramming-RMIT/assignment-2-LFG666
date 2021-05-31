@@ -97,7 +97,7 @@ public class AdminSetNurseShift implements Initializable{
 	        ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
 	        String sql = "select * from nurroster";
 	        Connection connection = SQLite.dbConnector();
-	        PreparedStatement ps = connection.prepareStatement(sql);
+	        PreparedStatement ps = connection.prepareStatement(sql); 
 	        ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {

@@ -29,11 +29,9 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Bed;
-import model.Room;
 import model.Resident;
 
 public class WardViewController extends HBox {
@@ -152,6 +150,179 @@ public class WardViewController extends HBox {
 	public  ObservableList<Bed> ResBed = FXCollections.observableArrayList();
 	public  ObservableList<Bed> ResInBed = FXCollections.observableArrayList();
 
+	
+	public ObservableList<Resident> selectAll() throws SQLException {
+		ObservableList<Resident> list = FXCollections.observableArrayList();
+		System.out.println(list);
+
+		String sql = "select * from users where type = 'RESIDENT'";
+		Connection connection = SQLite.dbConnector();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+			Resident r = new Resident(rs.getInt("id"), rs.getString("FName"), rs.getString("LName"), rs.getString("type"), rs.getString("gender"));
+			list.add(r);
+		}
+
+		ps.close();
+		rs.close();
+
+		return list;
+	}
+
+	public ObservableList<Bed> SelectAllByFname(String Fname) throws SQLException {
+
+		ObservableList<Bed> ResBed = FXCollections.observableArrayList();
+		String sql = "select * from bed";
+		Connection connection = SQLite.dbConnector();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			if (Fname.equals(rs.getString("Fname"))) {
+				Resident r = new Resident(rs.getString("Fname"), rs.getString("Lname"), rs.getString("gender"));
+				Bed bo = new Bed(r, rs.getString("idbed"));
+				r.setFname(rs.getString("FName"));
+				r.setLname(rs.getString("LName"));
+				r.setGender(rs.getString("gender"));
+				bo.setIdBed(rs.getString("idbed"));
+				ResBed.add(bo);
+			}
+		}
+
+		ps.close();
+		rs.close();
+		return ResBed;
+	}
+
+
+
+	public ObservableList<Bed> SelectBed() throws SQLException {
+		ObservableList<Bed> bedList = FXCollections.observableArrayList();
+		Connection connection = SQLite.dbConnector();
+		String sql =  "select * from bed";   
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+
+		while (rs.next()) {
+			Bed b = new Bed(rs.getString("idbed"));
+			b.setIdBed(rs.getString("idbed"));
+			bedList.add(b);
+		}
+
+		ps.close();
+		rs.close();
+		return bedList;
+	}
+
+	public ObservableList<Bed> SelectBeds() throws SQLException {
+		ObservableList<Bed> bedsLists = FXCollections.observableArrayList();
+		Connection connection = SQLite.dbConnector();
+		String sql =  "select FName, LName, idbed, gender from bed where FName is not NULL";   
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+
+		while (rs.next()) {
+			Resident r = new Resident(rs.getString("fname"), rs.getString("lname"), rs.getString("gender"));
+			Bed b = new Bed(r, rs.getString("idbed"));
+			r.setFname(rs.getString("FName"));
+			r.setLname(rs.getString("LName"));
+			r.setGender(rs.getString("gender"));
+			b.setIdBed(rs.getString("idbed"));
+			bedsLists.add(b);
+		}
+
+		ps.close();
+		rs.close();
+		return bedsLists;
+	}
+
+	public void insertSpecificBed(String Fname, String Lname, Bed b, String gender) throws SQLException{
+
+		Connection connection = SQLite.dbConnector();
+		String St = "UPDATE bed SET FName = ?, LName = ?, gender = ? WHERE idbed = ?";
+		
+		try(PreparedStatement ps = connection.prepareStatement(St))
+		{
+			 connection.setAutoCommit(false); 
+
+		ps.setString(1, Fname); 
+		ps.setString(2, Lname);
+		ps.setString(4, b.getIdBed());
+		ps.setString(3, gender);
+		ps.executeUpdate();
+		connection.commit();
+		ps.close();}
+		catch (SQLException e) {
+	        System.err.println("Cannot Connect to Database");
+	    }
+
+
+	} 
+	
+	public int releaseSpecificBed(Bed b) throws SQLException{
+
+		Connection connection = SQLite.dbConnector();
+		String St = "UPDATE bed SET FName= null, LName= null, gender= null WHERE idbed=?";
+		PreparedStatement ps = connection.prepareStatement(St);
+		ps.setString(1, b.getIdBed());
+		int layout = ps.executeUpdate(); 
+		ps.close();
+		return layout;
+
+
+	} 
+
+
+
+	public ObservableList<Bed> SelectAll() throws SQLException {
+		ObservableList<Bed> bedList = FXCollections.observableArrayList();
+		Connection connection = SQLite.dbConnector();
+		String sql =  "select * from residents, overall where residents.FName = overall.FName"; 
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+
+		while (rs.next()) {
+
+			Resident r = new Resident(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("type"), rs.getString("gender"));
+
+			Bed b = new Bed(r, rs.getString("idbed"));
+			bedList.add(b);
+		}
+
+		ps.close();
+		rs.close();
+		return bedList;
+	}
+	@FXML
+	public void removeResident(MouseEvent event) {
+			 	    	Resident sI = tableView.getSelectionModel().getSelectedItem();
+			 	    	for(Bed b : ResInBed) {
+			 	    	if(sI.getFname().equalsIgnoreCase(b.getResident().getFname()))	{
+			 	    		b.setIsBedAvail(true);
+			 	    		b.setResident(null);
+			 	    		try {
+								releaseSpecificBed(b);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+			 	    		tableView.getItems().clear();
+							try {
+								bedmenu2(event);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+			 	    	}
+			 	    	}
+
+	}
+
+	
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -207,7 +378,7 @@ public class WardViewController extends HBox {
 		ResidentList = selectAll();
 		BedList = SelectBed();
 		ResInBed = SelectBeds();
-		for (Resident r : ResidentList) {
+		for (Resident r : ResidentList) { 
 			ResBed = null;
 			ResBed = SelectAllByFname(r.getFname());
 
@@ -828,176 +999,6 @@ public class WardViewController extends HBox {
 
 			}
 
-			public ObservableList<Resident> selectAll() throws SQLException {
-				ObservableList<Resident> list = FXCollections.observableArrayList();
-				System.out.println(list);
-
-				String sql = "select * from users where type = 'RESIDENT'";
-				Connection connection = SQLite.dbConnector();
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
-
-				while (rs.next()) {
-
-					Resident r = new Resident(rs.getInt("id"), rs.getString("FName"), rs.getString("LName"), rs.getString("type"), rs.getString("gender"));
-					list.add(r);
-				}
-
-				ps.close();
-				rs.close();
-
-				return list;
-			}
-
-			public ObservableList<Bed> SelectAllByFname(String Fname) throws SQLException {
-
-				ObservableList<Bed> ResBed = FXCollections.observableArrayList();
-				String sql = "select * from bed";
-				Connection connection = SQLite.dbConnector();
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
-
-				while (rs.next()) {
-					if (Fname.equals(rs.getString("Fname"))) {
-						Resident r = new Resident(rs.getString("Fname"), rs.getString("Lname"), rs.getString("gender"));
-						Bed bo = new Bed(r, rs.getString("idbed"));
-						r.setFname(rs.getString("FName"));
-						r.setLname(rs.getString("LName"));
-						r.setGender(rs.getString("gender"));
-						bo.setIdBed(rs.getString("idbed"));
-						ResBed.add(bo);
-					}
-				}
-
-				ps.close();
-				rs.close();
-				return ResBed;
-			}
-
-
-
-			public ObservableList<Bed> SelectBed() throws SQLException {
-				ObservableList<Bed> bedList = FXCollections.observableArrayList();
-				Connection connection = SQLite.dbConnector();
-				String sql =  "select * from bed";   
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
-
-
-				while (rs.next()) {
-					Bed b = new Bed(rs.getString("idbed"));
-					b.setIdBed(rs.getString("idbed"));
-					bedList.add(b);
-				}
-
-				ps.close();
-				rs.close();
-				return bedList;
-			}
-
-			public ObservableList<Bed> SelectBeds() throws SQLException {
-				ObservableList<Bed> bedsLists = FXCollections.observableArrayList();
-				Connection connection = SQLite.dbConnector();
-				String sql =  "select FName, LName, idbed, gender from bed where FName is not NULL";   
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
-
-
-				while (rs.next()) {
-					Resident r = new Resident(rs.getString("fname"), rs.getString("lname"), rs.getString("gender"));
-					Bed b = new Bed(r, rs.getString("idbed"));
-					r.setFname(rs.getString("FName"));
-					r.setLname(rs.getString("LName"));
-					r.setGender(rs.getString("gender"));
-					b.setIdBed(rs.getString("idbed"));
-					bedsLists.add(b);
-				}
-
-				ps.close();
-				rs.close();
-				return bedsLists;
-			}
-
-			public void insertSpecificBed(String Fname, String Lname, Bed b, String gender) throws SQLException{
-
-				Connection connection = SQLite.dbConnector();
-				String St = "UPDATE bed SET FName = ?, LName = ?, gender = ? WHERE idbed = ?";
-				
-				try(PreparedStatement ps = connection.prepareStatement(St))
-				{
-					 connection.setAutoCommit(false); 
-
-				ps.setString(1, Fname); 
-				ps.setString(2, Lname);
-				ps.setString(4, b.getIdBed());
-				ps.setString(3, gender);
-				ps.executeUpdate();
-				connection.commit();
-				ps.close();}
-				catch (SQLException e) {
-			        System.err.println("Cannot Connect to Database");
-			    }
-
-
-			} 
-			
-			public int releaseSpecificBed(Bed b) throws SQLException{
-
-				Connection connection = SQLite.dbConnector();
-				String St = "UPDATE bed SET FName= null, LName= null, gender= null WHERE idbed=?";
-				PreparedStatement ps = connection.prepareStatement(St);
-				ps.setString(1, b.getIdBed());
-				int layout = ps.executeUpdate();
-				ps.close();
-				return layout;
-
-
-			} 
-
-
-
-			public ObservableList<Bed> SelectAll() throws SQLException {
-				ObservableList<Bed> bedList = FXCollections.observableArrayList();
-				Connection connection = SQLite.dbConnector();
-				String sql =  "select * from residents, overall where residents.FName = overall.FName"; 
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
-
-
-				while (rs.next()) {
-
-					Resident r = new Resident(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("type"), rs.getString("gender"));
-
-					Bed b = new Bed(r, rs.getString("idbed"));
-					bedList.add(b);
-				}
-
-				ps.close();
-				rs.close();
-				return bedList;
-			}
-			@FXML
-			public void removeResident(MouseEvent event) {
-					 	    	Resident sI = tableView.getSelectionModel().getSelectedItem();
-					 	    	for(Bed b : ResInBed) {
-					 	    	if(sI.getFname().equalsIgnoreCase(b.getResident().getFname()))	{
-					 	    		b.setIsBedAvail(true);
-					 	    		b.setResident(null);
-					 	    		try {
-										releaseSpecificBed(b);
-									} catch (SQLException e) {
-										e.printStackTrace();
-									}
-					 	    		tableView.getItems().clear();
-									try {
-										bedmenu2(event);
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-					 	    	}
-					 	    	}
-
-			}
 
 			//Add Tab   --->   Evening shift
 			@FXML

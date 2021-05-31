@@ -2,9 +2,12 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.InputMismatchException;
+import java.util.Optional;
 
 import Application.Constants;
 import javafx.collections.FXCollections;
@@ -19,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -74,7 +79,7 @@ public class ShowUsersController {
 	    }
 
 	    public ObservableList<Data> getUsers(){
-	        ObservableList<Data> Data= FXCollections.observableArrayList();
+	        ObservableList<Data> Data= FXCollections.observableArrayList(); 
 	        try {
 	            Connection connection = SQLite.dbConnector();
 	            Statement statement = connection.createStatement();
@@ -113,6 +118,65 @@ public class ShowUsersController {
 	        }
 	    }
 
+	    @FXML
+	    public void edData() throws SQLException {
+	    	Data sI = tableView.getSelectionModel().getSelectedItem();
+	    	if(sI.getType().equalsIgnoreCase("RESIDENT") || sI.getType().equalsIgnoreCase("ADMIN")) {
+	    		Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Cannot change Password for this user");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+	    	}
+	    	else {
+	    		try {
+	    	    	
+	    			TextInputDialog dialog = new TextInputDialog("");
+					dialog.setTitle("Update Staff Details");
+					dialog.setContentText("Please enter new password : ");
+					Optional<String> result = dialog.showAndWait();
+					if (result.isPresent()){
+						
+					Connection connection= SQLite.dbConnector();				
+					String St = "UPDATE users SET password = ? WHERE id= '"+sI.getId()+"'";
+					try(PreparedStatement ps = connection.prepareStatement(St))
+					{
+					connection.setAutoCommit(false); 
+					ps.setString(1, result.get()); 
+					ps.executeUpdate();
+					connection.commit();
+					ps.close();}
+					catch (SQLException e) {
+				        System.err.println("Cannot Connect to Database");
+				    }
+		 
+					            Alert alert =new Alert(Alert.AlertType.INFORMATION);
+					            alert.setTitle("Remove User");
+					            alert.setHeaderText(null);
+					            alert.setContentText("User "+sI.getFname()+" "+sI.getLname()+" Password has been changed successfuly!");
+					            alert.showAndWait();
+					        
+						
+					}
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Please enter a valid password");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}
+	    		}
+	    	    		catch(InputMismatchException e) {
+	    	    			System.err.println("Only positive numbers allowed");}}
+	    	    		
+
+	    		
+				
+	    	}
+
+
+	       
 		
 		 @FXML
 		    void suser(MouseEvent event) throws IOException {

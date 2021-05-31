@@ -23,6 +23,7 @@ public Roster() {
 }
 
 
+
 public Roster(Staff s, Integer Shift, String day) {
     setStaff(s);
     this.day.set(day);
@@ -64,17 +65,42 @@ public Integer getShift(){
 public void setShift(Integer Shift) {
     this.Shift.set(Shift);
 }
+public boolean containsText(String key) {
+    // your choice whether to use equals or equalsIgnoreCase
+    return key.equals(day) 
+            || key.equals(Shift.asString()); 
+
+}
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+        return true;
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    Roster other = (Roster) obj;
+    if (Shift != other.Shift)
+        return false;
+    return true;
+}
+
+@Override
+public int hashCode() {
+	 final int prime = 31;
+     int result = 1;
+     result = prime * result + Shift.get();
+     return result;
+}
 
 @Override
 public String toString() {
     return "Roster{" +
-            "staff=" + staff.getFname() +
+//            "staff=" + staff.getFname() +
             ", Day='" + day + '\'' +
             ", Shift=" + Shift +
             '}';
 }
-
-
 
 
 

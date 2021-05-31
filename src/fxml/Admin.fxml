@@ -21,7 +21,8 @@
                <children>
                   <Button fx:id="showuser" alignment="CENTER" layoutX="57.0" layoutY="123.0" mnemonicParsing="false" onMousePressed="#suser" prefHeight="30.0" prefWidth="250.0" text="Show User" />
                   <Button fx:id="adduser" alignment="CENTER" layoutX="152.0" layoutY="87.0" mnemonicParsing="false" onMousePressed="#rusers" prefHeight="30.0" prefWidth="250.0" text="Add Staff" />
-                  <Button fx:id="addres" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#addres" prefHeight="30.0" prefWidth="250.0" text="Add Resident" />                                 
+                  <Button fx:id="addres" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#addres" prefHeight="30.0" prefWidth="250.0" text="Add Resident" />
+                  <Button fx:id="comp" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#comp" prefHeight="30.0" prefWidth="250.0" text="Compliance" />                                 
                   <Button fx:id="doctorshift" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#docroster" prefHeight="30.0" prefWidth="250.0" text="Doctor Roster" />                  
                   <Button fx:id="nurseshift" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#nurroster" prefHeight="30.0" prefWidth="250.0" text="Nurse Roster" />
                   <Button fx:id="wardadmin" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#wardv" prefHeight="30.0" prefWidth="250.0" text="Ward Admin" />

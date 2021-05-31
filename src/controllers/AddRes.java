@@ -74,7 +74,7 @@ public class AddRes {
         int status = statement.executeUpdate("INSERT INTO users (FName,LName,username,password,type,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ username +"','"+ password +"','" + type +"','"+ gender +"')");
         int status2 = statement.executeUpdate("INSERT INTO overall (FName,LName,type,gender) VALUES ( '"+ fname +"','"+ lname +"','" + type +"','"+ gender +"')");
         if (status==1 & status2==1) {
-            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Nurse.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Admin.fxml"));
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -83,7 +83,7 @@ public class AddRes {
             alert.setHeaderText(null);
             alert.setContentText("Resident has been Registered Succesfuly!");
             alert.showAndWait();
-            stage.setTitle("Nurse Home Page");
+            stage.setTitle("Admin Home Page");
 
         }
         }
