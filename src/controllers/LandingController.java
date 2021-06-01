@@ -35,6 +35,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import Application.Constants;
 
@@ -77,6 +79,9 @@ public class LandingController {
 	
 	@FXML
 	private Button Name;
+	
+	public static List<String> loggedInUsers = new ArrayList<String>();
+	
 
 	
 	public void btnEnd_button() {
@@ -177,6 +182,7 @@ public class LandingController {
                 admin.setLname(resultSet.getString("LName"));
                 admin.setType(resultSet.getString("type"));
                 admin.setGender(resultSet.getString("gender"));
+                loggedInUsers.add(admin.getFname());
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
@@ -204,6 +210,7 @@ public class LandingController {
                 doctor.setLname(resultSet.getString("LName"));
                 doctor.setType(resultSet.getString("type"));
                 doctor.setGender(resultSet.getString("gender"));
+                loggedInUsers.add(doctor.getFname());
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
@@ -232,7 +239,8 @@ public class LandingController {
                 nurse.setLname(resultSet.getString("LName"));
                 nurse.setType(resultSet.getString("type"));
                 nurse.setGender(resultSet.getString("gender"));
-
+                String fullname = nurse.getFname() + " " + nurse.getLname();
+                loggedInUsers.add(fullname);
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Nurse.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();

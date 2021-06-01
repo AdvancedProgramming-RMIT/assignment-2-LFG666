@@ -123,16 +123,7 @@ public abstract class Staff {
 			    return this.type.get();	
 			    }
 
-		    @Override
-		    public boolean equals(Object other){
-		        Staff otherC = (Staff) other;
-		        return this.getData1().equals(otherC.getData1());
-		    }
-
-		    @Override
-		    public int hashCode() {
-		        return data1.hashCode();
-		    }
+		   
 		    public void setType(String type) {
 		        this.type.set(type);
 		    }

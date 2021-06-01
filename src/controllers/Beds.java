@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.prefs.Preferences;
@@ -377,31 +378,57 @@ public class Beds {
 								param -> prefs.put(KEY_AUTO_EXIT, param ? "Always" : "Never"), ButtonType.YES, ButtonType.NO);
 						if (alert.showAndWait().filter(t -> t == ButtonType.YES).isPresent()) {
 						    alert = new Alert(Alert.AlertType.INFORMATION);
-							alert.setTitle("Doctor Request");
+							alert.setTitle("Medicine administed");
 							alert.setHeaderText(null);
-							alert.setContentText("Your request has been filed! :(");
-							alert.showAndWait();
-						}}}}}
+							alert.setContentText("Patient has been administed medicine! :(");
+							alert.showAndWait();		
+							 Connection connection= SQLite.dbConnector(); 
+							 String NName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+							 String RName = sI.getFname() + " " + sI.getLname();
+							 String MName = a.getMname();
+							 int dosage = a.getDosage();
+							 int times = a.getTimes();
+							 java.util.Date date = new Date();
+						       Object time = new java.sql.Timestamp(date.getTime());    
+						       String insertString3 = "INSERT INTO nurseadm (NName, RName, MName, dosage, times, time)" + " VALUES (?, ?, ?, ?, ?, ?)"; 
+						       try (PreparedStatement pst = connection.prepareStatement(insertString3))
+				    		   
+				    		   {
+				    	   connection.setAutoCommit(false); 
+				  
+				        	
+				        	pst.setString(1, NName);
+				        	pst.setString(2, RName);
+				        	pst.setString(3, MName);
+				        	pst.setInt(4,  dosage);
+				        	pst.setInt(5,  times);
+				        	pst.setObject(6, time);
+				        	
+
+				        	pst.executeUpdate(); 
+				        	connection.commit();
+				        }
+			 catch (SQLException e) {
+		        System.err.println("Cannot Connect to Database");
+		    }
+						       
+						}
+						
+						}}}}
 
 			 	   							try {
 			 	   								bedmenu2(event);
 			 	   							} catch (IOException e) {
 			 	   								e.printStackTrace();}
-			 	   							
-			 	   			 	    	
-			 	   			 	    	
+		 	    	
 
 	}
 			 	    	public static Alert createAlertWithOptOut(AlertType type, String title, String headerText, 
 			 	               String message, String optOutMessage, Consumer<Boolean> optOutAction, 
 			 	               ButtonType... buttonTypes) {
 			 	   Alert alert = new Alert(type);
-			 	   // Need to force the alert to layout in order to grab the graphic,
-			 	    // as we are replacing the dialog pane with a custom pane
 			 	    alert.getDialogPane().applyCss();
 			 	    Node graphic = alert.getDialogPane().getGraphic();
-			 	    // Create a new dialog pane that has a checkbox instead of the hide/show details button
-			 	    // Use the supplied callback for the action of the checkbox
 			 	    alert.setDialogPane(new DialogPane() {
 			 	      @Override
 			 	      protected Node createDetailsButton() {
@@ -413,11 +440,8 @@ public class Beds {
 			 	    });
 			 	    alert.getDialogPane().getButtonTypes().addAll(buttonTypes);
 			 	    alert.getDialogPane().setContentText(message);
-			 	    // Fool the dialog into thinking there is some expandable content
-			 	    // a Group won't take up any space if it has no children
 			 	    alert.getDialogPane().setExpandableContent(new Group());
 			 	    alert.getDialogPane().setExpanded(true);
-			 	    // Reset the dialog graphic using the default style
 			 	    alert.getDialogPane().setGraphic(graphic);
 			 	    alert.setTitle(title);
 			 	    alert.setHeaderText(headerText);

@@ -359,8 +359,10 @@ public class MedicinesController {
 				
 		        
 		       
-						
-		        		      
+		        doctorComboBox.setOnAction((event) -> {
+		            int selectedIndex = doctorComboBox.getSelectionModel().getSelectedIndex();
+		            Doctor selectedItem = doctorComboBox.getSelectionModel().getSelectedItem();						
+		        });    
 
 					
 
@@ -372,6 +374,7 @@ public class MedicinesController {
 					for (Medicines medicineList : medicineList) {
 						if (medicineList.getMName().equals(newValue.getName())) {
 							medicineComboBox.getSelectionModel().select(index);
+							doctorComboBox.getSelectionModel().select(index);
 							residentComboBox.getSelectionModel().select(index);
 							quantitySlider.setValue(newValue.getQuantity());
 							break;

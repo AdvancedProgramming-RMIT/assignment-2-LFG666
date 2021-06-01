@@ -15,7 +15,7 @@ public class Doctor extends Staff implements Person{
 	
 	@Override
 	public String toString() {  //this is needed for ComboBox
-		return 	super.toString();	
+		return this.getFname();
 	}
 	public Doctor() {
 		medicines=new ArrayList<Medicines>();
