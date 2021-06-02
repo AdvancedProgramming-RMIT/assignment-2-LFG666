@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import Application.Constants;
 public class RegisterResident {
@@ -58,6 +59,11 @@ public class RegisterResident {
 	        lname = r_lname.getText();
 	        type = "RESIDENT";
 	        gender = (String) r_gender.getValue();
+	        String NName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+	        String fullname = fname + " " + lname;
+	        java.util.Date date = new Date();
+		       Object time = new java.sql.Timestamp(date.getTime());    
+		     String type2 = "Register";
 
 	        if(!username.isEmpty() &!password.isEmpty()&!fname.isEmpty()&!lname.isEmpty()&!gender.isEmpty()) {
 	        Connection connection= SQLite.dbConnector();
@@ -65,7 +71,8 @@ public class RegisterResident {
 
 	        int status = statement.executeUpdate("INSERT INTO users (FName,LName,username,password,type,gender) VALUES ( '"+ fname +"','"+ lname +"','"+ username +"','"+ password +"','" + type +"','"+ gender +"')");
 	        int status2 = statement.executeUpdate("INSERT INTO overall (FName,LName,gender) VALUES ( '"+ fname +"','"+ lname +"','" + gender +"')"); 
-	        if (status==1 & status2==1) {
+	        int status3 = statement.executeUpdate("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ NName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
+	        if (status==1 & status2==1 & status3==1) {
 	            Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/Nurse.fxml"));
 	            Node node = (Node) event.getSource();
 	            Stage stage = (Stage) node.getScene().getWindow();

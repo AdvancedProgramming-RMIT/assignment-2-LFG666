@@ -292,7 +292,7 @@ public class MedicinesController {
 					        	pst.setInt(3, times);
 
 					        	pst.executeUpdate(); 
-					        	connection.commit();
+					        	connection.commit(); 
 					        }
 				 catch (SQLException e) {
 			        System.err.println("Cannot Connect to Database");

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Optional;
 
@@ -102,6 +103,13 @@ public class ShowUsersController {
 	    public void rmData() throws SQLException {
 	    	Data selectedItem = tableView.getSelectionModel().getSelectedItem();
 	        tableView.getItems().remove(selectedItem);
+	        String AName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+	        String fname = selectedItem.getFname();
+	        String lname = selectedItem.getLname();
+	        String fullname = fname + " " + lname;
+	        java.util.Date date = new Date();
+		       Object time = new java.sql.Timestamp(date.getTime());    
+		     String type2 = "Discharge";
 
 
 	        Connection connection= SQLite.dbConnector();
@@ -109,8 +117,9 @@ public class ShowUsersController {
 
 	        int status = statement.executeUpdate("DELETE FROM users WHERE id= '"+selectedItem.getId()+"'");
 	        int status2 = statement.executeUpdate("DELETE FROM overall WHERE id= '"+selectedItem.getId()+"'");
+	        int status3 = statement.executeUpdate("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ AName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
 
-	        if (status==1 && status2==1) {
+	        if (status==1 & status2==1 & status3==1) {
 	            Alert alert =new Alert(Alert.AlertType.INFORMATION);
 	            alert.setTitle("Remove User");
 	            alert.setHeaderText(null);

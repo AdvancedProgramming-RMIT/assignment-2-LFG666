@@ -729,7 +729,7 @@ public class AdminSetNurseShift implements Initializable{
 	                if (ws.getDay().equals("Wednesday") && ws.getShift() == 1)
 	                    ListViewWednesday1.getItems().add(t.getFname());
 	                if (ws.getDay().equals("Wednesday") && ws.getShift() == 2)
-	                    ListViewWednesday2.getItems().add(t.getFname());
+	                    ListViewWednesday2.getItems().add(t.getFname()); 
 	                if (ws.getDay().equals("Thursday") && ws.getShift() == 1)
 	                    ListViewThursday1.getItems().add(t.getFname());
 	                if (ws.getDay().equals("Thursday") && ws.getShift() == 2)

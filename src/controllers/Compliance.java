@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -50,10 +51,17 @@ public class Compliance implements Initializable {
 	public  ArrayList<Nurse> NurseList = new ArrayList<Nurse>();
 	public ArrayList<Roster> RosterList = new ArrayList<Roster>();
 	public ArrayList<Roster> RosList = new ArrayList<Roster>();
-	public List<List<String>> RalList = new ArrayList<List<String>>();
+	public List<Roster> RalList = new ArrayList<Roster>();
 	public ArrayList<Roster> NP =  new ArrayList<Roster>();
 	public List<String> List = new ArrayList<String>();
 	public  ObservableList<Doctor> DoctorList = FXCollections.observableArrayList(); 
+	public ArrayList<Integer> sunday = new ArrayList<Integer>();
+	public ArrayList<Integer> monday = new ArrayList<Integer>();
+	public ArrayList<Integer> tuesday = new ArrayList<Integer>();
+	public ArrayList<Integer> wednesday = new ArrayList<Integer>();
+	public ArrayList<Integer> thursday = new ArrayList<Integer>();
+	public ArrayList<Integer> friday = new ArrayList<Integer>();
+	public ArrayList<Integer> saturday = new ArrayList<Integer>();
 	
 	
 	  @FXML
@@ -152,10 +160,43 @@ public class Compliance implements Initializable {
 	            RosterList = null;
 	            RosterList = SelectAll();
 	            RalList = null;
-	            RalList = loaddata2();
-	            NP = null;}
-
-}
+	            RalList = SelectRoster();
+	            NP = null;
+	          
+	            for (Roster ws : SelectRoster()) {
+	                if ((ws.getDay().equals("Sunday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                    sunday.add(ws.getShift());
+	                if ((ws.getDay().equals("Monday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 monday.add(ws.getShift());
+	                if ((ws.getDay().equals("Tuesday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 tuesday.add(ws.getShift());
+	                if ((ws.getDay().equals("Wednesday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 wednesday.add(ws.getShift());
+	                if ((ws.getDay().equals("Thursday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 thursday.add(ws.getShift());
+	                if ((ws.getDay().equals("Friday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 friday.add(ws.getShift());
+	                if ((ws.getDay().equals("Saturday")) && (ws.getShift() == 1 || ws.getShift() ==2))
+	                	 saturday.add(ws.getShift());
+	                
+	                }
+	           
+	        }
+	        if(!sunday.contains(1) || !sunday.contains(2)) {
+	        	Compliance1.getItems().add("Sunday");  }
+	        if(!monday.contains(1) || !monday.contains(2)) {
+	        	Compliance1.getItems().add("Monday"); } 
+	        if(!tuesday.contains(1) || !tuesday.contains(2)) {
+	        	Compliance1.getItems().add("Tuesday");  }
+	        if(!wednesday.contains(1) || !wednesday.contains(2)) {
+	        	Compliance1.getItems().add("Wednesday");  }
+	        if(!thursday.contains(1) || !thursday.contains(2)) {
+	        	Compliance1.getItems().add("Thursday");  }
+	        if(!friday.contains(1) || !friday.contains(2)) {
+	        	Compliance1.getItems().add("Friday"); } 
+	        if(!saturday.contains(1) || !saturday.contains(2)) {
+	        	Compliance1.getItems().add("Saturday");  
+	        }}
 
 
 	    @Override

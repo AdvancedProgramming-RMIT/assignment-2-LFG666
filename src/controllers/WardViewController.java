@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Application.Constants;
 import databaseSQL.SQLite;
@@ -299,6 +300,49 @@ public class WardViewController extends HBox {
 
 
 	} 
+	
+	public void arch(String SName, String fullname) throws SQLException{
+
+		String type2 = "Remove from Bed";
+		 java.util.Date date = new Date();
+	     Object time = new java.sql.Timestamp(date.getTime());    
+		Connection connection = SQLite.dbConnector();
+		String St = ("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ SName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
+		
+		try(PreparedStatement ps = connection.prepareStatement(St))
+		{
+			 connection.setAutoCommit(false); 
+
+		
+		ps.executeUpdate();
+		connection.commit();
+		ps.close();}
+		catch (SQLException e) {
+	        System.err.println("Cannot Connect to Database");
+	    }
+	} 
+	
+	public void archin(String Fname, String Lname) throws SQLException{
+		String fullname = Fname + " " + Lname;
+		String type2 = "Add to Bed";
+		 java.util.Date date = new Date();
+		 String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+	     Object time = new java.sql.Timestamp(date.getTime());    
+		Connection connection = SQLite.dbConnector();
+		String St = ("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ SName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
+		
+		try(PreparedStatement ps = connection.prepareStatement(St))
+		{
+			 connection.setAutoCommit(false); 
+
+		
+		ps.executeUpdate();
+		connection.commit();
+		ps.close();}
+		catch (SQLException e) {
+	        System.err.println("Cannot Connect to Database");
+	    }
+	} 
 
 	public int releaseOverallBed(String Fname, String Lname) throws SQLException{
 
@@ -345,6 +389,13 @@ public class WardViewController extends HBox {
 			 	    		try {
 			 	    			releaseOverallBed(b.getResident().getFname(), b.getResident().getLname());
 							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+			 	    		try {
+			 	    			String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+			 	    			String fullname = b.getResident().getFname() + " " + b.getResident().getLname();
+			 	    			arch(SName, fullname);
+			 	    		} catch (SQLException e1) {
 								e1.printStackTrace();
 							}
 			 	    		b.setResident(null);
@@ -1039,6 +1090,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1094,6 +1146,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1144,6 +1197,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1198,6 +1252,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1252,6 +1307,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1303,6 +1359,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1355,6 +1412,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1405,6 +1463,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1455,6 +1514,7 @@ public class WardViewController extends HBox {
 						try {
 							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+							archin(b.getResident().getFname(), b.getResident().getLname());
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -1505,6 +1565,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1556,6 +1617,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1607,6 +1669,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1658,6 +1721,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1708,6 +1772,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1758,6 +1823,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1807,6 +1873,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1856,6 +1923,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1904,6 +1972,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -1953,6 +2022,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2002,6 +2072,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2053,6 +2124,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2102,6 +2174,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2150,6 +2223,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2201,6 +2275,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2250,6 +2325,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2298,6 +2374,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2346,6 +2423,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2394,6 +2472,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2442,6 +2521,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2491,6 +2571,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2539,6 +2620,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2588,6 +2670,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2636,6 +2719,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2684,6 +2768,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2732,6 +2817,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2780,6 +2866,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2827,6 +2914,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -2875,6 +2963,7 @@ public class WardViewController extends HBox {
 					try {
 						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
 						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+						archin(b.getResident().getFname(), b.getResident().getLname());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}

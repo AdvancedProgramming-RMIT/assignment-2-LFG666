@@ -182,7 +182,8 @@ public class LandingController {
                 admin.setLname(resultSet.getString("LName"));
                 admin.setType(resultSet.getString("type"));
                 admin.setGender(resultSet.getString("gender"));
-                loggedInUsers.add(admin.getFname());
+                String fullname = admin.getFname() + " " + admin.getLname();
+                loggedInUsers.add(fullname);
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
@@ -210,7 +211,8 @@ public class LandingController {
                 doctor.setLname(resultSet.getString("LName"));
                 doctor.setType(resultSet.getString("type"));
                 doctor.setGender(resultSet.getString("gender"));
-                loggedInUsers.add(doctor.getFname());
+                String fullname = doctor.getFname() + " " + doctor.getLname();
+                loggedInUsers.add(fullname);
                 Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
