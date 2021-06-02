@@ -326,6 +326,7 @@ public void JavafxChoiceFill() throws SQLException {
 		        }
 
 		        loadData();
+		        Shift.clear();
 		    
 	    }}
 

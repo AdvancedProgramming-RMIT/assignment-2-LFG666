@@ -5,9 +5,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.prefs.Preferences;
 import Application.Constants;
@@ -41,6 +50,8 @@ import model.Administer;
 import model.Bed;
 import model.Nurse;
 import model.Resident;
+import model.Roster;
+import model.Staff;
 
 
 
@@ -154,13 +165,23 @@ public class Beds {
 	@FXML
 	ArrayList<Button> ward1r2b1 = new ArrayList<Button>();
 	private Preferences prefs;
+	 ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
 
 	String style = "-fx-background-color:  DODGERBLUE";
 	String style2 = "-fx-background-color:  WHITE";
 	String style3 = "-fx-background-color:  #ff1f1f";
+	
+	LocalTime now = LocalTime.now();
+	LocalTime lt1 = LocalTime.parse("08:00"); 
+	 
+	LocalTime lt2 = LocalTime.parse("16:00");
+	 
+	LocalTime lt3 = LocalTime.parse("14:00");
+	 
+	LocalTime lt4 = LocalTime.parse("22:00");
 
 
-
+	public  ArrayList<Roster> NurseList = new ArrayList<Roster>();
 	public  ObservableList<Administer> MedList = FXCollections.observableArrayList();
 	public  ObservableList<Resident> ResidentList = FXCollections.observableArrayList();
 	public  ObservableList<Bed> BedList = FXCollections.observableArrayList();
@@ -170,7 +191,7 @@ public class Beds {
 	
 	public ObservableList<Resident> selectAll() throws SQLException {
 		ObservableList<Resident> list = FXCollections.observableArrayList();
-		System.out.println(list);
+
 
 		String sql = "select * from users where type = 'RESIDENT'";
 		Connection connection = SQLite.dbConnector();
@@ -214,6 +235,26 @@ public class Beds {
 		return ResBed;
 	}
 
+	 public ArrayList<Roster> SelectAllByFnamer(String Fname) throws SQLException {
+
+	        ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
+	        String sql = "select * from nurroster";
+	        Connection connection = SQLite.dbConnector();
+	        PreparedStatement ps = connection.prepareStatement(sql); 
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            if (Fname.equals(rs.getString("FName"))) {
+	                Roster ro = new Roster(rs.getInt("shift"), rs.getString("day"));
+	                rosterArrayList.add(ro);
+	            }
+	        }
+
+	        ps.close();
+	        rs.close();
+	        return rosterArrayList;
+	    }
+	 
 	public void insertSpecificBedOver(String Fname, String Lname, Bed b) throws SQLException{
 
 		Connection connection = SQLite.dbConnector();
@@ -254,6 +295,38 @@ public class Beds {
 	        System.err.println("Cannot Connect to Database");
 	    }
 	} 
+	
+	
+	 public ArrayList<Roster> SelectAllR() throws SQLException {
+	        ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
+	        Connection connection = SQLite.dbConnector();
+	        String sql = "select * from users, nurroster where type = 'Nurse'";
+	        PreparedStatement ps = connection.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+
+
+	        while (rs.next()) {
+	        	
+	            Nurse d = new Nurse(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
+	        	
+	            Roster r = new Roster(d, rs.getInt("shift"), rs.getString("day"));
+	            d.setId(rs.getInt("id"));
+	            d.setFname(rs.getString("FName"));
+	            d.setLname(rs.getString("LName"));
+	            d.setUsername(rs.getString("username"));
+	            d.setType(rs.getString("type"));
+	            d.setGender(rs.getString("gender"));
+	            r.setShift(rs.getInt("shift"));
+	            r.setDay(rs.getString("day"));
+	            
+	            rosterArrayList.add(r);
+	        }
+
+	        ps.close();
+	        rs.close();
+	        return rosterArrayList;
+	    }
+
 	
 	public void archin(String Fname, String Lname) throws SQLException{
 		String fullname = Fname + " " + Lname;
@@ -538,6 +611,43 @@ public class Beds {
 			 	    alert.setHeaderText(headerText);
 			 	    return alert;
 			 	}
+			 	    	
+			 	    	
+	public boolean isTime() throws SQLException {
+	boolean isBetween = false;
+	String NName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+	Roster n = new Roster();
+	rosterArrayList = null;
+	for(Roster r : NurseList) {
+		if(NName.contains(r.getStaff().getFname())) {
+			Nurse m = new Nurse();
+			m.setFname(r.getStaff().getFname());
+			 rosterArrayList = SelectAllByFnamer(m.getFname());
+			 for(Roster o : rosterArrayList) {
+				 m.setRoster(rosterArrayList);
+			DayOfWeek day = Instant.now().atZone(ZoneId.of("Australia/Sydney")).getDayOfWeek();
+			Locale locale = Locale.ENGLISH;
+			String output = day.getDisplayName( TextStyle.FULL , locale );
+			System.out.println(m);
+				if(o.getDay().equals(output) && o.getShift().equals(1)) {
+					if (lt1.isBefore(now) && lt2.isAfter(now)) {
+ 	    				isBetween = true;
+ 	}
+		return isBetween;
+				} 	
+			if(o.getDay().equals(output) && o.getShift().equals(2)) {
+				
+				if (lt3.isBefore(now) && lt4.isAfter(now)) {
+	    				isBetween = true;
+	}
+	return isBetween;
+			}}
+			}}
+				
+			
+        return false;
+	}
+
 	
 	@FXML
 	public void initialize() throws SQLException {
@@ -566,7 +676,6 @@ public class Beds {
 			public ObservableValue<String> call(CellDataFeatures<Resident, String> param) {
 					
 						for(Bed c : ResInBed) {
-							System.out.println(c.getResident());
 						if(c.getResident().getFname().equals(param.getValue().getName())){
 							return c.idBedProperty();
 						}
@@ -591,6 +700,7 @@ public class Beds {
 	}
 
 	public void JavafxChoiceFill() throws SQLException {
+		NurseList = SelectAllR();
 		ResidentList = selectAll();
 		BedList = SelectBed();
 		ResInBed = SelectBeds();
@@ -1187,7 +1297,8 @@ public class Beds {
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R1B1(MouseEvent event) {
+	void onClickW1R1B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1235,6 +1346,14 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}
 		}
 
 
@@ -1243,8 +1362,8 @@ public class Beds {
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R2B1(MouseEvent event) {
-
+	void onClickW1R2B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 		Bed b = BedList.get(1);
@@ -1290,11 +1409,19 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}}else { 
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Not currently on shift");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+				return;
 			}}
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R2B2(MouseEvent event) {
+	void onClickW1R2B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1342,14 +1469,22 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 
 
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R3B1(MouseEvent event) {
+	void onClickW1R3B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1397,14 +1532,22 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 
 
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW1R3B2(MouseEvent event) { 
+	void onClickW1R3B2(MouseEvent event) throws SQLException { 
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1452,11 +1595,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW1R3B3(MouseEvent event) {
+	void onClickW1R3B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1504,12 +1655,20 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 		
 	
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW1R3B4(MouseEvent event) {
+	void onClickW1R3B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1557,10 +1716,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R4B1(MouseEvent event) {
+	void onClickW1R4B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1607,11 +1774,20 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}}
+		else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}
 		}
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW1R4B2(MouseEvent event) {
+	void onClickW1R4B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1659,10 +1835,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW1R4B3(MouseEvent event) {
+	void onClickW1R4B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1709,12 +1893,20 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}}else { 
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Not currently on shift");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+				return;
 			}
 		}
 
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW1R4B4(MouseEvent event) {
+	void onClickW1R4B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem(); 
 
 
@@ -1762,11 +1954,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R5B1(MouseEvent event) {
+	void onClickW1R5B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1814,11 +2014,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW1R5B2(MouseEvent event) {
+	void onClickW1R5B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1866,10 +2074,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW1R5B3(MouseEvent event) {
+	void onClickW1R5B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1917,10 +2133,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW1R5B4(MouseEvent event) {
+	void onClickW1R5B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 
 
@@ -1968,11 +2192,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW1R6B1(MouseEvent event) {
+	void onClickW1R6B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(15);
 		if(b.isBedAvailable() == false) {
@@ -2018,11 +2250,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW1R6B2(MouseEvent event) {
+	void onClickW1R6B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(16);
 		if(b.isBedAvailable() == false) {
@@ -2068,10 +2308,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW1R6B3(MouseEvent event) {
+	void onClickW1R6B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(17);
 		if(b.isBedAvailable() == false) {
@@ -2116,12 +2364,20 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}}else { 
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Not currently on shift");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+				return;
 			}
 		}
 
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW1R6B4(MouseEvent event) {
+	void onClickW1R6B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(18);
 		if(b.isBedAvailable() == false) {
@@ -2167,11 +2423,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 
 	@FXML
-	void onClickW2R1B1(MouseEvent event) {
+	void onClickW2R1B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(19);
 		if(b.isBedAvailable() == false) {
@@ -2217,13 +2481,21 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW2R2B1(MouseEvent event) { 
+	void onClickW2R2B1(MouseEvent event) throws SQLException { 
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(20);
 		if(b.isBedAvailable() == false) {
@@ -2269,11 +2541,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW2R2B2(MouseEvent event) {
+	void onClickW2R2B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(21);
 		if(b.isBedAvailable() == false) {
@@ -2319,10 +2599,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	@FXML
-	void onClickW2R3B1(MouseEvent event) {
+	void onClickW2R3B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(22);
 		if(b.isBedAvailable() == false) {
@@ -2367,6 +2655,13 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}}else { 
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Not currently on shift");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+				return;
 			}
 		}
 
@@ -2374,7 +2669,8 @@ public class Beds {
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW2R3B2(MouseEvent event) { 
+	void onClickW2R3B2(MouseEvent event) throws SQLException { 
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(23);
 		if(b.isBedAvailable() == false) {
@@ -2420,11 +2716,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW2R3B3(MouseEvent event) {
+	void onClickW2R3B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(24);
 		if(b.isBedAvailable() == false) {
@@ -2470,10 +2774,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW2R3B4(MouseEvent event) {
+	void onClickW2R3B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(25);
 		if(b.isBedAvailable() == false) {
@@ -2518,11 +2830,19 @@ public class Beds {
 				loadData();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}}else { 
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Not currently on shift");
+				alert.setContentText("Ooops, there was an error!");
+				alert.showAndWait();
+				return;
 			}
 		}
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW2R4B1(MouseEvent event) {
+	void onClickW2R4B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(26);
 		if(b.isBedAvailable() == false) {
@@ -2568,10 +2888,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW2R4B2(MouseEvent event) {
+	void onClickW2R4B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(27);
 		if(b.isBedAvailable() == false) {
@@ -2617,10 +2945,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW2R4B3(MouseEvent event) {
+	void onClickW2R4B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(28);
 		if(b.isBedAvailable() == false) {
@@ -2666,11 +3002,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW2R4B4(MouseEvent event) {
+	void onClickW2R4B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(29);
 		if(b.isBedAvailable() == false) {
@@ -2716,10 +3060,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW2R5B1(MouseEvent event) {
+	void onClickW2R5B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(30);
 		if(b.isBedAvailable() == false) {
@@ -2765,11 +3117,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW2R5B2(MouseEvent event) {
+	void onClickW2R5B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(31);
 		if(b.isBedAvailable() == false) {
@@ -2815,10 +3175,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW2R5B3(MouseEvent event) {
+	void onClickW2R5B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(32);
 		if(b.isBedAvailable() == false) {
@@ -2864,10 +3232,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW2R5B4(MouseEvent event) {
+	void onClickW2R5B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(33);
 		if(b.isBedAvailable() == false) {
@@ -2913,11 +3289,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Add Tab   --->   Evening shift
 	@FXML
-	void onClickW2R6B1(MouseEvent event) {
+	void onClickW2R6B1(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(34);
 		if(b.isBedAvailable() == false) {
@@ -2962,11 +3346,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Morning shift
 	@FXML
-	void onClickW2R6B2(MouseEvent event) {
+	void onClickW2R6B2(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(35);
 		if(b.isBedAvailable() == false) {
@@ -3011,10 +3403,18 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 	//Add Tab   --->   Morning shift
 	@FXML
-	void onClickW2R6B3(MouseEvent event) {
+	void onClickW2R6B3(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(36);
 		if(b.isBedAvailable() == false) {
@@ -3059,11 +3459,19 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 	//Edit Tab   --->   Evening shift
 	@FXML
-	void onClickW2R6B4(MouseEvent event) {
+	void onClickW2R6B4(MouseEvent event) throws SQLException {
+		if(isTime()==true) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
 		Bed b = BedList.get(37);
 		if(b.isBedAvailable() == false) {
@@ -3108,7 +3516,14 @@ public class Beds {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}else { 
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Not currently on shift");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+			return;
+		}}
 
 
 			@FXML

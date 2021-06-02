@@ -19,13 +19,13 @@
       <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="left-pane">
          <children>
             <VBox layoutX="75.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="75.0">
-               <children>
-                  <Button fx:id="doctor" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#doctor" prefHeight="30.0" prefWidth="250.0" text="Doctor Home Page" />
-                  <Button fx:id="medicines" alignment="CENTER" layoutX="152.0" layoutY="87.0" mnemonicParsing="false" onMousePressed="#medicines" prefHeight="30.0" prefWidth="250.0" text="Medicine Dispensary" />
-                  <Button fx:id="logout" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#logout" prefHeight="30.0" prefWidth="250.0" text="Return to Login Page" />                  
+               <children>                  
+                  <Button fx:id="medicines" alignment="CENTER" layoutX="152.0" layoutY="87.0" mnemonicParsing="false" onMousePressed="#medicines" prefHeight="30.0" prefWidth="250.0" text="Medicine Dispensary" />                 
                   <Button fx:id="patients" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#patients" prefHeight="30.0" prefWidth="250.0" text="View Residents" />
                   <Button fx:id="shifts" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#shifts" prefHeight="30.0" prefWidth="250.0" text="Doctor Shifts" />
                   <Button fx:id="view" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#CondView" prefHeight="30.0" prefWidth="250.0" text="View Conditions" />
+                  <Button fx:id="doctor" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onMousePressed="#doctor" prefHeight="30.0" prefWidth="250.0" text="Doctor Home Page" />
+                   <Button fx:id="logout" layoutX="161.0" layoutY="297.0" mnemonicParsing="false" onMousePressed="#logout" prefHeight="30.0" prefWidth="250.0" text="Return to Login Page" />                  
                </children>
             </VBox>
             <Label fx:id="lblUser" alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="250.0" text="Please Select An Action" textFill="WHITE" AnchorPane.leftAnchor="75.0">

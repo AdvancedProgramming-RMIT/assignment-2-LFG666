@@ -52,6 +52,7 @@ public class Compliance implements Initializable {
 	public ArrayList<Roster> RosterList = new ArrayList<Roster>();
 	public ArrayList<Roster> RosList = new ArrayList<Roster>();
 	public List<Roster> RalList = new ArrayList<Roster>();
+	public List<Roster> RalList2 = new ArrayList<Roster>();
 	public ArrayList<Roster> NP =  new ArrayList<Roster>();
 	public List<String> List = new ArrayList<String>();
 	public  ObservableList<Doctor> DoctorList = FXCollections.observableArrayList(); 
@@ -62,6 +63,13 @@ public class Compliance implements Initializable {
 	public ArrayList<Integer> thursday = new ArrayList<Integer>();
 	public ArrayList<Integer> friday = new ArrayList<Integer>();
 	public ArrayList<Integer> saturday = new ArrayList<Integer>();
+	public ArrayList<String> sundayd = new ArrayList<String>();
+	public ArrayList<String> mondayd = new ArrayList<String>();
+	public ArrayList<String> tuesdayd = new ArrayList<String>();
+	public ArrayList<String> wednesdayd = new ArrayList<String>();
+	public ArrayList<String> thursdayd = new ArrayList<String>();
+	public ArrayList<String> fridayd = new ArrayList<String>();
+	public ArrayList<String> saturdayd = new ArrayList<String>();
 	
 	
 	  @FXML
@@ -91,6 +99,10 @@ public class Compliance implements Initializable {
 		@FXML
 		private Label rst1;
 		@FXML
+		private Label doc;
+		@FXML
+		private Label nurse;
+		@FXML
 		private Label Compliance;
 		
 		 String style = "-fx-background-color:  #a7a7a7";
@@ -115,44 +127,43 @@ public class Compliance implements Initializable {
 	        for (Doctor t : DoctorList) {
 	        	 rosterArrayListd = null;
 		         rosterArrayListd = SelectAllByFnamed(t.getFname());
-		         System.out.println(rosterArrayListd);
+		         RalList2 = null;
+		         RalList2 = SelectRoster2();
+
 		         
-		         for (Roster r : rosterArrayListd) {
-
-			        if(!r.getDay().equals("Sunday")) {
-		        	List.add("Sunday");
-	            }
-
-		        if(!r.getDay().equals("Monday"))  {
-		        	List.add("Monday");
-	            }
-
-		        if(!r.getDay().equals("Tuesday"))  {
-	            	List.add("Tuesday");
-	            }
-
-		        if(!r.getDay().equals("Wednesday"))  {
-	            	List.add("Wednesday");
-	            }
-
-		        if(!r.getDay().equals("Thursday"))  {
-	            	List.add("Thursday");
-	            }
-
-		        if(!r.getDay().equals("Friday"))  {
-	            List.add("Friday");
-	            }
-
-		        if(!r.getDay().equals("Saturday"))  {
-	            	List.add("Saturday");
-	            }
-
-		        }
-		        List<String> listW = List.stream()
-		        	     .distinct()
-		        	     .collect(Collectors.toList());
-		        Compliance2.getItems().addAll(listW);
-	}
+		         for (Roster ws : SelectRoster2()) {
+		                if ((ws.getDay().equals("Sunday")))
+		                    sundayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Monday")))
+		                	 mondayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Tuesday")))
+		                	 tuesdayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Wednesday")))
+		                	 wednesdayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Thursday")))
+		                	 thursdayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Friday")))
+		                	 fridayd.add(ws.getDay());
+		                if ((ws.getDay().equals("Saturday")))
+		                	 saturdayd.add(ws.getDay());
+		                
+		                }}
+	        
+	        if(!sundayd.contains("Sunday")) {
+	        	Compliance2.getItems().add("Sunday");  }
+	        if(!mondayd.contains("Monday")) {
+	        	Compliance2.getItems().add("Monday"); } 
+	        if(!tuesdayd.contains("Tuesday")) {
+	        	Compliance2.getItems().add("Tuesday");  }
+	        if(!wednesdayd.contains("Wednesday")) {
+	        	Compliance2.getItems().add("Wednesday");  }
+	        if(!thursdayd.contains("Thursday")) {
+	        	Compliance2.getItems().add("Thursday");  }
+	        if(!fridayd.contains("Friday")) {
+	        	Compliance2.getItems().add("Friday"); } 
+	        if(!saturdayd.contains("Saturday")) {
+	        	Compliance2.getItems().add("Saturday");  
+	        }
 
 	        for (Nurse t : NurseList) {
 	            rosterArrayList = null;

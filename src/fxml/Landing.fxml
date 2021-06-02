@@ -27,7 +27,7 @@
                   <PasswordField fx:id="lc_pass" layoutX="161.0" layoutY="297.0" prefHeight="30.0" prefWidth="250.0" />                  
                   <Button id="lc_login" layoutX="161.0" layoutY="380.0" mnemonicParsing="false" onKeyPressed="#lc_login" onMouseReleased="#lc_login" prefHeight="30.0" prefWidth="250.0" text="LOGIN!" />
                   <ChoiceBox fx:id="type" layoutX="633.0" layoutY="140.0" prefHeight="32.0" prefWidth="200.0" />
-                  <Button fx:id="Exit" alignment="CENTER" layoutX="132.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnEnd_button" prefHeight="30.0" prefWidth="250.0" text="Exit Aged Care plus" />
+                  <Button fx:id="Exit" alignment="CENTER" layoutX="132.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Exit Aged Care" />
                </children>
             </VBox>
             <Label fx:id="lblUser" alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="250.0" text="Please Select An Action" textFill="WHITE" AnchorPane.leftAnchor="75.0">

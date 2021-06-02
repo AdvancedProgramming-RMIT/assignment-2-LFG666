@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -136,7 +137,9 @@ public class LandingController {
 			e.printStackTrace();
 		}
         
-        
+        Exit.setOnAction((ActionEvent event) -> {
+            Platform.exit();
+        });
         
         Callback<CellDataFeatures<Resident, String>, ObservableValue<String>> callback = 
 				new Callback<CellDataFeatures<Resident, String>, ObservableValue<String>> () {
@@ -304,38 +307,6 @@ public class LandingController {
 		rs.close();
 		return bedsLists;
 	}
-
-    double x = 0, y =0;
-    @FXML
-    void pressed(MouseEvent event) {
-        x = event.getSceneX();
-        y = event.getSceneY();
-    }
-
-    @FXML
-    void dragged(MouseEvent event) {
-
-        Node node = (Node) event.getSource();
-
-        Stage stage = (Stage) node.getScene().getWindow();
-
-        stage.setX(event.getScreenX() - x);
-        stage.setY(event.getScreenY() - y);
-    }
-
-
-    @FXML
-    void signup(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath + "/RegisterResident.fxml"));
-
-        Node node = (Node) event.getSource();
-
-        Stage stage = (Stage) node.getScene().getWindow();
-
-        stage.setScene(new Scene(root));
-        stage.setTitle("Register Resident");
-
-    }
 
 
 }
