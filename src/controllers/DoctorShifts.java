@@ -74,7 +74,7 @@ public class DoctorShifts{
 	private TableColumn<Roster,Integer> ShiftColumn;
 	@FXML
 	private TableColumn<Roster,String> dayColumn;
-	
+
 	@FXML
 	private Button logout;
 	@FXML
@@ -85,40 +85,40 @@ public class DoctorShifts{
 
 	@FXML
 	public void initialize() throws SQLException {
-		 try {
-		        JavafxChoiceFill();
-		        loadData();
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		    }
-		
-		 idColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, Number>, 
-	             ObservableValue<Number>>() {  
-	@Override  
-	public ObservableValue<Number> call(CellDataFeatures<Roster, Number> data){  
-	return data.getValue().getStaff().getidProperty();  
-	}  
-	});  
-			
-			 
-		 
-		 FNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, String>, 
-	             ObservableValue<String>>() {  
-	@Override  
-	public ObservableValue<String> call(CellDataFeatures<Roster, String> data2){  
-	return data2.getValue().getStaff().getFnameProperty();  
-	}  
-	});  
-		
-		 LNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, String>, 
-	             ObservableValue<String>>() {  
-	@Override  
-	public ObservableValue<String> call(CellDataFeatures<Roster, String> data3){  
-	return data3.getValue().getStaff().getlnameProperty();  
-	}  
-	});  }
-		 
-		 
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		idColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, Number>, 
+				ObservableValue<Number>>() {  
+			@Override  
+			public ObservableValue<Number> call(CellDataFeatures<Roster, Number> data){  
+				return data.getValue().getStaff().getidProperty();  
+			}  
+		});  
+
+
+
+		FNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, String>, 
+				ObservableValue<String>>() {  
+			@Override  
+			public ObservableValue<String> call(CellDataFeatures<Roster, String> data2){  
+				return data2.getValue().getStaff().getFnameProperty();  
+			}  
+		});  
+
+		LNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, String>, 
+				ObservableValue<String>>() {  
+			@Override  
+			public ObservableValue<String> call(CellDataFeatures<Roster, String> data3){  
+				return data3.getValue().getStaff().getlnameProperty();  
+			}  
+		});  }
+
+
 	@FXML
 	public void loadData() throws SQLException {
 
@@ -132,107 +132,107 @@ public class DoctorShifts{
 
 
 	public void JavafxChoiceFill() throws SQLException {
-	    DoctorList = selectAll();
-	    for (Doctor t : DoctorList) {
-	        rosterArrayList = null;
-	        rosterArrayList = SelectAllByFname(t.getFname());}
+		DoctorList = selectAll();
+		for (Doctor t : DoctorList) {
+			rosterArrayList = null;
+			rosterArrayList = SelectAllByFname(t.getFname());}
 	}
 
 
-		public void insertRoster(String Fname, String Lname, ArrayList<Roster> rosterArrayList) throws SQLException{
-	        Connection connection = SQLite.dbConnector(); 
-	        for(Roster ro : rosterArrayList)  {
-	        	String St = "INSERT INTO roster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
-	        	PreparedStatement ps = connection.prepareStatement(St);
-	        	ps.setString(1, Fname);
-	        	ps.setString(2, Lname);
-	        	ps.setInt(3, ro.getShift());
-	        	ps.setString(4,  ro.getDay());
-	        	ps.executeUpdate();
-	        	ps.close();
-	        }
-	  
+	public void insertRoster(String Fname, String Lname, ArrayList<Roster> rosterArrayList) throws SQLException{
+		Connection connection = SQLite.dbConnector(); 
+		for(Roster ro : rosterArrayList)  {
+			String St = "INSERT INTO roster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
+			PreparedStatement ps = connection.prepareStatement(St);
+			ps.setString(1, Fname);
+			ps.setString(2, Lname);
+			ps.setInt(3, ro.getShift());
+			ps.setString(4,  ro.getDay());
+			ps.executeUpdate();
+			ps.close();
 		}
-		
-		public int insertSpecificRoster(String Fname, String Lname, Roster roster) throws SQLException{
-	        
-			Connection connection = SQLite.dbConnector();
-	        	String St = "INSERT INTO roster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
-	        	PreparedStatement ps = connection.prepareStatement(St);
-	        	ps.setString(1, Fname);
-	        	ps.setString(2, Lname);
-	        	ps.setInt(3, roster.getShift());
-	        	ps.setString(4,  roster.getDay());
-	        	int layout = ps.executeUpdate();
-	        	ps.close();
-	        	return layout;
-	        
-	  
+
+	}
+
+	public int insertSpecificRoster(String Fname, String Lname, Roster roster) throws SQLException{
+
+		Connection connection = SQLite.dbConnector();
+		String St = "INSERT INTO roster(FName, LName, shift, day ) VALUES (?, ?, ?, ? )";
+		PreparedStatement ps = connection.prepareStatement(St);
+		ps.setString(1, Fname);
+		ps.setString(2, Lname);
+		ps.setInt(3, roster.getShift());
+		ps.setString(4,  roster.getDay());
+		int layout = ps.executeUpdate();
+		ps.close();
+		return layout;
+
+
+	}
+
+	public ObservableList<Roster> SelectAll() throws SQLException {
+		ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
+		Connection connection = SQLite.dbConnector();
+		String sql =  "select * from users, roster where users.type = 'Doctor' and users.FName = roster.FName";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+
+		while (rs.next()) {
+
+			Doctor d = new Doctor(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
+
+			Roster r = new Roster(d, rs.getInt("Shift"), rs.getString("day"));
+			rosterArrayList.add(r);
 		}
-	        
-		 public ObservableList<Roster> SelectAll() throws SQLException {
-		        ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
-		        Connection connection = SQLite.dbConnector();
-		        String sql =  "select * from users, roster where users.type = 'Doctor' and users.FName = roster.FName";
-		        PreparedStatement ps = connection.prepareStatement(sql);
-		        ResultSet rs = ps.executeQuery();
+
+		ps.close();
+		rs.close();
+		return rosterArrayList;
+	}
+
+	public ObservableList<Roster> SelectAllByFname(String Fname) throws SQLException {
+
+		ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
+		String sql = "select * from roster";
+		Connection connection = SQLite.dbConnector();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			if (Fname.equals(rs.getString("FName"))) {
+				Roster ro = new Roster(rs.getInt("shift"), rs.getString("day"));
+				rosterArrayList.add(ro);
+			}
+		}
+
+		ps.close();
+		rs.close();
+		return rosterArrayList;
+	}
 
 
-		        while (rs.next()) {
-		        	
-		            Doctor d = new Doctor(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
-		        	
-		            Roster r = new Roster(d, rs.getInt("Shift"), rs.getString("day"));
-		            rosterArrayList.add(r);
-		        }
 
-		        ps.close();
-		        rs.close();
-		        return rosterArrayList;
-		    }
-		
-		 public ObservableList<Roster> SelectAllByFname(String Fname) throws SQLException {
+	public ObservableList<Doctor> selectAll() throws SQLException {
+		ObservableList<Doctor> list = FXCollections.observableArrayList();
+		System.out.println(list);
 
-		        ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
-		        String sql = "select * from roster";
-		        Connection connection = SQLite.dbConnector();
-		        PreparedStatement ps = connection.prepareStatement(sql);
-		        ResultSet rs = ps.executeQuery();
+		String sql = "select * from users where type = 'Doctor'";
+		Connection connection = SQLite.dbConnector();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
 
-		        while (rs.next()) {
-		            if (Fname.equals(rs.getString("FName"))) {
-		                Roster ro = new Roster(rs.getInt("shift"), rs.getString("day"));
-		                rosterArrayList.add(ro);
-		            }
-		        }
+		while (rs.next()) {
 
-		        ps.close();
-		        rs.close();
-		        return rosterArrayList;
-		    }
-		 
+			Doctor d = new Doctor(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
+			list.add(d);
+		}
 
+		ps.close();
+		rs.close();
 
-		    public ObservableList<Doctor> selectAll() throws SQLException {
-		        ObservableList<Doctor> list = FXCollections.observableArrayList();
-		        System.out.println(list);
-
-		        String sql = "select * from users where type = 'Doctor'";
-		        Connection connection = SQLite.dbConnector();
-		        PreparedStatement ps = connection.prepareStatement(sql);
-		        ResultSet rs = ps.executeQuery();
-
-		        while (rs.next()) {
-
-			        Doctor d = new Doctor(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
-		            list.add(d);
-		        }
-
-		        ps.close();
-		        rs.close();
-
-		        return list;
-		    }
+		return list;
+	}
 
 
 	@FXML

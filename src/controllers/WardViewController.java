@@ -35,6 +35,10 @@ import javafx.util.Callback;
 import model.Bed;
 import model.Resident;
 
+/**
+ * @author leigh
+ *
+ */
 public class WardViewController extends HBox {
 	@FXML
 	private Button showuser;
@@ -152,7 +156,7 @@ public class WardViewController extends HBox {
 	public  ObservableList<Bed> ResBed = FXCollections.observableArrayList();
 	public  ObservableList<Bed> ResInBed = FXCollections.observableArrayList();
 
-	
+
 	public ObservableList<Resident> selectAll() throws SQLException {
 		ObservableList<Resident> list = FXCollections.observableArrayList();
 		System.out.println(list);
@@ -247,47 +251,47 @@ public class WardViewController extends HBox {
 
 		Connection connection = SQLite.dbConnector();
 		String St = "UPDATE bed SET FName = ?, LName = ?, gender = ? WHERE idbed = ?";
-		
+
 		try(PreparedStatement ps = connection.prepareStatement(St))
 		{
-			 connection.setAutoCommit(false); 
+			connection.setAutoCommit(false); 
 
-		ps.setString(1, Fname); 
-		ps.setString(2, Lname);
-		ps.setString(4, b.getIdBed());
-		ps.setString(3, gender);
-		ps.executeUpdate();
-		connection.commit();
-		ps.close();}
+			ps.setString(1, Fname); 
+			ps.setString(2, Lname);
+			ps.setString(4, b.getIdBed());
+			ps.setString(3, gender);
+			ps.executeUpdate();
+			connection.commit();
+			ps.close();}
 		catch (SQLException e) {
-	        System.err.println("Cannot Connect to Database");
-	    }
+			System.err.println("Cannot Connect to Database");
+		}
 
 
 	} 
-	
+
 	public void insertSpecificBedOver(String Fname, String Lname, Bed b) throws SQLException{
 
 		Connection connection = SQLite.dbConnector();
 		String St = "UPDATE overall SET idbed = ?  WHERE FName = ? AND LName = ?";
-		
+
 		try(PreparedStatement ps = connection.prepareStatement(St))
 		{
-			 connection.setAutoCommit(false); 
+			connection.setAutoCommit(false); 
 
-		ps.setString(1, b.getIdBed());
-		ps.setString(2, Fname); 
-		ps.setString(3, Lname);
-		ps.executeUpdate();
-		connection.commit();
-		ps.close();}
+			ps.setString(1, b.getIdBed());
+			ps.setString(2, Fname); 
+			ps.setString(3, Lname);
+			ps.executeUpdate();
+			connection.commit();
+			ps.close();}
 		catch (SQLException e) {
-	        System.err.println("Cannot Connect to Database");
-	    }
+			System.err.println("Cannot Connect to Database");
+		}
 
 
 	} 
-	
+
 	public int releaseSpecificBed(Bed b) throws SQLException{
 
 		Connection connection = SQLite.dbConnector();
@@ -300,48 +304,48 @@ public class WardViewController extends HBox {
 
 
 	} 
-	
+
 	public void arch(String SName, String fullname) throws SQLException{
 
 		String type2 = "Remove from Bed";
-		 java.util.Date date = new Date();
-	     Object time = new java.sql.Timestamp(date.getTime());    
+		java.util.Date date = new Date();
+		Object time = new java.sql.Timestamp(date.getTime());    
 		Connection connection = SQLite.dbConnector();
 		String St = ("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ SName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
-		
+
 		try(PreparedStatement ps = connection.prepareStatement(St))
 		{
-			 connection.setAutoCommit(false); 
+			connection.setAutoCommit(false); 
 
-		
-		ps.executeUpdate();
-		connection.commit();
-		ps.close();}
+
+			ps.executeUpdate();
+			connection.commit();
+			ps.close();}
 		catch (SQLException e) {
-	        System.err.println("Cannot Connect to Database");
-	    }
+			System.err.println("Cannot Connect to Database");
+		}
 	} 
-	
+
 	public void archin(String Fname, String Lname) throws SQLException{
 		String fullname = Fname + " " + Lname;
 		String type2 = "Add to Bed";
-		 java.util.Date date = new Date();
-		 String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
-	     Object time = new java.sql.Timestamp(date.getTime());    
+		java.util.Date date = new Date();
+		String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+		Object time = new java.sql.Timestamp(date.getTime());    
 		Connection connection = SQLite.dbConnector();
 		String St = ("INSERT INTO residents (SName,RName,type,time) VALUES ( '"+ SName +"','"+ fullname +"','"+ type2 +"','"+ time +"')");
-		
+
 		try(PreparedStatement ps = connection.prepareStatement(St))
 		{
-			 connection.setAutoCommit(false); 
+			connection.setAutoCommit(false); 
 
-		
-		ps.executeUpdate();
-		connection.commit();
-		ps.close();}
+
+			ps.executeUpdate();
+			connection.commit();
+			ps.close();}
 		catch (SQLException e) {
-	        System.err.println("Cannot Connect to Database");
-	    }
+			System.err.println("Cannot Connect to Database");
+		}
 	} 
 
 	public int releaseOverallBed(String Fname, String Lname) throws SQLException{
@@ -351,7 +355,7 @@ public class WardViewController extends HBox {
 		PreparedStatement ps = connection.prepareStatement(St);
 		ps.setString(1, Fname);
 		ps.setString(2, Lname);
-		
+
 		int layout = ps.executeUpdate(); 
 		ps.close();
 		return layout;
@@ -382,39 +386,39 @@ public class WardViewController extends HBox {
 	}
 	@FXML
 	public void removeResident(MouseEvent event) {
-			 	    	Resident sI = tableView.getSelectionModel().getSelectedItem();
-			 	    	for(Bed b : ResInBed) {
-			 	    	if(sI.getFname().equalsIgnoreCase(b.getResident().getFname()))	{
-			 	    		b.setIsBedAvail(true);
-			 	    		try {
-			 	    			releaseOverallBed(b.getResident().getFname(), b.getResident().getLname());
-							} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
-			 	    		try {
-			 	    			String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
-			 	    			String fullname = b.getResident().getFname() + " " + b.getResident().getLname();
-			 	    			arch(SName, fullname);
-			 	    		} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
-			 	    		b.setResident(null);
-			 	    		try {
-								releaseSpecificBed(b);
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-			 	    		tableView.getItems().clear();
-							try {
-								bedmenu2(event);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-			 	    	}
-			 	    	}}
-			 	    	
+		Resident sI = tableView.getSelectionModel().getSelectedItem();
+		for(Bed b : ResInBed) {
+			if(sI.getFname().equalsIgnoreCase(b.getResident().getFname()))	{
+				b.setIsBedAvail(true);
+				try {
+					releaseOverallBed(b.getResident().getFname(), b.getResident().getLname());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					String SName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
+					String fullname = b.getResident().getFname() + " " + b.getResident().getLname();
+					arch(SName, fullname);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				b.setResident(null);
+				try {
+					releaseSpecificBed(b);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				tableView.getItems().clear();
+				try {
+					bedmenu2(event);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}}
 
-	
+
+
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -440,13 +444,13 @@ public class WardViewController extends HBox {
 
 			@Override
 			public ObservableValue<String> call(CellDataFeatures<Resident, String> param) {
-					
-						for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(param.getValue().getName())){
-							return c.idBedProperty();
-						}
-					
+
+				for(Bed c : ResInBed) {
+					if(c.getResident().getFname().equals(param.getValue().getName())){
+						return c.idBedProperty();
 					}
+
+				}
 
 				return null;
 			}
@@ -473,2580 +477,2580 @@ public class WardViewController extends HBox {
 			ResBed = null;
 			ResBed = SelectAllByFname(r.getFname());
 
-		
+
 			for(Bed b : ResBed) {
 				if (b.getIdBed().equals("1")) {
 					w1r1b1.getStyleClass().clear();
 					w1r1b1.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r1b1.getStyleClass().removeAll(style2);
-					w1r1b1.setStyle(style);}
-				else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				
-					w1r1b1.getStyleClass().removeAll(style2);
-					w1r1b1.setStyle(style3); 	 	        		 	 	
-				}
-				else {
-					w1r1b1.setStyle(style2); 
-				}
-				b = BedList.get(0);
-				b.setIsBedAvail(false);
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r1b1.getStyleClass().removeAll(style2);
+						w1r1b1.setStyle(style);}
+					else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+
+						w1r1b1.getStyleClass().removeAll(style2);
+						w1r1b1.setStyle(style3); 	 	        		 	 	
+					}
+					else {
+						w1r1b1.setStyle(style2); 
+					}
+					b = BedList.get(0);
+					b.setIsBedAvail(false);
 				}
 				if (b.getIdBed().equals("2")) {
 					w1r2b1.setStyle(style2);
 					b.setIsBedAvail(false);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r2b1.getStyleClass().removeAll(style2);
-					w1r2b1.setStyle(style);
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r2b1.getStyleClass().removeAll(style2);
+						w1r2b1.setStyle(style);
 					}
-				else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				
-					w1r2b1.getStyleClass().removeAll(style2);
-					w1r2b1.setStyle(style3); 	 	        		 	 	
-				}
-				else {
-					w1r2b1.setStyle(style2);
-				}
-				b = BedList.get(1);
-				b.setIsBedAvail(false);
+					else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+
+						w1r2b1.getStyleClass().removeAll(style2);
+						w1r2b1.setStyle(style3); 	 	        		 	 	
+					}
+					else {
+						w1r2b1.setStyle(style2);
+					}
+					b = BedList.get(1);
+					b.setIsBedAvail(false);
 				}
 				if (b.getIdBed().equals("3"))  {
 					w1r2b2.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r2b2.getStyleClass().removeAll(style2);
-					w1r2b2.setStyle(style);}
-				else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r2b2.getStyleClass().removeAll(style2);
-					w1r2b2.setStyle(style3); 	 	        		 	 	
-				}
-				else {
-					w1r2b2.setStyle(style2);
-				}
-				b = BedList.get(2);
-				b.setIsBedAvail(false);
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r2b2.getStyleClass().removeAll(style2);
+						w1r2b2.setStyle(style);}
+					else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+						w1r2b2.getStyleClass().removeAll(style2);
+						w1r2b2.setStyle(style3); 	 	        		 	 	
+					}
+					else {
+						w1r2b2.setStyle(style2);
+					}
+					b = BedList.get(2);
+					b.setIsBedAvail(false);
 				}
 				if (b.getIdBed().equals("4")) {
 					w1r3b1.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r3b1.getStyleClass().removeAll(style2);
-					w1r3b1.setStyle(style);}
-				else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r3b1.getStyleClass().removeAll(style2);
-					w1r3b1.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r3b1.setStyle(style2);
-				}
-				b = BedList.get(3);
-				b.setIsBedAvail(false);
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r3b1.getStyleClass().removeAll(style2);
+						w1r3b1.setStyle(style);}
+					else if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+						w1r3b1.getStyleClass().removeAll(style2);
+						w1r3b1.setStyle(style3); 	 	        		 	 	
+					}
+					if(b.getResident().getGender().isEmpty()) {
+						w1r3b1.setStyle(style2);
+					}
+					b = BedList.get(3);
+					b.setIsBedAvail(false);
 				}
 				if (b.getIdBed().equals("5")) {
 					w1r3b2.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r3b2.getStyleClass().removeAll(style2);
-					w1r3b2.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r3b2.getStyleClass().removeAll(style2);
-					w1r3b2.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r3b2.setStyle(style2);
-				}
-				b = BedList.get(4);
-				b.setIsBedAvail(false);
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r3b2.getStyleClass().removeAll(style2);
+						w1r3b2.setStyle(style);}
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+						w1r3b2.getStyleClass().removeAll(style2);
+						w1r3b2.setStyle(style3); 	 	        		 	 	
+					}
+					if(b.getResident().getGender().isEmpty()) {
+						w1r3b2.setStyle(style2);
+					}
+					b = BedList.get(4);
+					b.setIsBedAvail(false);
 				}
 				if (b.getIdBed().equals("6")) {
 					w1r3b3.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r3b3.getStyleClass().removeAll(style2);
-					w1r3b3.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r3b3.getStyleClass().removeAll(style2);
-					w1r3b3.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r3b3.setStyle(style2);
-					b = BedList.get(5);
-					b.setIsBedAvail(false);}
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
+						w1r3b3.getStyleClass().removeAll(style2);
+						w1r3b3.setStyle(style);}
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+						w1r3b3.getStyleClass().removeAll(style2);
+						w1r3b3.setStyle(style3); 	 	        		 	 	
+					}
+					if(b.getResident().getGender().isEmpty()) {
+						w1r3b3.setStyle(style2);
+						b = BedList.get(5);
+						b.setIsBedAvail(false);}
 				}
 				if (b.getIdBed().equals("7")) {
 					w1r3b4.setStyle(style2);
 					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r3b4.getStyleClass().removeAll(style2);
-					w1r3b4.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r3b4.getStyleClass().removeAll(style2);
-					w1r3b4.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r3b4.setStyle(style2);
-				b = BedList.get(6);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("8")) {
-					w1r4b1.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r4b1.getStyleClass().removeAll(style2);
-					w1r4b1.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r4b1.getStyleClass().removeAll(style2);
-					w1r4b1.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r4b1.setStyle(style2);
-				b = BedList.get(7);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("9")) {
-					w1r4b2.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r4b2.getStyleClass().removeAll(style2);
-					w1r4b2.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r4b2.getStyleClass().removeAll(style2);
-					w1r4b2.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r4b2.setStyle(style2);				
-				b = BedList.get(8);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("10")) {
-					w1r4b3.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r4b3.getStyleClass().removeAll(style2);
-					w1r4b3.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r4b3.getStyleClass().removeAll(style2);
-					w1r4b3.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r4b3.setStyle(style2);
-				b = BedList.get(9);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("11")) {
-					w1r4b4.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r4b4.getStyleClass().removeAll(style2);
-					w1r4b4.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r4b4.getStyleClass().removeAll(style2);
-					w1r4b4.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r4b4.setStyle(style2);
-				b = BedList.get(10);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("12")) {
-					w1r5b1.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r5b1.getStyleClass().removeAll(style2);
-					w1r5b1.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r5b1.getStyleClass().removeAll(style2);
-					w1r5b1.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r5b1.setStyle(style2);
-				b = BedList.get(11);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("13")) {
-					w1r5b2.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r5b2.getStyleClass().removeAll(style2);
-					w1r5b2.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {					
-					w1r5b2.getStyleClass().removeAll(style2);
-					w1r5b2.setStyle(style3); 	 	        		 	 	
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r5b2.setStyle(style2);
-				b = BedList.get(12);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("14")) {
-					w1r5b3.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r5b3.getStyleClass().removeAll(style2);
-					w1r5b3.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r5b3.getStyleClass().removeAll(style2);
-					w1r5b3.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r5b3.setStyle(style2);	 	        		 	 	
-				b = BedList.get(13);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("15")) {
-					w1r5b4.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w1r5b4.getStyleClass().removeAll(style2);
-					w1r5b4.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w1r5b4.getStyleClass().removeAll(style2);
-					w1r5b4.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w1r5b4.setStyle(style2);	 	        		 	 	
-				b = BedList.get(14);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("16")) {
-					w1r6b1.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w1r6b1.getStyleClass().removeAll(style2);
-				w1r6b1.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w1r6b1.getStyleClass().removeAll(style2);
-				w1r6b1.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w1r6b1.setStyle(style2);	 	        		 	 	
-			b = BedList.get(15);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("17")) {
-					w1r6b2.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w1r6b2.getStyleClass().removeAll(style2);
-				w1r6b2.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w1r6b2.getStyleClass().removeAll(style2);
-				w1r6b2.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w1r6b2.setStyle(style2);	 	        		 	 	
-			b = BedList.get(16);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("18")) {
-					w1r6b3.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w1r6b3.getStyleClass().removeAll(style2);
-				w1r6b3.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w1r6b3.getStyleClass().removeAll(style2);
-				w1r6b3.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w1r6b3.setStyle(style2);	 	        		 	 	
-			b = BedList.get(17);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("19")) {
-					w1r6b4.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w1r6b4.getStyleClass().removeAll(style2);
-				w1r6b4.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w1r6b4.getStyleClass().removeAll(style2);
-				w1r6b4.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w1r6b4.setStyle(style2);	 	        		 	 	
-			b = BedList.get(18);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("20")) {
-					w2r1b1.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r1b1.getStyleClass().removeAll(style2);
-				w2r1b1.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r1b1.getStyleClass().removeAll(style2);
-				w2r1b1.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r1b1.setStyle(style2);	 	        		 	 	
-			b = BedList.get(19);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("21")) {
-					w2r2b1.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r2b1.getStyleClass().removeAll(style2);
-				w2r2b1.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r2b1.getStyleClass().removeAll(style2);
-				w2r2b1.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r2b1.setStyle(style2);	 	        		
-			b = BedList.get(20);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("22")) {
-					w2r2b2.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r2b2.getStyleClass().removeAll(style2);
-				w2r2b2.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r2b2.getStyleClass().removeAll(style2);
-				w2r2b2.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r2b2.setStyle(style2);	 	        		 	 	
-			b = BedList.get(21);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("23")) {
-				w2r3b1.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r3b1.getStyleClass().removeAll(style2);
-				w2r3b1.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r3b1.getStyleClass().removeAll(style2);
-				w2r3b1.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r3b1.setStyle(style2);	 	        		 	 	
-			b = BedList.get(22);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("24")) {
-				w2r3b2.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r3b2.getStyleClass().removeAll(style2);
-				w2r3b2.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r3b2.getStyleClass().removeAll(style2);
-				w2r3b2.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r3b2.setStyle(style2);	 	        		 	 	
-			b = BedList.get(23);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("25")) {
-				w2r3b3.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r3b3.getStyleClass().removeAll(style2);
-				w2r3b3.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r3b3.getStyleClass().removeAll(style2);
-				w2r3b3.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r3b3.setStyle(style2);	 	        		 	 	
-			b = BedList.get(24);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("26")) {
-				w2r3b4.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r3b4.getStyleClass().removeAll(style2);
-				w2r3b4.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r3b4.getStyleClass().removeAll(style2);
-				w2r3b4.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r3b4.setStyle(style2);	 	        		 	 	
-			b = BedList.get(25);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("27")) {
-				w2r4b1.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r4b1.getStyleClass().removeAll(style2);
-				w2r4b1.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r4b1.getStyleClass().removeAll(style2);
-				w2r4b1.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r4b1.setStyle(style2);	 	        		 	 	
-			b = BedList.get(26);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("28")) {
-					w2r4b2.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r4b2.getStyleClass().removeAll(style2);
-					w2r4b2.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r4b2.getStyleClass().removeAll(style2);
-					w2r4b2.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r4b2.setStyle(style2);	 	        		 	 	
-				b = BedList.get(27);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("29")) {
-					w2r4b3.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r4b3.getStyleClass().removeAll(style2);
-					w2r4b3.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r4b3.getStyleClass().removeAll(style2);
-					w2r4b3.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r4b3.setStyle(style2);	 	        		 	 	
-				b = BedList.get(28);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("30")) {
-					w2r4b4.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r4b4.getStyleClass().removeAll(style2);
-					w2r4b4.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r4b4.getStyleClass().removeAll(style2);
-					w2r4b4.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r4b4.setStyle(style2);	 	        		 	 	
-				b = BedList.get(29);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("31")) {
-					w2r5b1.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r5b1.getStyleClass().removeAll(style2);
-					w2r5b1.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r5b1.getStyleClass().removeAll(style2);
-					w2r5b1.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r5b1.setStyle(style2);	 	        		 	 	
-				b = BedList.get(30);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("32")) {
-					w2r5b2.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r5b2.getStyleClass().removeAll(style2);
-					w2r5b2.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r5b2.getStyleClass().removeAll(style2);
-					w2r5b2.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r5b2.setStyle(style2);	 	        		 	 	
-				b = BedList.get(31);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("33")) {
-					w2r5b3.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r5b3.getStyleClass().removeAll(style2);
-					w2r5b3.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r5b3.getStyleClass().removeAll(style2);
-					w2r5b3.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r5b3.setStyle(style2);	 	        		 	 	
-				b = BedList.get(32);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("34")) {
-					w2r5b4.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r5b4.getStyleClass().removeAll(style2);
-					w2r5b4.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r5b4.getStyleClass().removeAll(style2);
-					w2r5b4.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r5b4.setStyle(style2);	 	        		 	 	
-				b = BedList.get(33);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("35")) {
-					w2r6b1.setStyle(style2);
-					b.getResident().getGender();
-				if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-					w2r6b1.getStyleClass().removeAll(style2);
-					w2r6b1.setStyle(style);}
-				if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-					w2r6b1.getStyleClass().removeAll(style2);
-					w2r6b1.setStyle(style3);
-				}
-				if(b.getResident().getGender().isEmpty()) {
-					w2r6b1.setStyle(style2);	 	        		 	 	
-				b = BedList.get(34);
-				b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("36")) {
-				w2r6b2.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r6b2.getStyleClass().removeAll(style2);
-				w2r6b2.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r6b2.getStyleClass().removeAll(style2);
-				w2r6b2.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r6b2.setStyle(style2);	 	        		 	 	
-			b = BedList.get(35);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("37")) {
-				w2r6b3.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r6b3.getStyleClass().removeAll(style2);
-				w2r6b3.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r6b3.getStyleClass().removeAll(style2);
-				w2r6b3.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r6b3.setStyle(style2);	 	        		 	 	
-			b = BedList.get(36);
-			b.setIsBedAvail(false);
-				}}
-				if (b.getIdBed().equals("38")) {
-					w2r6b4.setStyle(style2);
-				b.getResident().getGender();
-			if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
-				w2r6b4.getStyleClass().removeAll(style2);
-				w2r6b4.setStyle(style);}
-			if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
-				w2r6b4.getStyleClass().removeAll(style2);
-				w2r6b4.setStyle(style3);
-			}
-			if(b.getResident().getGender().isEmpty()) {
-				w2r6b4.setStyle(style2);	 	        		 	 	
-			b = BedList.get(37);
-			b.setIsBedAvail(false);
-				}}}}
-
-			}
-
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R1B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(0);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r1b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r1b1.getStyleClass().removeAll(style2);
-						w1r1b1.setStyle(style);}
-					else {
-						w1r1b1.getStyleClass().removeAll(style2);
-						w1r1b1.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R2B1(MouseEvent event) {
-
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-				Bed b = BedList.get(1);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-					b.setResident(r);
-					b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r2b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r2b1.getStyleClass().removeAll(style2);
-						w1r2b1.setStyle(style);}
-					else {
-						w1r2b1.getStyleClass().removeAll(style2);
-						w1r2b1.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}}
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R2B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(2);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r2b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r2b2.getStyleClass().removeAll(style2);
-						w1r2b2.setStyle(style);}
-					else {
-						w1r2b2.getStyleClass().removeAll(style2);
-						w1r2b2.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R3B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(3);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					w1r3b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r3b1.getStyleClass().removeAll(style2);
-						w1r3b1.setStyle(style);}
-					else {
-						w1r3b1.getStyleClass().removeAll(style2);
-						w1r3b1.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW1R3B2(MouseEvent event) { 
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(4);
-					if(b.isBedAvailable() == false) {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Bed currently occupied");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-
-					}
-					else {
-						for(Bed c : ResInBed) {
-							if(c.getResident().getFname().equals(r.getFname()))	{ 
-							Alert alert = new Alert(AlertType.ERROR);
-							alert.setTitle("Error Dialog");
-							alert.setHeaderText("Resident currently in another bed");
-							alert.setContentText("Ooops, there was an error!");
-							alert.showAndWait();
-							return;
-						}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r3b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r3b2.getStyleClass().removeAll(style2);
-						w1r3b2.setStyle(style);}
-					else {
-						w1r3b2.getStyleClass().removeAll(style2);
-						w1r3b2.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW1R3B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(5);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r3b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
-						w1r3b3.getStyleClass().removeAll(style2);
-						w1r3b3.setStyle(style);}
-					else {
-						w1r3b3.getStyleClass().removeAll(style2);
-						w1r3b3.setStyle(style3); 	 	        		 	 	
-					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-			
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW1R3B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(6);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
-						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					w1r3b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r3b4.getStyleClass().removeAll(style2);
 						w1r3b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r3b4.getStyleClass().removeAll(style2);
 						w1r3b4.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R4B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(7);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r3b4.setStyle(style2);
+						b = BedList.get(6);
 						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+					}}
+				if (b.getIdBed().equals("8")) {
 					w1r4b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r4b1.getStyleClass().removeAll(style2);
 						w1r4b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r4b1.getStyleClass().removeAll(style2);
 						w1r4b1.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW1R4B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(8);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r4b1.setStyle(style2);
+						b = BedList.get(7);
 						b.setIsBedAvail(false);
-						try {
-							insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-							insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-							archin(b.getResident().getFname(), b.getResident().getLname());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+					}}
+				if (b.getIdBed().equals("9")) {
 					w1r4b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r4b2.getStyleClass().removeAll(style2);
 						w1r4b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r4b2.getStyleClass().removeAll(style2);
 						w1r4b2.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW1R4B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(9);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r4b2.setStyle(style2);				
+						b = BedList.get(8);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("10")) {
 					w1r4b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r4b3.getStyleClass().removeAll(style2);
 						w1r4b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r4b3.getStyleClass().removeAll(style2);
 						w1r4b3.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW1R4B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem(); 
-
-
-				Bed b = BedList.get(10);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r4b3.setStyle(style2);
+						b = BedList.get(9);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("11")) {
 					w1r4b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r4b4.getStyleClass().removeAll(style2);
 						w1r4b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r4b4.getStyleClass().removeAll(style2);
 						w1r4b4.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R5B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(11);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r4b4.setStyle(style2);
+						b = BedList.get(10);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("12")) {
 					w1r5b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r5b1.getStyleClass().removeAll(style2);
 						w1r5b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r5b1.getStyleClass().removeAll(style2);
 						w1r5b1.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW1R5B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(12);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r5b1.setStyle(style2);
+						b = BedList.get(11);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("13")) {
 					w1r5b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r5b2.getStyleClass().removeAll(style2);
 						w1r5b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {					
 						w1r5b2.getStyleClass().removeAll(style2);
 						w1r5b2.setStyle(style3); 	 	        		 	 	
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW1R5B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(13);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r5b2.setStyle(style2);
+						b = BedList.get(12);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("14")) {
 					w1r5b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r5b3.getStyleClass().removeAll(style2);
 						w1r5b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r5b3.getStyleClass().removeAll(style2);
-						w1r5b3.setStyle(style3); 	 	        		 	 	
+						w1r5b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW1R5B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-
-
-				Bed b = BedList.get(14);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r5b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(13);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("15")) {
 					w1r5b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r5b4.getStyleClass().removeAll(style2);
 						w1r5b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r5b4.getStyleClass().removeAll(style2);
-						w1r5b4.setStyle(style3); 	 	        		 	 	
+						w1r5b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW1R6B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(15);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r5b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(14);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("16")) {
 					w1r6b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r6b1.getStyleClass().removeAll(style2);
 						w1r6b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r6b1.getStyleClass().removeAll(style2);
-						w1r6b1.setStyle(style3); 	 	        		 	 	
+						w1r6b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW1R6B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(16);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r6b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(15);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("17")) {
 					w1r6b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r6b2.getStyleClass().removeAll(style2);
 						w1r6b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r6b2.getStyleClass().removeAll(style2);
-						w1r6b2.setStyle(style3); 	 	        		 	 	
+						w1r6b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW1R6B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(17);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r6b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(16);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("18")) {
 					w1r6b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r6b3.getStyleClass().removeAll(style2);
 						w1r6b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r6b3.getStyleClass().removeAll(style2);
-						w1r6b3.setStyle(style3); 	 	        		 	 	
+						w1r6b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW1R6B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(18);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r6b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(17);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("19")) {
 					w1r6b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w1r6b4.getStyleClass().removeAll(style2);
 						w1r6b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w1r6b4.getStyleClass().removeAll(style2);
-						w1r6b4.setStyle(style3); 	 	        		 	 	
+						w1r6b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-			@FXML
-			void onClickW2R1B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(19);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w1r6b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(18);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("20")) {
 					w2r1b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r1b1.getStyleClass().removeAll(style2);
 						w2r1b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r1b1.getStyleClass().removeAll(style2);
-						w2r1b1.setStyle(style3); 	 	        		 	 	
+						w2r1b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW2R2B1(MouseEvent event) { 
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(20);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r1b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(19);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("21")) {
 					w2r2b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r2b1.getStyleClass().removeAll(style2);
 						w2r2b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r2b1.getStyleClass().removeAll(style2);
-						w2r2b1.setStyle(style3); 	 	        		 	 	
+						w2r2b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW2R2B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(21);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r2b1.setStyle(style2);	 	        		
+						b = BedList.get(20);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("22")) {
 					w2r2b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r2b2.getStyleClass().removeAll(style2);
 						w2r2b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r2b2.getStyleClass().removeAll(style2);
-						w2r2b2.setStyle(style3); 	 	        		 	 	
+						w2r2b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			@FXML
-			void onClickW2R3B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(22);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r2b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(21);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("23")) {
 					w2r3b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r3b1.getStyleClass().removeAll(style2);
 						w2r3b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r3b1.getStyleClass().removeAll(style2);
-						w2r3b1.setStyle(style3); 	 	        		 	 	
+						w2r3b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW2R3B2(MouseEvent event) { 
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(23);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r3b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(22);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("24")) {
 					w2r3b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r3b2.getStyleClass().removeAll(style2);
 						w2r3b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r3b2.getStyleClass().removeAll(style2);
-						w2r3b2.setStyle(style3); 	 	        		 	 	
+						w2r3b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW2R3B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(24);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r3b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(23);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("25")) {
 					w2r3b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r3b3.getStyleClass().removeAll(style2);
 						w2r3b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r3b3.getStyleClass().removeAll(style2);
-						w2r3b3.setStyle(style3); 	 	        		 	 	
+						w2r3b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW2R3B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(25);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r3b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(24);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("26")) {
 					w2r3b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r3b4.getStyleClass().removeAll(style2);
 						w2r3b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r3b4.getStyleClass().removeAll(style2);
-						w2r3b4.setStyle(style3); 	 	        		 	 	
+						w2r3b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW2R4B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(26);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r3b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(25);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("27")) {
 					w2r4b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r4b1.getStyleClass().removeAll(style2);
 						w2r4b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r4b1.getStyleClass().removeAll(style2);
-						w2r4b1.setStyle(style3); 	 	        		 	 	
+						w2r4b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW2R4B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(27);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r4b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(26);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("28")) {
 					w2r4b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r4b2.getStyleClass().removeAll(style2);
 						w2r4b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r4b2.getStyleClass().removeAll(style2);
-						w2r4b2.setStyle(style3); 	 	        		 	 	
+						w2r4b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW2R4B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(28);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r4b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(27);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("29")) {
 					w2r4b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r4b3.getStyleClass().removeAll(style2);
 						w2r4b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r4b3.getStyleClass().removeAll(style2);
-						w2r4b3.setStyle(style3); 	 	        		 	 	
+						w2r4b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW2R4B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(29);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r4b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(28);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("30")) {
 					w2r4b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r4b4.getStyleClass().removeAll(style2);
 						w2r4b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r4b4.getStyleClass().removeAll(style2);
-						w2r4b4.setStyle(style3); 	 	        		 	 	
+						w2r4b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW2R5B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(30);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r4b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(29);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("31")) {
 					w2r5b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r5b1.getStyleClass().removeAll(style2);
 						w2r5b1.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r5b1.getStyleClass().removeAll(style2);
-						w2r5b1.setStyle(style3); 	 	        		 	 	
+						w2r5b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW2R5B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(31);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r5b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(30);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("32")) {
 					w2r5b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r5b2.getStyleClass().removeAll(style2);
 						w2r5b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r5b2.getStyleClass().removeAll(style2);
-						w2r5b2.setStyle(style3); 	 	        		 	 	
+						w2r5b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW2R5B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(32);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r5b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(31);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("33")) {
 					w2r5b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r5b3.getStyleClass().removeAll(style2);
 						w2r5b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r5b3.getStyleClass().removeAll(style2);
-						w2r5b3.setStyle(style3); 	 	        		 	 	
+						w2r5b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW2R5B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(33);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r5b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(32);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("34")) {
 					w2r5b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r5b4.getStyleClass().removeAll(style2);
 						w2r5b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r5b4.getStyleClass().removeAll(style2);
-						w2r5b4.setStyle(style3); 	 	        		 	 	
+						w2r5b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Add Tab   --->   Evening shift
-			@FXML
-			void onClickW2R6B1(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(34);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r5b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(33);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("35")) {
 					w2r6b1.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r6b1.getStyleClass().removeAll(style2);
 						w2r6b1.setStyle(style);}
-					else {
-						w2r6b1.getStyleClass().removeAll(style2); 
-						w2r6b1.setStyle(style3); 	 	        		 	 	
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
+						w2r6b1.getStyleClass().removeAll(style2);
+						w2r6b1.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Morning shift
-			@FXML
-			void onClickW2R6B2(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(35);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r6b1.setStyle(style2);	 	        		 	 	
+						b = BedList.get(34);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("36")) {
 					w2r6b2.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r6b2.getStyleClass().removeAll(style2);
 						w2r6b2.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r6b2.getStyleClass().removeAll(style2);
-						w2r6b2.setStyle(style3); 	 	        		 	 	
+						w2r6b2.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			//Add Tab   --->   Morning shift
-			@FXML
-			void onClickW2R6B3(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(36);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r6b2.setStyle(style2);	 	        		 	 	
+						b = BedList.get(35);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("37")) {
 					w2r6b3.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r6b3.getStyleClass().removeAll(style2);
 						w2r6b3.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r6b3.getStyleClass().removeAll(style2);
-						w2r6b3.setStyle(style3); 	 	        		 	 	
+						w2r6b3.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-
-			//Edit Tab   --->   Evening shift
-			@FXML
-			void onClickW2R6B4(MouseEvent event) {
-				Resident r = tableView.getSelectionModel().getSelectedItem();
-				Bed b = BedList.get(37);
-				if(b.isBedAvailable() == false) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText("Bed currently occupied");
-					alert.setContentText("Ooops, there was an error!");
-					alert.showAndWait();
-
-				}
-				else {
-					for(Bed c : ResInBed) {
-						if(c.getResident().getFname().equals(r.getFname()))	{ 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Dialog");
-						alert.setHeaderText("Resident currently in another bed");
-						alert.setContentText("Ooops, there was an error!");
-						alert.showAndWait();
-						return;
-					}}}
-						b.setResident(r);
+					if(b.getResident().getGender().isEmpty()) {
+						w2r6b3.setStyle(style2);	 	        		 	 	
+						b = BedList.get(36);
 						b.setIsBedAvail(false);
-					try {
-						insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
-						insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
-						archin(b.getResident().getFname(), b.getResident().getLname());
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					}}
+				if (b.getIdBed().equals("38")) {
 					w2r6b4.setStyle(style2);
-					if (r.getGender().equals("MALE")) {
+					b.getResident().getGender();
+					if(b.getResident().getGender().equalsIgnoreCase("MALE")) {
 						w2r6b4.getStyleClass().removeAll(style2);
 						w2r6b4.setStyle(style);}
-					else {
+					if(b.getResident().getGender().equalsIgnoreCase("FEMALE")) {
 						w2r6b4.getStyleClass().removeAll(style2);
-						w2r6b4.setStyle(style3); 	 	        		 	 	
+						w2r6b4.setStyle(style3);
 					}
-	 	    		tableView.getItems().clear();
-	 	    		try {
-						JavafxChoiceFill();
-						loadData();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
+					if(b.getResident().getGender().isEmpty()) {
+						w2r6b4.setStyle(style2);	 	        		 	 	
+						b = BedList.get(37);
+						b.setIsBedAvail(false);
+					}}}}
+
+	}
 
 
-			@FXML
-			void suser(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-				stage.setTitle("View Users");
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R1B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
 
-			}
 
-			@FXML
-			void adhome(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-				stage.setTitle("Admin Home Page");
+		Bed b = BedList.get(0);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
 
-			}
-			@FXML
-			void logout(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-
-			}
-			@FXML
-			void wardv(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/WardView.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-				stage.setTitle("Ward Control");
-
-			}
-
-			@FXML
-			void rusers(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/RUsers.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-				stage.setTitle("Register User");
-
-			}
-			@FXML
-			void bedmenu(MouseEvent event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-
-			}
-
-			public void bedmenu2(Event event) throws IOException {
-				Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/WardView.fxml"));
-				Node node = (Node) event.getSource();
-				Stage stage = (Stage) node.getScene().getWindow();
-				stage.setScene(new Scene(root));
-
-			}
 		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r1b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r1b1.getStyleClass().removeAll(style2);
+			w1r1b1.setStyle(style);}
+		else {
+			w1r1b1.getStyleClass().removeAll(style2);
+			w1r1b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R2B1(MouseEvent event) {
+
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+		Bed b = BedList.get(1);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r2b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r2b1.getStyleClass().removeAll(style2);
+			w1r2b1.setStyle(style);}
+		else {
+			w1r2b1.getStyleClass().removeAll(style2);
+			w1r2b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}}
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R2B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(2);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r2b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r2b2.getStyleClass().removeAll(style2);
+			w1r2b2.setStyle(style);}
+		else {
+			w1r2b2.getStyleClass().removeAll(style2);
+			w1r2b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R3B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(3);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r3b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r3b1.getStyleClass().removeAll(style2);
+			w1r3b1.setStyle(style);}
+		else {
+			w1r3b1.getStyleClass().removeAll(style2);
+			w1r3b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW1R3B2(MouseEvent event) { 
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(4);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r3b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r3b2.getStyleClass().removeAll(style2);
+			w1r3b2.setStyle(style);}
+		else {
+			w1r3b2.getStyleClass().removeAll(style2);
+			w1r3b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW1R3B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(5);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r3b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r3b3.getStyleClass().removeAll(style2);
+			w1r3b3.setStyle(style);}
+		else {
+			w1r3b3.getStyleClass().removeAll(style2);
+			w1r3b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW1R3B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(6);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r3b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r3b4.getStyleClass().removeAll(style2);
+			w1r3b4.setStyle(style);}
+		else {
+			w1r3b4.getStyleClass().removeAll(style2);
+			w1r3b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R4B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(7);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r4b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r4b1.getStyleClass().removeAll(style2);
+			w1r4b1.setStyle(style);}
+		else {
+			w1r4b1.getStyleClass().removeAll(style2);
+			w1r4b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW1R4B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(8);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r4b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r4b2.getStyleClass().removeAll(style2);
+			w1r4b2.setStyle(style);}
+		else {
+			w1r4b2.getStyleClass().removeAll(style2);
+			w1r4b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW1R4B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(9);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r4b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r4b3.getStyleClass().removeAll(style2);
+			w1r4b3.setStyle(style);}
+		else {
+			w1r4b3.getStyleClass().removeAll(style2);
+			w1r4b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW1R4B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem(); 
+
+
+		Bed b = BedList.get(10);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r4b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r4b4.getStyleClass().removeAll(style2);
+			w1r4b4.setStyle(style);}
+		else {
+			w1r4b4.getStyleClass().removeAll(style2);
+			w1r4b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R5B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(11);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r5b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r5b1.getStyleClass().removeAll(style2);
+			w1r5b1.setStyle(style);}
+		else {
+			w1r5b1.getStyleClass().removeAll(style2);
+			w1r5b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW1R5B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(12);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r5b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r5b2.getStyleClass().removeAll(style2);
+			w1r5b2.setStyle(style);}
+		else {
+			w1r5b2.getStyleClass().removeAll(style2);
+			w1r5b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW1R5B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(13);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r5b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r5b3.getStyleClass().removeAll(style2);
+			w1r5b3.setStyle(style);}
+		else {
+			w1r5b3.getStyleClass().removeAll(style2);
+			w1r5b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW1R5B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+
+
+		Bed b = BedList.get(14);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r5b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r5b4.getStyleClass().removeAll(style2);
+			w1r5b4.setStyle(style);}
+		else {
+			w1r5b4.getStyleClass().removeAll(style2);
+			w1r5b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW1R6B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(15);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r6b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r6b1.getStyleClass().removeAll(style2);
+			w1r6b1.setStyle(style);}
+		else {
+			w1r6b1.getStyleClass().removeAll(style2);
+			w1r6b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW1R6B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(16);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r6b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r6b2.getStyleClass().removeAll(style2);
+			w1r6b2.setStyle(style);}
+		else {
+			w1r6b2.getStyleClass().removeAll(style2);
+			w1r6b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW1R6B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(17);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r6b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r6b3.getStyleClass().removeAll(style2);
+			w1r6b3.setStyle(style);}
+		else {
+			w1r6b3.getStyleClass().removeAll(style2);
+			w1r6b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW1R6B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(18);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w1r6b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w1r6b4.getStyleClass().removeAll(style2);
+			w1r6b4.setStyle(style);}
+		else {
+			w1r6b4.getStyleClass().removeAll(style2);
+			w1r6b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@FXML
+	void onClickW2R1B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(19);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r1b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r1b1.getStyleClass().removeAll(style2);
+			w2r1b1.setStyle(style);}
+		else {
+			w2r1b1.getStyleClass().removeAll(style2);
+			w2r1b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW2R2B1(MouseEvent event) { 
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(20);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r2b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r2b1.getStyleClass().removeAll(style2);
+			w2r2b1.setStyle(style);}
+		else {
+			w2r2b1.getStyleClass().removeAll(style2);
+			w2r2b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW2R2B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(21);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r2b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r2b2.getStyleClass().removeAll(style2);
+			w2r2b2.setStyle(style);}
+		else {
+			w2r2b2.getStyleClass().removeAll(style2);
+			w2r2b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void onClickW2R3B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(22);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r3b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r3b1.getStyleClass().removeAll(style2);
+			w2r3b1.setStyle(style);}
+		else {
+			w2r3b1.getStyleClass().removeAll(style2);
+			w2r3b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW2R3B2(MouseEvent event) { 
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(23);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r3b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r3b2.getStyleClass().removeAll(style2);
+			w2r3b2.setStyle(style);}
+		else {
+			w2r3b2.getStyleClass().removeAll(style2);
+			w2r3b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW2R3B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(24);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r3b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r3b3.getStyleClass().removeAll(style2);
+			w2r3b3.setStyle(style);}
+		else {
+			w2r3b3.getStyleClass().removeAll(style2);
+			w2r3b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW2R3B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(25);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r3b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r3b4.getStyleClass().removeAll(style2);
+			w2r3b4.setStyle(style);}
+		else {
+			w2r3b4.getStyleClass().removeAll(style2);
+			w2r3b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW2R4B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(26);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r4b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r4b1.getStyleClass().removeAll(style2);
+			w2r4b1.setStyle(style);}
+		else {
+			w2r4b1.getStyleClass().removeAll(style2);
+			w2r4b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW2R4B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(27);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r4b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r4b2.getStyleClass().removeAll(style2);
+			w2r4b2.setStyle(style);}
+		else {
+			w2r4b2.getStyleClass().removeAll(style2);
+			w2r4b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW2R4B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(28);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r4b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r4b3.getStyleClass().removeAll(style2);
+			w2r4b3.setStyle(style);}
+		else {
+			w2r4b3.getStyleClass().removeAll(style2);
+			w2r4b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW2R4B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(29);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r4b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r4b4.getStyleClass().removeAll(style2);
+			w2r4b4.setStyle(style);}
+		else {
+			w2r4b4.getStyleClass().removeAll(style2);
+			w2r4b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW2R5B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(30);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r5b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r5b1.getStyleClass().removeAll(style2);
+			w2r5b1.setStyle(style);}
+		else {
+			w2r5b1.getStyleClass().removeAll(style2);
+			w2r5b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW2R5B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(31);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r5b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r5b2.getStyleClass().removeAll(style2);
+			w2r5b2.setStyle(style);}
+		else {
+			w2r5b2.getStyleClass().removeAll(style2);
+			w2r5b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW2R5B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(32);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r5b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r5b3.getStyleClass().removeAll(style2);
+			w2r5b3.setStyle(style);}
+		else {
+			w2r5b3.getStyleClass().removeAll(style2);
+			w2r5b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW2R5B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(33);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r5b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r5b4.getStyleClass().removeAll(style2);
+			w2r5b4.setStyle(style);}
+		else {
+			w2r5b4.getStyleClass().removeAll(style2);
+			w2r5b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Add Tab   --->   Evening shift
+	@FXML
+	void onClickW2R6B1(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(34);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r6b1.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r6b1.getStyleClass().removeAll(style2);
+			w2r6b1.setStyle(style);}
+		else {
+			w2r6b1.getStyleClass().removeAll(style2); 
+			w2r6b1.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Morning shift
+	@FXML
+	void onClickW2R6B2(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(35);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r6b2.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r6b2.getStyleClass().removeAll(style2);
+			w2r6b2.setStyle(style);}
+		else {
+			w2r6b2.getStyleClass().removeAll(style2);
+			w2r6b2.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Add Tab   --->   Morning shift
+	@FXML
+	void onClickW2R6B3(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(36);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r6b3.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r6b3.getStyleClass().removeAll(style2);
+			w2r6b3.setStyle(style);}
+		else {
+			w2r6b3.getStyleClass().removeAll(style2);
+			w2r6b3.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Edit Tab   --->   Evening shift
+	@FXML
+	void onClickW2R6B4(MouseEvent event) {
+		Resident r = tableView.getSelectionModel().getSelectedItem();
+		Bed b = BedList.get(37);
+		if(b.isBedAvailable() == false) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Bed currently occupied");
+			alert.setContentText("Ooops, there was an error!");
+			alert.showAndWait();
+
+		}
+		else {
+			for(Bed c : ResInBed) {
+				if(c.getResident().getFname().equals(r.getFname()))	{ 
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText("Resident currently in another bed");
+					alert.setContentText("Ooops, there was an error!");
+					alert.showAndWait();
+					return;
+				}}}
+		b.setResident(r);
+		b.setIsBedAvail(false);
+		try {
+			insertSpecificBed(b.getResident().getFname(), b.getResident().getLname(), b, b.getResident().getGender());
+			insertSpecificBedOver(b.getResident().getFname(), b.getResident().getLname(), b);
+			archin(b.getResident().getFname(), b.getResident().getLname());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		w2r6b4.setStyle(style2);
+		if (r.getGender().equals("MALE")) {
+			w2r6b4.getStyleClass().removeAll(style2);
+			w2r6b4.setStyle(style);}
+		else {
+			w2r6b4.getStyleClass().removeAll(style2);
+			w2r6b4.setStyle(style3); 	 	        		 	 	
+		}
+		tableView.getItems().clear();
+		try {
+			JavafxChoiceFill();
+			loadData();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@FXML
+	void suser(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+		stage.setTitle("View Users");
+
+	}
+
+	@FXML
+	void adhome(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Admin.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+		stage.setTitle("Admin Home Page");
+
+	}
+	@FXML
+	void logout(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+
+	}
+	@FXML
+	void wardv(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/WardView.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+		stage.setTitle("Ward Control");
+
+	}
+
+	@FXML
+	void rusers(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/RUsers.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+		stage.setTitle("Register User");
+
+	}
+	@FXML
+	void bedmenu(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/ShowUsers.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+
+	}
+
+	public void bedmenu2(Event event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/WardView.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+
+	}
+}
 
 

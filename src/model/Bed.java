@@ -5,31 +5,31 @@ import javafx.beans.property.StringProperty;
 
 public class Bed {
 
-	
+
 
 	private StringProperty idbed = new SimpleStringProperty(); 
 	private Resident resident;
 	private boolean isBedAvail = true;
-	
+
 	public Bed(Resident r, String idbed) {
 		setResident(r);
 		this.idbed.set(idbed);
 	}
-	
-	
+
+
 	public Bed() {
 		idbed.set("");
-		}
-	
+	}
+
 	public Bed(String idbed) { 
 		this.idbed.set(idbed);
 	}
-	
+
 	@Override
 	public String toString() {  //this is needed for ComboBox
 		return 	idbed.get();	
 	}
-	
+
 	public String getIdBed() {
 		return this.idbed.get();
 	}
@@ -63,8 +63,8 @@ public class Bed {
 
 
 	public void setStyle(String style2) {
-	style2 = "-fx-background-color:  WHITE";
-		
+		style2 = "-fx-background-color:  WHITE";
+
 	}
-	
+
 }

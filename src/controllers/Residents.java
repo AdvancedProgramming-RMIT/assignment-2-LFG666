@@ -25,78 +25,78 @@ import javafx.stage.Stage;
 import model.Data;
 
 public class Residents {
-	 @FXML
-	    private Button dochome;
-	   @FXML
-	    private Button logout;
-	   @FXML
-		private Label lblUser;
-	   @FXML
-	    private TableView<Data> tableView;
-	    @FXML
-	    private TableColumn<Data,Integer> idColumn;
-	    @FXML
-	    private TableColumn<Data,String> FNameColumn;
-	    @FXML
-	    private TableColumn<Data,String> LNameColumn;
-	    @FXML
-	    private TableColumn<Data,String> typeColumn;
-	    @FXML
-	    private TableColumn<Data,String> GenderColumn;
+	@FXML
+	private Button dochome;
+	@FXML
+	private Button logout;
+	@FXML
+	private Label lblUser;
+	@FXML
+	private TableView<Data> tableView;
+	@FXML
+	private TableColumn<Data,Integer> idColumn;
+	@FXML
+	private TableColumn<Data,String> FNameColumn;
+	@FXML
+	private TableColumn<Data,String> LNameColumn;
+	@FXML
+	private TableColumn<Data,String> typeColumn;
+	@FXML
+	private TableColumn<Data,String> GenderColumn;
 
 
-	    @FXML
-	    public void initialize() {
-	        loadData();
-	    }
+	@FXML
+	public void initialize() {
+		loadData();
+	}
 
-	    @FXML
-	    public void loadData() {
+	@FXML
+	public void loadData() {
 
-	        idColumn.setCellValueFactory(new PropertyValueFactory<Data,Integer>("id"));
-	        FNameColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("fname"));
-	        LNameColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("lname"));
-	        typeColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("type"));
-	        GenderColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("gender"));
+		idColumn.setCellValueFactory(new PropertyValueFactory<Data,Integer>("id"));
+		FNameColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("fname"));
+		LNameColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("lname"));
+		typeColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("type"));
+		GenderColumn.setCellValueFactory(new PropertyValueFactory<Data,String>("gender"));
 
-	        tableView.setItems(getUsers());
-	    }
+		tableView.setItems(getUsers());
+	}
 
-	    public ObservableList<Data> getUsers(){
-	        ObservableList<Data> Data= FXCollections.observableArrayList();
-	        try {
-	            Connection connection = SQLite.dbConnector();
-	            Statement statement = connection.createStatement();
-	            ResultSet resultSet = statement.executeQuery("select * from users where type = 'RESIDENT'");
-	            while (resultSet.next()) {
-	            	Data.add(new Data(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"),  resultSet.getString("type"), resultSet.getString("gender")));
-	            }
-
-
-	        } catch (SQLException e) {
-	            System.err.println("Cannot Connect to Database");
-	        }
+	public ObservableList<Data> getUsers(){
+		ObservableList<Data> Data= FXCollections.observableArrayList();
+		try {
+			Connection connection = SQLite.dbConnector();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from users where type = 'RESIDENT'");
+			while (resultSet.next()) {
+				Data.add(new Data(resultSet.getInt("id"), resultSet.getString("FName"), resultSet.getString("LName"),  resultSet.getString("type"), resultSet.getString("gender")));
+			}
 
 
+		} catch (SQLException e) {
+			System.err.println("Cannot Connect to Database");
+		}
 
-	        return Data;
-	    }
-	    @FXML
-	    void dochome(MouseEvent event) throws IOException {
-	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
-	        Node node = (Node) event.getSource();
-	        Stage stage = (Stage) node.getScene().getWindow();
-	        stage.setScene(new Scene(root));
-	        stage.setTitle("Doctor Home Page");
 
-	    }
-	    @FXML
-	    void logout(MouseEvent event) throws IOException {
-	        Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
-	        Node node = (Node) event.getSource();
-	        Stage stage = (Stage) node.getScene().getWindow();
-	        stage.setScene(new Scene(root));
 
-	    }
+		return Data;
+	}
+	@FXML
+	void dochome(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Doctor.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+		stage.setTitle("Doctor Home Page");
+
+	}
+	@FXML
+	void logout(MouseEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
+		Node node = (Node) event.getSource();
+		Stage stage = (Stage) node.getScene().getWindow();
+		stage.setScene(new Scene(root));
+
+	}
 
 }

@@ -71,6 +71,7 @@ public boolean containsText(String key) {
             || key.equals(Shift.asString()); 
 
 }
+// The next 2 methods were needed in order to override Java's standard hashcode to enable doctor shift to work.
 @Override
 public boolean equals(Object obj) {
     if (this == obj)

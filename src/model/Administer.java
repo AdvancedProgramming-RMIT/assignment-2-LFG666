@@ -15,36 +15,36 @@ public class Administer {
 
 
 
-	
+
 	public Administer() {
 		mname.set("");
 		dname.set("");
 		rname.set("");
 		dosage.set(0);
 		times.set(0);}
-	
-	
-	
+
+
+
 	public Administer(String mname, String dname, String rname, int dosage, int times) {
 		this.mname.set(mname);
-        this.dname.set(dname);
-        this.dosage.set(dosage);
-    	this.rname.set(rname);
-    	this.times.set(times);
-		
+		this.dname.set(dname);
+		this.dosage.set(dosage);
+		this.rname.set(rname);
+		this.times.set(times);
+
 	}
-	
-	
+
+
 	@Override
 	public String toString() {  //this is needed for ComboBox
-return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get() + "," + times.get();
+		return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get() + "," + times.get();
 	}
-	
+
 	public StringProperty mnameProperty() {
 		return this.mname;
 	}
 
-	
+
 	public String getMname() {
 		return this.mname.get();
 	}
@@ -53,12 +53,12 @@ return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get()
 		this.mname.set(mname);
 	}
 
-	
+
 	public StringProperty dnameProperty() {
 		return this.dname;
 	}
 
-	
+
 	public String getDname() {
 		return this.dname.get();
 	}
@@ -71,7 +71,7 @@ return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get()
 		return this.rname;
 	}
 
-	
+
 	public String getRname() {
 		return this.rname.get();
 	}
@@ -83,12 +83,12 @@ return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get()
 	public IntegerProperty dosageProperty() {
 		return this.dosage;
 	}
-	
+
 
 	public int getDosage() {
 		return this.dosageProperty().get();
 	}
-	
+
 
 	public void setDosage(int dosage) {
 		this.dosageProperty().set(dosage);
@@ -96,18 +96,18 @@ return  mname.get() + "," + dname.get() + "," + rname.get() + "," + dosage.get()
 	public IntegerProperty timesProperty() {
 		return this.times;
 	}
-	
+
 
 	public final int getTimes() {
 		return this.timesProperty().get();
 	}
-	
+
 
 	public final void setTimes(int times) {
 		this.timesProperty().set(times);
 	}
-	
 
-	
-	
+
+
+
 }
