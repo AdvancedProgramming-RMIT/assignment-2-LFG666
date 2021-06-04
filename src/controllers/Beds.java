@@ -2021,7 +2021,7 @@ public class Beds {
 			alert.setHeaderText("Not currently on shift");
 			alert.setContentText("Ooops, there was an error!");
 			alert.showAndWait();
-			return;
+			return; 
 		}}
 
 
