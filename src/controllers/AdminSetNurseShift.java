@@ -158,7 +158,7 @@ public class AdminSetNurseShift implements Initializable{
 	ArrayList<Pane> FridayList1 = new ArrayList<Pane>();
 	ArrayList<Pane> FridayList2 = new ArrayList<Pane>();
 	ArrayList<Pane> SaturdayList1 = new ArrayList<Pane>();
-	ArrayList<Pane> SaturdayList2 = new ArrayList<Pane>();
+	ArrayList<Pane> SaturdayList2 = new ArrayList<Pane>(); 
 
 	ArrayList<Roster> personalRosters = new ArrayList<Roster>();
 	ArrayList<Roster> rosterArrayList = new ArrayList<Roster>();
@@ -179,6 +179,27 @@ public class AdminSetNurseShift implements Initializable{
 			ps.close();
 		}
 
+	}
+
+	public ArrayList<Nurse> selectAll() throws SQLException {
+		ArrayList<Nurse> list = new ArrayList<Nurse>();
+		System.out.println(list);
+
+		String sql = "select * from users where type = 'Nurse'";
+		Connection connection = SQLite.dbConnector();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+			Nurse d = new Nurse(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
+			list.add(d);
+		}
+
+		ps.close();
+		rs.close();
+
+		return list;
 	}
 
 	public int insertSpecificRoster(String Fname, String Lname, Roster roster) throws SQLException{
@@ -291,6 +312,129 @@ public class AdminSetNurseShift implements Initializable{
 		stage.setTitle("Admin Control");
 	}
 
+	//adds panes to lists and pane buttons and sets up page
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		try {
+			JavafxChoiceFill();
+			ListViewFill();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		//--------------------------------
+		SundayList1.add(Sunday1);
+		SundayList1.add(Sunday2);
+
+		SundayList2.add(Sunday11);
+		SundayList2.add(Sunday21);
+
+		//--------------------------------
+		MondayList1.add(Monday1);
+		MondayList1.add(Monday2);
+
+
+		MondayList2.add(Monday11);
+		MondayList2.add(Monday21);
+
+		//--------------------------------
+		TuesdayList1.add(Tuesday1);
+		TuesdayList1.add(Tuesday2);
+
+
+		TuesdayList2.add(Tuesday11);
+		TuesdayList2.add(Tuesday21);
+		//-------------------------
+		WedenesdayList1.add(Wednesday1);
+		WedenesdayList1.add(Wednesday2);
+
+		WedenesdayList2.add(Wednesday11);
+		WedenesdayList2.add(Wednesday21);
+		//-------------------------
+		ThursdayList1.add(Thursday1);
+		ThursdayList1.add(Thursday2);
+
+		ThursdayList2.add(Thursday11);
+		ThursdayList2.add(Thursday21);
+		//-------------------------
+		FridayList1.add(Friday1);
+		FridayList1.add(Friday2);
+
+		FridayList2.add(Friday11);
+		FridayList2.add(Friday21);
+		//-------------------------
+		SaturdayList1.add(Saturday1);
+		SaturdayList1.add(Saturday2);
+
+		SaturdayList2.add(Saturday11);
+		SaturdayList2.add(Saturday21);
+		//-------------------------
+		PaneButtons.add(Tuesday11);
+		PaneButtons.add(Tuesday21);
+
+		//--------------------------------
+		PaneButtons.add(Sunday1);
+		PaneButtons.add(Sunday11);
+		PaneButtons.add(Sunday2);
+		PaneButtons.add(Sunday21);
+
+		PaneButtons.add(Monday1);
+		PaneButtons.add(Monday11);
+		PaneButtons.add(Monday2);
+		PaneButtons.add(Monday21);
+
+		PaneButtons.add(Tuesday1);
+		PaneButtons.add(Tuesday11);
+		PaneButtons.add(Tuesday2);
+		PaneButtons.add(Tuesday21);
+
+		PaneButtons.add(Wednesday1);
+		PaneButtons.add(Wednesday11);
+		PaneButtons.add(Wednesday2);
+		PaneButtons.add(Wednesday21);
+
+		PaneButtons.add(Thursday1);
+		PaneButtons.add(Thursday11);
+		PaneButtons.add(Thursday2);
+		PaneButtons.add(Thursday21);
+
+		PaneButtons.add(Friday1);
+		PaneButtons.add(Friday11);
+		PaneButtons.add(Friday2);
+		PaneButtons.add(Friday21);
+
+		PaneButtons.add(Saturday1);
+		PaneButtons.add(Saturday11);
+		PaneButtons.add(Saturday2);
+		PaneButtons.add(Saturday21);
+
+		//-----------------------------
+		for (Pane p : PaneButtons)
+			p.setStyle(style);
+
+
+	}
+
+	//cleans lists & choiceboxes and then populates them from DB
+	public void JavafxChoiceFill() throws SQLException {
+		NurseList = selectAll();
+		ChoiceAdd.getItems().clear();
+		ChoiceEdit.getItems().clear();
+		ChoiceDeleteSpDay.getItems().clear();
+		ChoiceDeleteSpNurse.getItems().clear();
+		ChoiceDeleteSpShift.getItems().clear();
+		for (Nurse t : NurseList) {
+			ChoiceAdd.getItems().add(t.getFname());
+			ChoiceEdit.getItems().add(t.getFname());
+			ChoiceDeleteSpNurse.getItems().add(t.getFname());
+		}
+
+		ChoiceDeleteSpDay.getItems().addAll("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturdayy");
+		ChoiceDeleteSpShift.getItems().addAll("Sunday 1", "Sunday 2", "Monday 1", "Monday 2", "Tuesday 1", "Tuesday 2", "Wednesday 1", "Wednesday 2", "Thursday 1", "Thursday 2", "Friday 1", "Friday 2", "Saturday 1", "Saturday 2");
+	}
+
+	
+//adds nurses to roster but also makes sure they cant do double shifts on the same day
 	@FXML
 	void onClickBtnAdd(ActionEvent event) throws SQLException {
 		personalRosters.clear();
@@ -346,7 +490,7 @@ public class AdminSetNurseShift implements Initializable{
 		for (Pane p : PaneButtons)
 			p.setStyle(style);
 	}
-
+//adds to roster and commits to DB
 	@FXML
 	void onClickBtnSave(ActionEvent event) throws SQLException {
 		personalRosters.clear();
@@ -385,7 +529,7 @@ public class AdminSetNurseShift implements Initializable{
 
 		ListViewFill();
 	}
-
+//deletes all of a specific nurses shifts and removes from DB
 	@FXML
 	void onClickDeleteSpNurse(ActionEvent event) throws SQLException {
 		for (Nurse t : NurseList) {
@@ -394,14 +538,14 @@ public class AdminSetNurseShift implements Initializable{
 		}
 		ListViewFill();
 	}
-
+//removes a complete day in the roster and removes from DB
 	@FXML
 	void onClickDeleteSpDay(ActionEvent event) throws SQLException {
 		String day = ChoiceDeleteSpDay.getValue();
 		removeRosterByDay(day);
 		ListViewFill();
 	}
-
+// removes a specific nurse shift
 	@FXML
 	void onClickDeleteSpShift(ActionEvent event) throws SQLException {
 		String shift = ChoiceDeleteSpShift.getValue();
@@ -409,16 +553,11 @@ public class AdminSetNurseShift implements Initializable{
 		removeRosterByShift(splited[0], Integer.parseInt(splited[1]));
 		ListViewFill();
 	}
-
+// removes everyone from the roster
 	@FXML
 	void onClickDeleteAll(ActionEvent event) throws SQLException {
 		removeAll();
 		ListViewFill();
-	}
-
-	@FXML
-	void Nurse(ActionEvent event) throws IOException, SQLException {
-
 	}
 
 	@FXML
@@ -695,7 +834,7 @@ public class AdminSetNurseShift implements Initializable{
 	}
 
 
-
+//fills the lists with the roster stored in the DB
 	public void ListViewFill() throws SQLException {
 		ListViewSunday1.getItems().clear();
 		ListViewSunday2.getItems().clear();
@@ -749,150 +888,7 @@ public class AdminSetNurseShift implements Initializable{
 		}
 	}
 
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
-		try {
-			JavafxChoiceFill();
-			ListViewFill();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		//--------------------------------
-		SundayList1.add(Sunday1);
-		SundayList1.add(Sunday2);
-
-		SundayList2.add(Sunday11);
-		SundayList2.add(Sunday21);
-
-		//--------------------------------
-		MondayList1.add(Monday1);
-		MondayList1.add(Monday2);
-
-
-		MondayList2.add(Monday11);
-		MondayList2.add(Monday21);
-
-		//--------------------------------
-		TuesdayList1.add(Tuesday1);
-		TuesdayList1.add(Tuesday2);
-
-
-		TuesdayList2.add(Tuesday11);
-		TuesdayList2.add(Tuesday21);
-		//-------------------------
-		WedenesdayList1.add(Wednesday1);
-		WedenesdayList1.add(Wednesday2);
-
-		WedenesdayList2.add(Wednesday11);
-		WedenesdayList2.add(Wednesday21);
-		//-------------------------
-		ThursdayList1.add(Thursday1);
-		ThursdayList1.add(Thursday2);
-
-		ThursdayList2.add(Thursday11);
-		ThursdayList2.add(Thursday21);
-		//-------------------------
-		FridayList1.add(Friday1);
-		FridayList1.add(Friday2);
-
-		FridayList2.add(Friday11);
-		FridayList2.add(Friday21);
-		//-------------------------
-		SaturdayList1.add(Saturday1);
-		SaturdayList1.add(Saturday2);
-
-		SaturdayList2.add(Saturday11);
-		SaturdayList2.add(Saturday21);
-		//-------------------------
-		PaneButtons.add(Tuesday11);
-		PaneButtons.add(Tuesday21);
-
-		//--------------------------------
-		PaneButtons.add(Sunday1);
-		PaneButtons.add(Sunday11);
-		PaneButtons.add(Sunday2);
-		PaneButtons.add(Sunday21);
-
-		PaneButtons.add(Monday1);
-		PaneButtons.add(Monday11);
-		PaneButtons.add(Monday2);
-		PaneButtons.add(Monday21);
-
-		PaneButtons.add(Tuesday1);
-		PaneButtons.add(Tuesday11);
-		PaneButtons.add(Tuesday2);
-		PaneButtons.add(Tuesday21);
-
-		PaneButtons.add(Wednesday1);
-		PaneButtons.add(Wednesday11);
-		PaneButtons.add(Wednesday2);
-		PaneButtons.add(Wednesday21);
-
-		PaneButtons.add(Thursday1);
-		PaneButtons.add(Thursday11);
-		PaneButtons.add(Thursday2);
-		PaneButtons.add(Thursday21);
-
-		PaneButtons.add(Friday1);
-		PaneButtons.add(Friday11);
-		PaneButtons.add(Friday2);
-		PaneButtons.add(Friday21);
-
-		PaneButtons.add(Saturday1);
-		PaneButtons.add(Saturday11);
-		PaneButtons.add(Saturday2);
-		PaneButtons.add(Saturday21);
-
-		//-----------------------------
-		for (Pane p : PaneButtons)
-			p.setStyle(style);
-
-
-	}
-	public ArrayList<Nurse> selectAll() throws SQLException {
-		ArrayList<Nurse> list = new ArrayList<Nurse>();
-		System.out.println(list);
-
-		String sql = "select * from users where type = 'Nurse'";
-		Connection connection = SQLite.dbConnector();
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-
-			Nurse d = new Nurse(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("userName"), rs.getString("type"), rs.getString("gender"));
-			list.add(d);
-		}
-
-		ps.close();
-		rs.close();
-
-		return list;
-	}
-
-
-
-
-	public void JavafxChoiceFill() throws SQLException {
-		NurseList = selectAll();
-		ChoiceAdd.getItems().clear();
-		ChoiceEdit.getItems().clear();
-		ChoiceDeleteSpDay.getItems().clear();
-		ChoiceDeleteSpNurse.getItems().clear();
-		ChoiceDeleteSpShift.getItems().clear();
-		for (Nurse t : NurseList) {
-			ChoiceAdd.getItems().add(t.getFname());
-			ChoiceEdit.getItems().add(t.getFname());
-			ChoiceDeleteSpNurse.getItems().add(t.getFname());
-		}
-
-		ChoiceDeleteSpDay.getItems().addAll("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturdayy");
-		ChoiceDeleteSpShift.getItems().addAll("Sunday 1", "Sunday 2", "Monday 1", "Monday 2", "Tuesday 1", "Tuesday 2", "Wednesday 1", "Wednesday 2", "Thursday 1", "Thursday 2", "Friday 1", "Friday 2", "Saturday 1", "Saturday 2");
-	}
-
-
-
+	
 
 
 

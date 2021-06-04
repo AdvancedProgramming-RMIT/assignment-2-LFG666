@@ -27,6 +27,8 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -41,64 +43,56 @@ import java.util.List;
 
 import Application.Constants;
 
+
+
 public class LandingController {
 	@FXML
 	private Label lblUser;
-
 	@FXML
 	private Label lblWarning;
-
 	@FXML
 	private TableView<Resident> tableView;
-
 	@FXML
 	private TableColumn<Resident,String> FNameColumn;
-
 	@FXML
 	private TableColumn<Resident,String> LNameColumn;
-
 	@FXML
 	private TableColumn<Resident, String> RoomColumn = new TableColumn<>("idbed");
-
 	@FXML
-	TextField searchCustomerTextBox;
-
+	TextField searchResidentTextBox;
 	@FXML
 	private Button Doctor;
-
 	@FXML
 	private Button Nurse;
-
 	@FXML
 	private Button Exit;
-
 	@FXML
 	private Button Manager;
-
 	@FXML
 	private Button ID;
-
 	@FXML
 	private Button Name;
 
 	public static List<String> loggedInUsers = new ArrayList<String>();
 
-
-
-	public void btnEnd_button() {
-	}
-
 	public  ObservableList<Bed> ResInBed = FXCollections.observableArrayList();
 	public  ObservableList<Resident> ResidentList = FXCollections.observableArrayList();
 
-	@FXML
-	void displayCustomers(ActionEvent event) {
-
+	public ObservableList<Resident> getResData() {
+		return ResidentList;
 	}
+//alow lookup for list
+	 public FilteredList<Resident> searchResident(String s) {
+        return getResData().filtered(p -> p.getFname().toLowerCase().contains(s.toLowerCase())); 
+    }
 
 	@FXML
 	void searchCustomers(ActionEvent event) {
-
+		 String searchText = searchResidentTextBox.getText();
+	        FilteredList<Resident> searchResidentResults = searchResident(searchText);
+	        SortedList<Resident> sortedResidentData = new SortedList<>(searchResidentResults);
+	        sortedResidentData.comparatorProperty().bind(tableView.comparatorProperty());
+	        tableView.setItems(sortedResidentData);
 
 	}
 	@FXML
@@ -162,6 +156,7 @@ public class LandingController {
 		RoomColumn.setCellValueFactory(callback);
 
 	}
+	//looks at username and password, checks database of users then if password/username match, allows them into their section
 	@FXML
 	void lc_login(MouseEvent event) throws SQLException, IOException {
 		Data u1=new Data();

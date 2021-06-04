@@ -98,7 +98,7 @@ public class ShowUsersController {
 
 		return Data;
 	}
-
+//discharges patient and archives
 	@FXML
 	public void rmData() throws SQLException {
 		Data selectedItem = tableView.getSelectionModel().getSelectedItem();
@@ -128,6 +128,7 @@ public class ShowUsersController {
 		}
 	}
 
+	//edits password for Nurse or Doctor
 	@FXML
 	public void edData() throws SQLException {
 		Data sI = tableView.getSelectionModel().getSelectedItem();

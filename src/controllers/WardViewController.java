@@ -159,7 +159,6 @@ public class WardViewController extends HBox {
 
 	public ObservableList<Resident> selectAll() throws SQLException {
 		ObservableList<Resident> list = FXCollections.observableArrayList();
-		System.out.println(list);
 
 		String sql = "select * from users where type = 'RESIDENT'";
 		Connection connection = SQLite.dbConnector();
@@ -418,7 +417,7 @@ public class WardViewController extends HBox {
 		}}
 
 
-
+//sets up ward, places beds, fills beds, and colours depending on gender
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -1063,7 +1062,7 @@ public class WardViewController extends HBox {
 	}
 
 
-	//Add Tab   --->   Evening shift
+	//adds resident to bed
 	@FXML
 	void onClickW1R1B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1116,10 +1115,6 @@ public class WardViewController extends HBox {
 	}
 
 
-
-
-
-	//Add Tab   --->   Evening shift
 	@FXML
 	void onClickW1R2B1(MouseEvent event) {
 
@@ -1170,7 +1165,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R2B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1224,8 +1219,6 @@ public class WardViewController extends HBox {
 
 
 
-
-	//Add Tab   --->   Evening shift
 	@FXML
 	void onClickW1R3B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1278,9 +1271,6 @@ public class WardViewController extends HBox {
 	}
 
 
-
-
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW1R3B2(MouseEvent event) { 
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1332,7 +1322,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R3B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1385,7 +1375,7 @@ public class WardViewController extends HBox {
 	}
 
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R3B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1436,7 +1426,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R4B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1487,7 +1477,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R4B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1538,7 +1528,8 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
+	
 	@FXML
 	void onClickW1R4B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1590,7 +1581,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R4B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem(); 
@@ -1642,7 +1633,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R5B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1694,7 +1685,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R5B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1745,7 +1736,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R5B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1796,7 +1787,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R5B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1848,7 +1839,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R6B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1898,7 +1889,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R6B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1947,7 +1938,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R6B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -1997,7 +1988,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R6B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2099,7 +2090,7 @@ public class WardViewController extends HBox {
 
 
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R2B1(MouseEvent event) { 
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2149,7 +2140,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R2B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2249,8 +2240,6 @@ public class WardViewController extends HBox {
 	}
 
 
-
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW2R3B2(MouseEvent event) { 
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2300,7 +2289,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R3B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2349,7 +2338,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R3B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2398,7 +2387,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R4B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2447,7 +2436,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R4B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2496,7 +2485,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R4B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2546,7 +2535,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R4B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2595,7 +2584,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R5B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2645,7 +2634,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R5B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2694,7 +2683,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R5B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2743,7 +2732,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R5B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2793,7 +2782,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R6B1(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2842,7 +2831,6 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW2R6B2(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2890,7 +2878,7 @@ public class WardViewController extends HBox {
 			e.printStackTrace();
 		}
 	}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R6B3(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();
@@ -2939,7 +2927,7 @@ public class WardViewController extends HBox {
 		}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R6B4(MouseEvent event) {
 		Resident r = tableView.getSelectionModel().getSelectedItem();

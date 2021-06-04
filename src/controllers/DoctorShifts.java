@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import Application.Constants;
@@ -33,16 +32,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-
-
 public class DoctorShifts{
 
-
-	public  ObservableList<Doctor> DoctorList = FXCollections.observableArrayList();
+	public ObservableList<Doctor> DoctorList = FXCollections.observableArrayList();
 
 	ObservableList<Roster> personalRosters = FXCollections.observableArrayList();
 	ObservableList<Roster> rosterArrayList = FXCollections.observableArrayList();
-
 
 	@FXML
 	private Button ButtonDeleteSpDoctor;
@@ -80,9 +75,7 @@ public class DoctorShifts{
 	@FXML
 	private Label lblUser;
 
-
-
-
+	//sets up observable lits and imports data
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -99,8 +92,6 @@ public class DoctorShifts{
 				return data.getValue().getStaff().getidProperty();  
 			}  
 		});  
-
-
 
 		FNameColumn.setCellValueFactory(new Callback<CellDataFeatures<Roster, String>, 
 				ObservableValue<String>>() {  
@@ -122,14 +113,10 @@ public class DoctorShifts{
 	@FXML
 	public void loadData() throws SQLException {
 
-
 		ShiftColumn.setCellValueFactory(new PropertyValueFactory<Roster,Integer>("Shift"));
 		dayColumn.setCellValueFactory(new PropertyValueFactory<Roster,String>("day"));
-
 		tableView.setItems(SelectAll());
 	}
-
-
 
 	public void JavafxChoiceFill() throws SQLException {
 		DoctorList = selectAll();
@@ -137,7 +124,6 @@ public class DoctorShifts{
 			rosterArrayList = null;
 			rosterArrayList = SelectAllByFname(t.getFname());}
 	}
-
 
 	public void insertRoster(String Fname, String Lname, ArrayList<Roster> rosterArrayList) throws SQLException{
 		Connection connection = SQLite.dbConnector(); 

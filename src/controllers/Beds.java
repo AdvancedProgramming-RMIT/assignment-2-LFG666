@@ -2,20 +2,17 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import model.IncorrectRosterTimeException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.prefs.Preferences;
@@ -51,7 +48,6 @@ import model.Bed;
 import model.Nurse;
 import model.Resident;
 import model.Roster;
-import model.Staff;
 
 public class Beds {
 	@FXML
@@ -159,7 +155,7 @@ public class Beds {
 	@FXML
 	private Button w2r6b4;
 	@FXML
-	ArrayList<Button> ward1r1b1 = new ArrayList<Button>();
+	ArrayList<Button> ward1r1b1 = new ArrayList<Button>(); 
 	@FXML
 	ArrayList<Button> ward1r2b1 = new ArrayList<Button>();
 	private Preferences prefs;
@@ -168,7 +164,7 @@ public class Beds {
 	String style = "-fx-background-color:  DODGERBLUE";
 	String style2 = "-fx-background-color:  WHITE";
 	String style3 = "-fx-background-color:  #ff1f1f";
-
+//sets up hours of nurses shifts param
 	LocalTime now = LocalTime.now();
 	LocalTime lt1 = LocalTime.parse("08:00"); 
 
@@ -490,9 +486,10 @@ public class Beds {
 	}
 
 
-
+//removes a resident from their bed, if the nurse is working at the time
+	//if nurse is working, will record the removal in the archive
 	@FXML
-	public void removeResident(MouseEvent event) throws SQLException {
+	public void removeResident(MouseEvent event) throws SQLException, IncorrectRosterTimeException {
 		Resident sI = tableView.getSelectionModel().getSelectedItem();
 		if(isTime()==true) {
 			for(Bed b : ResInBed) {
@@ -536,9 +533,9 @@ public class Beds {
 	}
 
 
-
+// If the nurse is on shift, will allow them to administer medicine as directed by the doctor and record to archive
 	@FXML
-	public void adminmed(MouseEvent event) throws SQLException {
+	public void adminmed(MouseEvent event) throws SQLException, IncorrectRosterTimeException {
 		Resident sI = tableView.getSelectionModel().getSelectedItem(); 
 		if(isTime()==true) {
 			for(Bed b : ResInBed) {
@@ -589,18 +586,20 @@ public class Beds {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}}
-		else { 
+		else { 			
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText("Not currently on shift");
 			alert.setContentText("Ooops, there was an error!");
 			alert.showAndWait();
 			return;
+			
 		}
 
 
 
 	}
+	//creates the medicine popup for the nurse to administer medicine
 	public static Alert createAlertWithOptOut(AlertType type, String title, String headerText, 
 			String message, String optOutMessage, Consumer<Boolean> optOutAction, 
 			ButtonType... buttonTypes) {
@@ -626,11 +625,10 @@ public class Beds {
 		return alert;
 	}
 
-
+	//Confirms if nurse is rostered on
 	public boolean isTime() throws SQLException {
 		boolean isBetween = false;
 		String NName = LandingController.loggedInUsers.get(LandingController.loggedInUsers.size()-1);
-		Roster n = new Roster();
 		rosterArrayList = null;
 		for(Roster r : NurseList) {
 			if(NName.contains(r.getStaff().getFname())) {
@@ -662,7 +660,7 @@ public class Beds {
 		return false;
 	}
 
-
+//sets up ward, populates beds, fills out observable arraylists, paints beds depending on gender
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -1309,7 +1307,6 @@ public class Beds {
 
 	}
 
-	//Add Tab   --->   Evening shift
 	@FXML
 	void onClickW1R1B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1371,10 +1368,6 @@ public class Beds {
 	}
 
 
-
-
-
-	//Add Tab   --->   Evening shift
 	@FXML
 	void onClickW1R2B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1432,7 +1425,7 @@ public class Beds {
 				return;
 			}}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R2B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1494,8 +1487,6 @@ public class Beds {
 
 
 
-
-	//Add Tab   --->   Evening shift
 	@FXML
 	void onClickW1R3B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1556,9 +1547,6 @@ public class Beds {
 		}}
 
 
-
-
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW1R3B2(MouseEvent event) throws SQLException { 
 		if(isTime()==true) {
@@ -1618,7 +1606,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R3B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1679,7 +1667,6 @@ public class Beds {
 		}}
 
 
-	//Edit Tab   --->   Evening shift
 	@FXML
 	void onClickW1R3B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1738,7 +1725,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R4B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1798,7 +1785,7 @@ public class Beds {
 			return;
 		}
 	}
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R4B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1857,7 +1844,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R4B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1917,7 +1904,7 @@ public class Beds {
 			}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R4B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -1977,7 +1964,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R5B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2037,7 +2024,7 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R5B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2096,7 +2083,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R5B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2155,7 +2142,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R5B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2215,7 +2202,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R6B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2273,7 +2260,7 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R6B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2330,7 +2317,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW1R6B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2388,7 +2375,7 @@ public class Beds {
 			}
 	}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW1R6B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2505,8 +2492,6 @@ public class Beds {
 		}}
 
 
-
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW2R2B1(MouseEvent event) throws SQLException { 
 		if(isTime()==true) {
@@ -2564,7 +2549,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R2B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2680,8 +2665,6 @@ public class Beds {
 	}
 
 
-
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW2R3B2(MouseEvent event) throws SQLException { 
 		if(isTime()==true) {
@@ -2739,7 +2722,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R3B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2796,7 +2779,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R3B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2853,7 +2836,7 @@ public class Beds {
 				return;
 			}
 	}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R4B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2910,7 +2893,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R4B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -2967,7 +2950,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R4B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3025,7 +3008,7 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R4B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3082,7 +3065,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R5B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3140,7 +3123,7 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R5B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3197,7 +3180,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R5B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3254,7 +3237,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R5B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3312,7 +3295,7 @@ public class Beds {
 			return;
 		}}
 
-	//Add Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R6B1(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3369,7 +3352,6 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Morning shift
 	@FXML
 	void onClickW2R6B2(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3425,7 +3407,7 @@ public class Beds {
 			alert.showAndWait();
 			return;
 		}}
-	//Add Tab   --->   Morning shift
+
 	@FXML
 	void onClickW2R6B3(MouseEvent event) throws SQLException {
 		if(isTime()==true) {
@@ -3482,7 +3464,7 @@ public class Beds {
 			return;
 		}}
 
-	//Edit Tab   --->   Evening shift
+
 	@FXML
 	void onClickW2R6B4(MouseEvent event) throws SQLException {
 		if(isTime()==true) {

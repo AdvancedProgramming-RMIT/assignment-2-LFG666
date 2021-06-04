@@ -1,7 +1,5 @@
 package controllers;
 
-
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,21 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
-
 import Application.Constants;
 
 import databaseSQL.SQLite;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -48,12 +39,10 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Resident;
 import model.Medicines;
-import model.Perscription;
-import model.Data;
 import model.Doctor;
 import model.MedicineCabinet;
 
-public class MedicinesController {
+public class MedicinesController { 
 	public  ObservableList<Resident> residentArray = FXCollections.observableArrayList();
 	public  ObservableList<Resident> getResidentData() {
 		return residentArray;
@@ -143,6 +132,7 @@ public class MedicinesController {
 	ObservableList<Integer> timeslist= FXCollections.observableArrayList(1,2,3,4); 
 	ObservableList<Integer> dosagelist= FXCollections.observableArrayList(1,2,3,4,5,10,15,20,25,30,35,40,45,50);
 
+	//binds medicinelist/combobox to the quantity slider
 	ObjectBinding<Medicines> medicineBinding = new ObjectBinding<>() {
 		{
 			bind(medicineComboBox.valueProperty());
@@ -392,12 +382,38 @@ public class MedicinesController {
 				Resident selectedResident = residentComboBox.getSelectionModel().getSelectedItem();
 				selectedItem.stockProperty();
 				selectedItem.setStock(selectedItem.getStock() + (int) quantitySlider.getValue());
+				Connection connection= SQLite.dbConnector(); 
+
+
+				String insertString = "UPDATE medicine SET stock = ? where MName = ?";  
+
+				try (PreparedStatement pst = connection.prepareStatement(insertString)) 
+
+				{
+					connection.setAutoCommit(false); 
+					for (Medicines m : medicineList)  {
+						String mName = m.getMName();
+						Integer stock = m.getStock();
+
+						pst.setInt(1, stock);
+						pst.setString(2, mName);
+
+						pst.executeUpdate(); 
+						connection.commit();
+					}}
+				catch (SQLException e) {
+					System.err.println("Cannot Connect to Database");
+				}
 				int index = medicinesTableView.getSelectionModel().getFocusedIndex();
 				if (cartObservableList.size() > index) cartObservableList.remove(index);
 				if (cartObservableList.size() == 0) medicineComboBox.getSelectionModel().clearSelection();
 				if (cartObservableList.size() == 0) residentComboBox.getSelectionModel().clearSelection();
 				medicinesTabView.getColumns().get(0).setVisible(false);
 				medicinesTabView.getColumns().get(0).setVisible(true);
+				
+				
+				
+				
 			});
 
 			logout.setOnAction(event -> {
@@ -405,7 +421,6 @@ public class MedicinesController {
 				try {
 					root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Landing.fxml"));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Node node = (Node) event.getSource();
@@ -502,21 +517,5 @@ public class MedicinesController {
 					stage.setScene(new Scene(root));
 
 				}
-				@FXML
-				void reorder() throws IOException {
-
-				}
-
-				@FXML
-				void checkout() throws IOException {
-
-				}
-				@FXML
-				void remove() throws IOException {
-
-				}
-
-
-
 
 }

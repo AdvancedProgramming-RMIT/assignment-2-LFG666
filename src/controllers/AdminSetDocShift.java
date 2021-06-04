@@ -2,8 +2,6 @@ package controllers;
 
 
 import model.Doctor;
-import model.Nurse;
-import model.Resident;
 import model.Roster;
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,8 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import Application.Constants;
 import databaseSQL.SQLite;
 import javafx.beans.value.ObservableValue;
@@ -91,7 +87,7 @@ public class AdminSetDocShift {
 	private Button save;
 
 
-
+// Sets up the observable lists and the custom columns for id, first name  and last name
 	@FXML
 	public void initialize() throws SQLException {
 		try {
@@ -127,7 +123,7 @@ public class AdminSetDocShift {
 			}  
 		});  }
 
-
+//populates the table
 	@FXML
 	public void loadData() throws SQLException {
 
@@ -139,7 +135,7 @@ public class AdminSetDocShift {
 	}
 
 
-
+//populates the arraylist and choiceboxes
 	public void JavafxChoiceFill() throws SQLException {
 		DoctorList = selectAll();
 		ChoiceAdd.getItems().clear();
@@ -260,7 +256,9 @@ public class AdminSetDocShift {
 		return list;
 	}
 
-
+    //saves the shift in a format that is readable in 24 hour time. checks to see if it falls within the times of operation
+	//makes sure its in the right format and then commits to database
+	
 	@FXML
 	void save(MouseEvent event) throws SQLException, NumberFormatException, IOException {
 		rosterArrayList = null;

@@ -50,6 +50,7 @@ public class RegisterResident {
 		r_gender.setItems(genderlist);
 	}
 
+	//registers resident. makes sure all boxes are filled
 	@FXML
 	void register(MouseEvent event) throws SQLException, IOException {
 		String username, password, fname, lname, type, gender;

@@ -25,11 +25,10 @@ import javafx.stage.Stage;
 import model.Condition;
 import databaseSQL.SQLite;
 import model.Data;
-import model.Medicines;
 
 public class Conditions {
 	ObservableList<String> typelist= FXCollections.observableArrayList("Infectious_Mild", "Infectious_Serious", "Infectious_Terminal",
-			"Safe_Mild", "Safe_Serious", "Safe_Terminal");
+			"Safe_Mild", "Safe_Serious", "Safe_Terminal"); 
 	@FXML
 	private TextField cond_name;
 	@FXML
@@ -57,14 +56,8 @@ public class Conditions {
 	@FXML
 	private ChoiceBox<Condition> cond;
 
-
-
-
-
 	ObservableList<Condition> conditions= FXCollections.observableArrayList();
 	ObservableList<Data> residents= FXCollections.observableArrayList();
-
-
 
 	void getResidents() throws SQLException, IOException {
 
@@ -101,6 +94,8 @@ public class Conditions {
 		}
 
 	}
+	
+	//Registers a new condition
 	@FXML
 	void register(MouseEvent event) throws SQLException, IOException {
 		String condname, ctype;
@@ -132,7 +127,7 @@ public class Conditions {
 		}
 
 	}	    
-
+//connects a condition to a patient. Allows for staff to confirm to infectious illnesses
 	@FXML
 	void register2(MouseEvent event) throws SQLException, IOException {
 		Data Fname;

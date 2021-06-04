@@ -43,8 +43,6 @@ public class DisConController {
 	@FXML
 	private Button doctor;
 
-
-
 	@FXML
 	private TableView<SickResident> tableView;
 	@FXML
@@ -59,8 +57,6 @@ public class DisConController {
 	private TableColumn<SickResident,String> gender2Column;
 	@FXML
 	private TableColumn<SickResident,String> CNamecColumn;
-
-
 
 	@FXML
 	public void initialize() {

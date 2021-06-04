@@ -29,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Bed;
-import model.Data;
 import model.Resident;
 
 public class ResidentV {
@@ -132,6 +131,7 @@ public class ResidentV {
 		return Data;
 	}
 
+	//discharges resident from care home. archives patient
 	@FXML
 	public void rmData() throws SQLException {
 		Resident selectedItem = tableView.getSelectionModel().getSelectedItem();

@@ -7,19 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import Application.Constants;
 import databaseSQL.SQLite;
 import javafx.collections.FXCollections;
@@ -30,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -40,13 +28,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Data;
 import model.Doctor;
 import model.Nurse;
 import model.Roster;
-import model.Staff;
 
-public class Compliance implements Initializable {
+public class Compliance implements Initializable { 
 
 	public  ArrayList<Nurse> NurseList = new ArrayList<Nurse>();
 	public ArrayList<Roster> RosterList = new ArrayList<Roster>();
@@ -120,7 +106,7 @@ public class Compliance implements Initializable {
 		NurseList = selectAll();
 
 	}
-
+//gets data from db then confirms what shifts have been filled and what shifts need staff.
 	public void ListViewFill() throws SQLException {
 
 		DoctorList = selectAll2();

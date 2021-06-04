@@ -32,7 +32,6 @@ public class DoctorController {
 	private Button disconditions;
 
 
-
 	@FXML
 	void medicines(MouseEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource(Constants.fxml_filepath +"/Medicines.fxml"));

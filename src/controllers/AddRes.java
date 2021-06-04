@@ -62,6 +62,8 @@ public class AddRes {
 		r_gender.setItems(genderlist);
 	}
 
+	
+	//sets up new resident for database
 	@FXML
 	void register(MouseEvent event) throws SQLException, IOException {
 		String username, password, fname, lname, type, gender;

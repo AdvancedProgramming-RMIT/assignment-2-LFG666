@@ -56,6 +56,8 @@ public class RegUsersController {
 	ObservableList<String> typelist= FXCollections.observableArrayList("ADMIN","DOCTOR","NURSE");
 	ObservableList<String> genderlist= FXCollections.observableArrayList("MALE","FEMALE"); 
 
+	
+	//used to register staff. requires all fields to be inputted before submission.
 	@FXML
 	void register(MouseEvent event) throws SQLException, IOException {
 		String username, password, fname, lname, type, gender;
